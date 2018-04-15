@@ -7,3 +7,13 @@ et un digramme de gant.
 Nous avons choisis le projet de CRISTAL : la junior entreprise de l'école. Le but est de leur refaire un site web, tous est 
 détaillés dans le sujet "tender_cristal.pdf".
 
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+
