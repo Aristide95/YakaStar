@@ -30,40 +30,58 @@
     </b-container>
     <b-container fluid class="gris">
       <b-container>
-      <b-row sm="12">
-        <b-col></b-col>
-        <b-col>
-          <h2 class="titre">La parole du président</h2>
-        </b-col>
-        <b-col></b-col>
-      </b-row>
-      <hr class="style-four"/>
-      <b-row sm="12" class="text-center">
-        <b-col sm="12" class="text-center align-middle">
-          <table style="height: 100px;">
-            <tbody>
-            <tr>
-              <td class="align-middle" style="width: 70%; text-align: justify"><p>
-                Depuis bientôt 30 ans Cristal met l'expertise des élèves de l’EPITA au service des professionnels et
-                particuliers porteurs de projets informatiques. Toujours en phase avec son temps, Cristal est capable de
-                vous fournir son expertise sur les dernières technologies et les derniers modèles du marché. Que ce soit
-                pour du développement mobile, web, applicatif ou encore des interventions en télécommunication, sécurité,
-                maintenance ou administration, le domaine d'activité de Cristal ne s'arrête pas à la conception mais englobe
-                également le conseil, l'analyse et la formation. Grâce à sa longévité, Cristal a su tirer profit de son
-                expérience et améliorer ses processus pour atteindre une satisfaction client maximale. Notre but principal
-                est de vous fournir un service alliant la meilleure qualité, le meilleur coût dans les meilleurs délais
-                possibles.</p>
-                <p><strong>Cristal. Vos idées, notre savoir-faire.</strong></p>
-              </td>
-              <td></td>
-              <td style="width: 20%">
-                <img src="../assets/equipe/président.jpg" class="img-responsive center-block img-thumbnail" alt="Président CRISTAL" />
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </b-col>
-      </b-row>
+        <b-row sm="12">
+          <b-col></b-col>
+          <b-col>
+            <h2 class="titre">La parole du président</h2>
+          </b-col>
+          <b-col></b-col>
+        </b-row>
+        <hr class="style-four"/>
+        <b-row sm="12" class="text-center d-none d-sm-block">
+          <b-col sm="12" class="text-center align-middle">
+            <table style="height: 100px;">
+              <tbody>
+              <tr>
+                <td class="align-middle" style="width: 70%; text-align: justify"><p>
+                  Depuis bientôt 30 ans Cristal met l'expertise des élèves de l’EPITA au service des professionnels et
+                  particuliers porteurs de projets informatiques. Toujours en phase avec son temps, Cristal est capable de
+                  vous fournir son expertise sur les dernières technologies et les derniers modèles du marché. Que ce soit
+                  pour du développement mobile, web, applicatif ou encore des interventions en télécommunication, sécurité,
+                  maintenance ou administration, le domaine d'activité de Cristal ne s'arrête pas à la conception mais englobe
+                  également le conseil, l'analyse et la formation. Grâce à sa longévité, Cristal a su tirer profit de son
+                  expérience et améliorer ses processus pour atteindre une satisfaction client maximale. Notre but principal
+                  est de vous fournir un service alliant la meilleure qualité, le meilleur coût dans les meilleurs délais
+                  possibles.</p>
+                  <p><strong>Cristal. Vos idées, notre savoir-faire.</strong></p>
+                </td>
+                <td></td>
+                <td style="width: 20%">
+                  <img src="../assets/equipe/président.jpg" class="img-responsive center-block img-thumbnail" alt="Président CRISTAL" />
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </b-col>
+        </b-row>
+        <div class="d-block d-sm-none">
+          <b-row xs="12" class="center-block">
+            <img src="../assets/equipe/président.jpg" class="img-responsive center-block img-thumbnail" alt="Président CRISTAL" />
+          </b-row>
+          <b-row xs="12">
+            <p class="text-center">
+              Depuis bientôt 30 ans Cristal met l'expertise des élèves de l’EPITA au service des professionnels et
+              particuliers porteurs de projets informatiques. Toujours en phase avec son temps, Cristal est capable de
+              vous fournir son expertise sur les dernières technologies et les derniers modèles du marché. Que ce soit
+              pour du développement mobile, web, applicatif ou encore des interventions en télécommunication, sécurité,
+              maintenance ou administration, le domaine d'activité de Cristal ne s'arrête pas à la conception mais englobe
+              également le conseil, l'analyse et la formation. Grâce à sa longévité, Cristal a su tirer profit de son
+              expérience et améliorer ses processus pour atteindre une satisfaction client maximale. Notre but principal
+              est de vous fournir un service alliant la meilleure qualité, le meilleur coût dans les meilleurs délais
+              possibles.
+            </p>
+          </b-row>
+        </div>
       </b-container>
     </b-container>
     <b-container id="portfolio">
@@ -140,7 +158,7 @@
       </b-row>
     </b-container>
     <div class="text-center">
-      <b-button id="contact" href="#">Nous contacter</b-button>
+      <b-button id="contact" href="#/contact">Nous contacter</b-button>
     </div>
     <Footer></Footer>
   </div>

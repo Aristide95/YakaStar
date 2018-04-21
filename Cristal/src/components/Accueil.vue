@@ -2,44 +2,87 @@
   <div>
     <Nav></Nav>
     <b-container fluid id="header">
-      <div class="text-center">
+      <div class="text-center d-none d-sm-block">
         <h1 id="titre">LA JUNIOR DE L'INTELLIGENCE INFORMATIQUE</h1>
         <div class="text-center">
-          <b-button id="contact" href="#">CONTACTEZ NOUS</b-button>
+          <b-button id="contact" href="#/contact">CONTACTEZ NOUS</b-button>
+        </div>
+      </div>
+      <div class="text-center d-block d-sm-none">
+        <h1 id="titre1">LA JUNIOR DE L'INTELLIGENCE INFORMATIQUE</h1>
+        <div class="text-center">
+          <b-button id="contact" href="#/contact">CONTACTEZ NOUS</b-button>
         </div>
       </div>
     </b-container>
     <b-container>
       <h2 class="titre">À votre service pour trouver des solutions</h2>
       <hr class="style-four"/>
-      <div class="grid-3">
-        <div class="jumbotron">
-          <div class="text-center" style="font-size:3em; color:#79b249"><i class="fas fa-quote-right"></i></div>
-          <h5 CLASS="" style="text-align: center">Qui sommes nous ?</h5>
-          <p style="text-align: justify">Formée d'étudiants volontaires, Cristal, l'Association Entreprise de l'école EPITA (École d'ingénieurs en
-            informatique du pôle technologique IONIS), a pour vocation de compléter la formation des étudiants de
-            l'école en leur faisant gagner de l'expérience professionnelle. Au service et à l'écoute de nos clients
-            depuis 1989, nous fournissons des services de qualité adaptés à leurs besoins, et ce dans tous les domaines
-            relatifs à l'informatique : conseil, conception et réalisation.</p>
+      <div class="d-none d-sm-block">
+        <div class="grid-3">
+          <div class="jumbotron">
+            <div class="text-center" style="font-size:3em; color:#79b249"><i class="fas fa-quote-right"></i></div>
+            <h5 CLASS="" style="text-align: center">Qui sommes nous ?</h5>
+            <p style="text-align: justify">Formée d'étudiants volontaires, Cristal, l'Association Entreprise de l'école EPITA (École d'ingénieurs en
+              informatique du pôle technologique IONIS), a pour vocation de compléter la formation des étudiants de
+              l'école en leur faisant gagner de l'expérience professionnelle. Au service et à l'écoute de nos clients
+              depuis 1989, nous fournissons des services de qualité adaptés à leurs besoins, et ce dans tous les domaines
+              relatifs à l'informatique : conseil, conception et réalisation.</p>
+          </div>
+          <div class="jumbotron">
+            <div class="text-center" style="font-size:3em; color:#79b249"><i class="fas fa-cogs"></i></div>
+            <h5 style="text-align: center">Notre fonctionnement</h5>
+            <p style="text-align: justify">Le fonctionnement de Cristal est semblable à celui d'une ESN (Entreprise de
+              Services du Numérique). Elle propose aux sociétés qui en font la demande des prestations effectuées par des
+              étudiants de l'école, leur permettant ainsi de découvrir le monde professionnel tout en complétant la
+              formation qui leur est dispensée dans leur scolarité. Le rôle de l'association est de lier activement
+              le client (la société), et le prestataire (l'étudiant).</p>
+          </div>
+          <div class="jumbotron">
+            <div class="text-center" style="font-size:3em; color:#79b249"><i class="far fa-chart-bar"></i></div>
+            <h5 style="text-align: center">Notre expérience</h5>
+            <p style="text-align: justify">Forte d'une expérience de plus de 25 ans au service de l'entreprise, Cristal a
+              su développer les processus nécessaires pour fournir des prestations de qualité, axés sur l'écoute des
+              besoins du client, le conseil sur les nouvelles technologies et la sélection ciblée des profils. Chaque
+              projet est unique, et nous nous appliquons à rechercher la solution la plus adaptée aux besoins exprimés,
+              et ce en termes de performance, de complexité mais aussi de coût.</p>
+          </div>
         </div>
-        <div class="jumbotron">
-          <div class="text-center" style="font-size:3em; color:#79b249"><i class="fas fa-cogs"></i></div>
-          <h5 style="text-align: center">Notre fonctionnement</h5>
-          <p style="text-align: justify">Le fonctionnement de Cristal est semblable à celui d'une ESN (Entreprise de
-            Services du Numérique). Elle propose aux sociétés qui en font la demande des prestations effectuées par des
-            étudiants de l'école, leur permettant ainsi de découvrir le monde professionnel tout en complétant la
-            formation qui leur est dispensée dans leur scolarité. Le rôle de l'association est de lier activement
-            le client (la société), et le prestataire (l'étudiant).</p>
-        </div>
-        <div class="jumbotron">
-          <div class="text-center" style="font-size:3em; color:#79b249"><i class="far fa-chart-bar"></i></div>
-          <h5 style="text-align: center">Notre expérience</h5>
-          <p style="text-align: justify">Forte d'une expérience de plus de 25 ans au service de l'entreprise, Cristal a
-            su développer les processus nécessaires pour fournir des prestations de qualité, axés sur l'écoute des
-            besoins du client, le conseil sur les nouvelles technologies et la sélection ciblée des profils. Chaque
-            projet est unique, et nous nous appliquons à rechercher la solution la plus adaptée aux besoins exprimés,
-            et ce en termes de performance, de complexité mais aussi de coût.</p>
-        </div>
+      </div>
+      <div class="d-block d-sm-none">
+        <b-row xs="12">
+          <div class="jumbotron">
+            <div class="text-center" style="font-size:3em; color:#79b249"><i class="fas fa-quote-right"></i></div>
+            <h5 CLASS="" style="text-align: center">Qui sommes nous ?</h5>
+            <p style="text-align: justify">Formée d'étudiants volontaires, Cristal, l'Association Entreprise de l'école EPITA (École d'ingénieurs en
+              informatique du pôle technologique IONIS), a pour vocation de compléter la formation des étudiants de
+              l'école en leur faisant gagner de l'expérience professionnelle. Au service et à l'écoute de nos clients
+              depuis 1989, nous fournissons des services de qualité adaptés à leurs besoins, et ce dans tous les domaines
+              relatifs à l'informatique : conseil, conception et réalisation.</p>
+          </div>
+        </b-row>
+        <b-row xs="12">
+          <div class="jumbotron">
+            <div class="text-center" style="font-size:3em; color:#79b249"><i class="fas fa-cogs"></i></div>
+            <h5 style="text-align: center">Notre fonctionnement</h5>
+            <p style="text-align: justify">Le fonctionnement de Cristal est semblable à celui d'une ESN (Entreprise de
+              Services du Numérique). Elle propose aux sociétés qui en font la demande des prestations effectuées par des
+              étudiants de l'école, leur permettant ainsi de découvrir le monde professionnel tout en complétant la
+              formation qui leur est dispensée dans leur scolarité. Le rôle de l'association est de lier activement
+              le client (la société), et le prestataire (l'étudiant).</p>
+          </div>
+        </b-row>
+        <b-row xs="12">
+          <div class="jumbotron">
+            <div class="text-center" style="font-size:3em; color:#79b249"><i class="far fa-chart-bar"></i></div>
+            <h5 style="text-align: center">Notre expérience</h5>
+            <p style="text-align: justify">Forte d'une expérience de plus de 25 ans au service de l'entreprise, Cristal a
+              su développer les processus nécessaires pour fournir des prestations de qualité, axés sur l'écoute des
+              besoins du client, le conseil sur les nouvelles technologies et la sélection ciblée des profils. Chaque
+              projet est unique, et nous nous appliquons à rechercher la solution la plus adaptée aux besoins exprimés,
+              et ce en termes de performance, de complexité mais aussi de coût.</p>
+          </div>
+        </b-row>
       </div>
     </b-container>
     <b-container fluid id="gris">
@@ -57,14 +100,15 @@
     <b-container>
       <h2 class="titre"><i class="fas fa-quote-left"></i> Témoignages <i class="fas fa-quote-right"></i></h2>
       <hr class="style-four">
-      <b-row>
+      <b-row class="d-none d-sm-block">
         <b-col>
           <b-row>
             <b-col sm="4">
               <img src="../assets/company/bnp.png" alt="logo BNP Paribas" class="img-thumbnail">
             </b-col>
             <b-col sm="8">
-              <p style="font-size: small; text-align: justify">Grâce à leur réactivité et à leur souplesse, Cristal a su s'adapter à nos contraintes et aux délais
+              <p style="font-size: small; text-align: justify">Grâce à leur réactivité et à leur souplesse, Cristal a su
+                s'adapter à nos contraintes et aux délais
                 serrés. Nous avons également pu apprécier leur professionnalisme dans la gestion du projet.</p>
             </b-col>
           </b-row>
@@ -72,9 +116,9 @@
         <b-col>
           <b-row>
             <b-col sm="8">
-              <p style="font-size: small; text-align: justify">Cristal a su m’apporter une solution sur mesure et performante. Le
-                professionnalisme dont mes différents interlocuteurs ont fait preuve nous a permis de travailler dans
-                des conditions optimales.</p>
+              <p style="font-size: small; text-align: justify">Cristal a su m’apporter une solution sur mesure et
+                performante. Le professionnalisme dont mes différents interlocuteurs ont fait preuve nous a permis de
+                travailler dans des conditions optimales.</p>
             </b-col>
             <b-col sm="4">
               <img src="../assets/company/swarovski.png" alt="logo Swarovski" class="img-thumbnail">
@@ -82,7 +126,7 @@
           </b-row>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="d-none d-sm-block">
         <b-col class="text-center" style="font-size: small">
           <span class="vert">L. Jeunhomme</span> - Responsable des Etudes Sectorielles
         </b-col>
@@ -90,11 +134,58 @@
           <span class="vert">Anne-Charlotte Liegaux-Beucher</span> - Communication Analyst Manager
         </b-col>
       </b-row>
+      <b-row class="d-block d-sm-none">
+        <b-row>
+          <p style="font-size: small; text-align: center">Grâce à leur réactivité et à leur souplesse, Cristal a su
+            s'adapter à nos contraintes et aux délais
+            serrés. Nous avons également pu apprécier leur professionnalisme dans la gestion du projet.</p>
+        </b-row>
+        <b-row>
+          <p class="text-center"><span class="vert">L. Jeunhomme</span> - Responsable des Etudes Sectorielles</p>
+        </b-row>
+        <b-row>
+          <p style="font-size: small; text-align: center">Cristal a su m’apporter une solution sur mesure et
+            performante. Le professionnalisme dont mes différents interlocuteurs ont fait preuve nous a permis de
+            travailler dans des conditions optimales.</p>
+        </b-row>
+        <b-row>
+          <p class="text-center"><span class="vert">Anne-Charlotte Liegaux-Beucher</span> - Communication Analyst Manager</p>
+        </b-row>
+      </b-row>
     </b-container>
     <b-container fluid>
       <h2 class="titre">Ils nous font confiance</h2>
       <hr class="style-four" />
-      <carousel :per-page="6" :navigate-to="someLocalProperty" mouse-drag="false" style="margin-top: 50px">
+      <carousel :per-page="6" :navigate-to="someLocalProperty" mouse-drag="false" class="d-none d-sm-block" style="margin-top: 50px">
+        <slide class="text-center">
+          <img src="../assets/company/adentis.png" alt="logo Adentis" class="img-responsive logo"/>
+        </slide>
+        <slide class="text-center">
+          <img src="../assets/company/swarovski.png" alt="logo Swarovski" class="img-responsive logo"/>
+        </slide>
+        <slide class="text-center">
+          <img src="../assets/company/medicapp.jpeg" alt="logo Medicapp" class="img-responsive logo"/>
+        </slide>
+        <slide class="text-center">
+          <img src="../assets/company/bnp.png" alt="logo BNP Paribas" class="img-responsive logo"/>
+        </slide>
+        <slide class="text-center">
+          <img src="../assets/company/century.png" alt="logo Century" class="img-responsive logo"/>
+        </slide>
+        <slide class="text-center">
+          <img src="../assets/company/grdf.png" alt="logo GRDF" class="img-responsive logo"/>
+        </slide>
+        <slide class="text-center">
+          <img src="../assets/company/eiffel.png" alt="logo Eiffel" class="img-responsive logo"/>
+        </slide>
+        <slide class="text-center">
+          <img src="../assets/company/sg.png" alt="logo Société Général" class="img-responsive logo"/>
+        </slide>
+        <slide class="text-center">
+          <img src="../assets/company/universite-de-geneve.gif" alt="logo Université de Genève" class="img-responsive logo"/>
+        </slide>
+      </carousel>
+      <carousel :per-page="2" :navigate-to="someLocalProperty" mouse-drag="false" class="d-block d-sm-none" style="margin-top: 50px">
         <slide class="text-center">
           <img src="../assets/company/adentis.png" alt="logo Adentis" class="img-responsive logo"/>
         </slide>
@@ -158,6 +249,12 @@ export default {
     vertical-align: middle;
     color: white;
     padding-top: 35vh;
+    text-shadow: 2px 2px black;
+  }
+  #titre1 {
+    vertical-align: middle;
+    color: white;
+    padding-top: 20vh;
     text-shadow: 2px 2px black;
   }
   .grid-3{
