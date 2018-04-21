@@ -6,6 +6,7 @@ import Equipe from '@/components/Equipe'
 import Fonctionnement from '@/components/Fonctionnement'
 import Services from '@/components/Services'
 import Contact from '@/components/Contact'
+import Faq from '@/components/Faq'
 import VueCarousel from 'vue-carousel'
 Vue.use(VueCarousel)
 Vue.use(Router)
@@ -36,6 +37,11 @@ export default new Router({
       path: '/contact',
       name: 'Contact',
       component: Contact
+    },
+    {
+      path: '/faq',
+      name: 'Faq',
+      component: Faq
     }
   ]
 })
