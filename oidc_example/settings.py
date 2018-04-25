@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'example',
     'social_django',
     'epita_connect',
+    'mission',
 ]
 
 MIDDLEWARE = [
