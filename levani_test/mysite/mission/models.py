@@ -45,5 +45,5 @@ class Calendrier(models.Model):
 class MissionForm(forms.ModelForm):
     class Meta:
         model = Mission
-        fields = '__all__'
+        exclude = ['creation_date', 'publication_date']
 # Create your models here.
