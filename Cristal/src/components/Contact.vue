@@ -7,70 +7,70 @@
           <hr class="style-four">
           <div>
             <b-col sm="6" offset="3" id="formulaire">
-            <b-form @submit="onSubmit" v-if="show">
-              <b-form-group id="exampleInputGroup1"
-                            label="Nom et prénom"
-                            label-for="exampleInput1">
-                <b-form-input id="exampleInput1"
-                              type="text"
-                              v-model="form.email"
-                              required
-                              placeholder="Obligatoire">
-                </b-form-input>
-              </b-form-group>
-              <b-form-group id="exampleInputGroup2"
-                            label="Adresse mail"
-                            label-for="exampleInput2">
-                <b-form-input id="exampleInput2"
-                              type="mail"
-                              v-model="form.name"
-                              required
-                              placeholder="Obligatoire">
-                </b-form-input>
-              </b-form-group>
-              <b-form-group id="exampleInputGroup3"
-                            label="Société"
-                            label-for="exampleInput3">
-                <b-form-input id="exampleInput2"
-                              type="mail"
-                              v-model="form.name"
-                              required
-                              placeholder="Obligatoire">
-                </b-form-input>
-              </b-form-group>
-              <b-form-group id="exampleInputGroup4"
-                            label="Téléphone"
-                            label-for="exampleInput4">
-                <b-form-input id="exampleInput1"
-                              type="tel"
-                              v-model="form.email"
-                              required
-                              placeholder="Obligatoire">
-                </b-form-input>
-              </b-form-group>
-              <b-form-group id="exampleInputGroup5"
-                            label="Message"
-                            label-for="exampleInput5">
-                <b-form-textarea id="textarea1"
-                                 v-model="text"
-                                 placeholder="Obligatoire"
-                                 :rows="3"
-                                 :max-rows="6"
-                                 required >
-                </b-form-textarea>
-              </b-form-group>
-              <b-form-group id="exampleInputGroup5"
-                            label="Pièce jointe (Max 10Mo - .zip/.jpg/.pdf)"
-                            label-for="exampleInput5">
-                <b-form-file accept=".jpg, .pdf, .zip" v-model="file" class="mt-3" plain></b-form-file>
-                <b-form-file accept=".jpg, .pdf, .zip" v-model="file2" class="mt-3" plain></b-form-file>
-                <b-form-file accept=".jpg, .pdf, .zip" v-model="file3" class="mt-3" plain></b-form-file>
-              </b-form-group>
-              <div class="text-center">
-                <b-button id="submit" type="submit" variant="primary">Envoyer</b-button>
-              </div>
-            </b-form>
-          </b-col>
+              <b-form @submit="onSubmit" v-if="show">
+                <b-form-group id="exampleInputGroup1"
+                              label="Nom et prénom"
+                              label-for="exampleInput1">
+                  <b-form-input id="exampleInput1"
+                                type="text"
+                                v-model="form.name"
+                                required
+                                placeholder="Obligatoire">
+                  </b-form-input>
+                </b-form-group>
+                <b-form-group id="exampleInputGroup2"
+                              label="Adresse mail"
+                              label-for="exampleInput2">
+                  <b-form-input id="exampleInput2"
+                                type="mail"
+                                v-model="form.mail"
+                                required
+                                placeholder="Obligatoire">
+                  </b-form-input>
+                </b-form-group>
+                <b-form-group id="exampleInputGroup3"
+                              label="Société"
+                              label-for="exampleInput3">
+                  <b-form-input id="exampleInput2"
+                                type="mail"
+                                v-model="form.societe"
+                                required
+                                placeholder="Obligatoire">
+                  </b-form-input>
+                </b-form-group>
+                <b-form-group id="exampleInputGroup4"
+                              label="Téléphone"
+                              label-for="exampleInput4">
+                  <b-form-input id="exampleInput1"
+                                type="tel"
+                                v-model="form.tel"
+                                required
+                                placeholder="Obligatoire">
+                  </b-form-input>
+                </b-form-group>
+                <b-form-group id="exampleInputGroup5"
+                              label="Message"
+                              label-for="exampleInput5">
+                  <b-form-textarea id="textarea1"
+                                   v-model="form.msg"
+                                   placeholder="Obligatoire"
+                                   :rows="3"
+                                   :max-rows="6"
+                                   required >
+                  </b-form-textarea>
+                </b-form-group>
+                <b-form-group id="exampleInputGroup5"
+                              label="Pièce jointe (Max 10Mo - .zip/.jpg/.pdf)"
+                              label-for="exampleInput5">
+                  <b-form-file accept=".jpg, .pdf, .zip" v-model="file" class="mt-3" plain></b-form-file>
+                  <b-form-file accept=".jpg, .pdf, .zip" v-model="file2" class="mt-3" plain></b-form-file>
+                  <b-form-file accept=".jpg, .pdf, .zip" v-model="file3" class="mt-3" plain></b-form-file>
+                </b-form-group>
+                <div class="text-center">
+                  <b-button id="submit" type="submit" variant="primary">Envoyer</b-button>
+                </div>
+              </b-form>
+            </b-col>
           </div>
         </b-container>
       </b-container>
@@ -103,15 +103,12 @@ export default {
   data () {
     return {
       form: {
-        email: '',
+        mail: '',
         name: '',
-        food: null,
-        checked: []
+        societe: '',
+        msg: '',
+        tel: ''
       },
-      foods: [
-        {text: 'Select One', value: null},
-        'Carrots', 'Beans', 'Tomatoes', 'Corn'
-      ],
       show: true,
       file: null,
       file2: null,
