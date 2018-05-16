@@ -7,6 +7,7 @@ et un digramme de gant.
 Nous avons choisis le projet de CRISTAL : la junior entreprise de l'école. Le but est de leur refaire un site web, tous est 
 détaillés dans le sujet "tender_cristal.pdf".
 
+## FRONT END
 # install dependencies
 npm install
 
@@ -15,5 +16,12 @@ npm run dev
 
 # build for production with minification
 npm run build
+
+## BACK END
+
+# launch API
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
 
 
