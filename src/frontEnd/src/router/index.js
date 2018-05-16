@@ -9,6 +9,9 @@ import Contact from '@/components/Contact'
 import Faq from '@/components/Faq'
 import Missions from '@/components/Missions'
 import Connexion from '@/components/Connexion'
+import ProfilAdminProfil from '@/components/ProfilAdmin_profil'
+import ProfilAdminUtilisateurs from '@/components/ProfilAdmin_utilisateurs'
+import ProfilAdminMissions from '@/components/ProfilAdmin_missions'
 import CreationMission from '@/components/CreationMission'
 import VueCarousel from 'vue-carousel'
 Vue.use(VueCarousel)
@@ -60,6 +63,21 @@ export default new Router({
       path: '/connexion',
       name: 'Connexion',
       component: Connexion
+    },
+    {
+      path: '/profil/admin/',
+      name: 'ProfilAdmin_profil',
+      component: ProfilAdminProfil
+    },
+    {
+      path: '/profil/admin/utilisateurs',
+      name: 'ProfilAdmin_utilisateurs',
+      component: ProfilAdminUtilisateurs
+    },
+    {
+      path: '/profil/admin/missions',
+      name: 'ProfilAdmin_missions',
+      component: ProfilAdminMissions
     }
   ]
 })
