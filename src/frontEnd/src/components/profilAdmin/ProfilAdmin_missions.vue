@@ -5,12 +5,27 @@
       <br />
       <b-nav justified tabs>
         <b-nav-item><router-link :to="{name: 'ProfilAdmin_profil'}">Profil</router-link></b-nav-item>
-        <b-nav-item>Statistiques</b-nav-item>
+        <b-nav-item><router-link :to="{name: 'ProfilAdmin_statistique'}">Statistiques</router-link></b-nav-item>
         <b-nav-item>Mes missions</b-nav-item>
         <b-nav-item active>Gestion des missions</b-nav-item>
         <b-nav-item><router-link :to="{name: 'ProfilAdmin_utilisateurs'}">Gestion des utilisateurs</router-link></b-nav-item>
         <b-container>
-          <h1 class="titre">Missions</h1>
+          <h1 class="titre">Missions non postées</h1>
+          <hr class="style-four">
+          <b-table striped hover :items="missions" :fields="fields"></b-table>
+        </b-container>
+        <b-container>
+          <h1 class="titre">Missions annulées</h1>
+          <hr class="style-four">
+          <b-table striped hover :items="missions" :fields="fields"></b-table>
+        </b-container>
+        <b-container>
+          <h1 class="titre">Missions terminées</h1>
+          <hr class="style-four">
+          <b-table striped hover :items="missions" :fields="fields"></b-table>
+        </b-container>
+        <b-container>
+          <h1 class="titre">Missions en cours</h1>
           <hr class="style-four">
           <b-table striped hover :items="missions" :fields="fields"></b-table>
         </b-container>
@@ -21,8 +36,8 @@
 </template>
 
 <script>
-import Nav from './Nav'
-import Footer from './Footer'
+import Nav from '../Nav'
+import Footer from '../Footer'
 import axios from 'axios'
 export default {
   name: 'ProfilAdmin_missions',
@@ -30,7 +45,7 @@ export default {
   data () {
     return {
       missions: this.getMissions(),
-      fields: [ 'title', 'status', 'commercial_id' ],
+      fields: [ 'title', 'type_mission', 'client_name' ],
       loading: false
     }
   },

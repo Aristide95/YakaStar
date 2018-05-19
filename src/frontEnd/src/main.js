@@ -10,11 +10,18 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import * as moment from 'moment'
+import 'vue-event-calendar/dist/style.css'
+import vueEventCalendar from 'vue-event-calendar'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(VueAxios, axios)
 Vue.use(require('vue-moment'))
+Vue.use(vueEventCalendar, {
+  locale: 'fr',
+  color: '#79b249',
+  weekStartOn: 1
+})
 
 Vue.use(VueGoogleMaps, {
   load: {

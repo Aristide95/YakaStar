@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import Vue from 'vue'
 import Router from 'vue-router'
 import Accueil from '@/components/Accueil'
@@ -9,9 +8,10 @@ import Contact from '@/components/Contact'
 import Faq from '@/components/Faq'
 import Missions from '@/components/Missions'
 import Connexion from '@/components/Connexion'
-import ProfilAdminProfil from '@/components/ProfilAdmin_profil'
-import ProfilAdminUtilisateurs from '@/components/ProfilAdmin_utilisateurs'
-import ProfilAdminMissions from '@/components/ProfilAdmin_missions'
+import ProfilAdminProfil from '@/components/profilAdmin/ProfilAdmin_profil'
+import ProfilAdminUtilisateurs from '@/components/profilAdmin/ProfilAdmin_utilisateurs'
+import ProfilAdminMissions from '@/components/profilAdmin/ProfilAdmin_missions'
+import ProfilAdminStat from '@/components/profilAdmin/ProfilAdmin_statistique'
 import CreationMission from '@/components/CreationMission'
 import VueCarousel from 'vue-carousel'
 Vue.use(VueCarousel)
@@ -78,6 +78,11 @@ export default new Router({
       path: '/profil/admin/missions',
       name: 'ProfilAdmin_missions',
       component: ProfilAdminMissions
+    },
+    {
+      path: '/profil/admin/statistiques',
+      name: 'ProfilAdmin_statistique',
+      component: ProfilAdminStat
     }
   ]
 })
