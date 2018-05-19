@@ -8,20 +8,23 @@ Nous avons choisis le projet de CRISTAL : la junior entreprise de l'école. Le b
 détaillés dans le sujet "tender_cristal.pdf".
 
 ## FRONT END
-# install dependencies
+### install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+### serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
+### build for production with minification
 npm run build
 
 ## BACK END
 
-# launch API
+### launch API
+####1
 $ python3 manage.py makemigrations
+####2
 $ python3 manage.py migrate
+####3
 $ python3 manage.py runserver
 
 

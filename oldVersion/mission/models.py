@@ -12,7 +12,7 @@ class Mission(models.Model):
     commercial_id = models.ForeignKey('Etudiant', on_delete=models.CASCADE)
     client_name = models.CharField(max_length = 64)
     logo_url = models.URLField()
-    devis_url = models.URLField()
+    devis_url = models.URLField(null=True)
     techno = models.ManyToManyField('Techno')
     num_presta = models.IntegerField(default = 1)
 
@@ -46,5 +46,5 @@ class Calendrier(models.Model):
 class MissionForm(forms.ModelForm):
     class Meta:
         model = Mission
-        exclude = ['creation_date', 'publication_date', 'state']
+        exclude = ['creation_date', 'publication_date', 'state', 'devis_url']
 # Create your models here.
