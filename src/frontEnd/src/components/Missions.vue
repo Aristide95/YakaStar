@@ -29,7 +29,7 @@
           <b-row class="mission">
             <b-col sm="4">
               <b-btn class="btn-danger" v-on:click="deleteMission(m.id)"><i class="fas fa-times"></i></b-btn>
-              <b-btn type="button" class="btn-success" v-on:click="getMission(m.id)" data-toggle="modal" data-target="#editMissionModal"><i class="fas fa-edit"></i></b-btn>
+              <b-btn type="button" class="btn-success" v-on:click="getMission(m.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
             </b-col>
             <b-col sm="4">
               <h5 v-bind:for="m.title" class="titre">{{ m.title }}</h5>
@@ -50,7 +50,12 @@
                 <p style="text-align: justify">{{m.desc}}</p>
               </b-row>
               <b-row>
-                <b-col sm="3"><p>Technos : {{m.technos}}<span v-repeat="m.technos"> {{values}} </span></p></b-col>
+                <b-col sm="3"><span>Technos :
+                    <ul v-for="t in m.techno">
+                      <li class="list-inline-item"> <strong>{{t}}</strong></li>
+                    </ul>
+                  </span>
+                </b-col>
                 <b-col sm="3" offset="6" class="text-center">
                   <b-btn class="btn-info" v-if="m.state == 0">publier</b-btn>
                   <p v-else>publié il y a {{ m.publication_date | moment("from", "now", true) }}</p>
@@ -67,62 +72,48 @@
       </b-container>
       <Footer></Footer>
 
-      <div class="modal fade" id="editMissionModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Modifications</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+      <b-modal id="editMissionModal">
+        <form v-on:submit.prevent="updateMission()">
+          <b-form-group label="Titre de la mission">
+            <b-form-input type="text" v-model="currentMission.title" required placeholder="Obligatoire"></b-form-input>
+          </b-form-group>
+          <b-form-group label="Type de la mission">
+            <select v-model="currentMission.type_mission">
+              <option>Applicatif</option>
+              <option>Audit</option>
+              <option>Conception</option>
+              <option>Formation</option>
+              <option>Gestion</option>
+              <option>Maintenance</option>
+              <option>Sécurité</option>
+              <option>Web</option>
+            </select>
+          </b-form-group>
+          <b-form-group label="Nom du client">
+            <b-form-input type="text" v-model="currentMission.client_name" required placeholder="Obligatoire"></b-form-input>
+          </b-form-group>
+          <b-form-group label="Nombre de prestataires sur la mission">
+            <b-form-input type="number" v-model="currentMission.num_presta" required placeholder="Obligatoire"></b-form-input>
+          </b-form-group>
+          <b-form-group label="Description">
+            <b-form-textarea v-model="currentMission.desc" placeholder="Obligatoire"
+                             :rows="3"
+                             :max-rows="6"
+                             required >
+            </b-form-textarea>
+          </b-form-group>
+          <b-form-group label="Technologies de la mission">
+            <div v-for="t in techno">
+              <input type="checkbox" v-bind:id="t.name" v-bind:value="t.name" v-model="checkedNames"/>
+              <label v-bind:for="t.name">{{t.name}}</label>
             </div>
-            <form v-on:submit.prevent="updateMission()">
-              <b-form-group label="Titre de la mission">
-                <b-form-input type="text" v-model="currentMission.title" required placeholder="Obligatoire"></b-form-input>
-              </b-form-group>
-              <b-form-group label="Type de la mission">
-                <select v-model="currentMission.type_mission">
-                  <option>Applicatif</option>
-                  <option>Audit</option>
-                  <option>Conception</option>
-                  <option>Formation</option>
-                  <option>Gestion</option>
-                  <option>Maintenance</option>
-                  <option>Sécurité</option>
-                  <option>Web</option>
-                </select>
-              </b-form-group>
-              <b-form-group label="Nom du client">
-                <b-form-input type="text" v-model="currentMission.client_name" required placeholder="Obligatoire"></b-form-input>
-              </b-form-group>
-              <b-form-group label="Nombre de prestataires sur la mission">
-                <b-form-input type="number" v-model="currentMission.num_presta" required placeholder="Obligatoire"></b-form-input>
-              </b-form-group>
-              <b-form-group label="Description">
-                <b-form-textarea v-model="currentMission.desc" placeholder="Obligatoire"
-                                 :rows="3"
-                                 :max-rows="6"
-                                 required >
-                </b-form-textarea>
-              </b-form-group>
-              <b-form-group label="Technologies de la mission">
-                <div v-for="t in techno">
-                  <input type="checkbox" v-bind:id="t.name" v-bind:value="t.name" v-model="checkedNames"/>
-                  <label v-bind:for="t.name">{{t.name}}</label>
-                </div>
-              </b-form-group>
-              <div class="text-center">
-                <b-button id="submit" type="submit" variant="primary">Créer</b-button>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-              </div>
-            </form>
+          </b-form-group>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
           </div>
-        </div>
-        <div class="loading" v-if="loading===true">Loading&#8230;</div>
-      </div>
+        </form>
+      </b-modal>
     </div>
 </template>
 
@@ -137,6 +128,7 @@ export default {
     return {
       missions: this.getMission(),
       technos: this.getTechno(),
+      oneTechno: null,
       checkedNames: [],
       currentMission: {},
       loading: false
@@ -159,12 +151,37 @@ export default {
           console.log(err)
         })
     },
+    getOneTechno: function (id) {
+      let apirUrl = `http://127.0.0.1:8000/api/techno/${id}/`
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.oneTechno = response.data
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
     getMissions: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/mission/'
       this.loading = true
       axios.get(apirUrl)
         .then((response) => {
           this.missions = response.data
+          for (var i = 0; i < this.missions.length; i++) {
+            var tab = (this.missions[i].techno)
+            var test = []
+            for (var j = 0; j < tab.length; j++) {
+              for (var k = 0; k < this.technos.length; k++) {
+                if (tab[j] === this.technos[k].id) {
+                  test.push(this.technos[k].name)
+                }
+              }
+            }
+            this.missions[i].techno = test
+          }
           this.loading = false
         })
         .catch((err) => {

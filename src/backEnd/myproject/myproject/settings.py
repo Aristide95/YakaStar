@@ -36,8 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'article',
     'mission',
+    'connection',
+    'social_django',
+    'epita_connect',
     'corsheaders',
     'rest_framework'
 ]
@@ -122,3 +124,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTHENTICATION_BACKENDS = (
+    'epita_connect.backend.EpitaOpenIdConnect',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_EPITA_KEY = "031021"
+SOCIAL_AUTH_EPITA_SECRET = "97593354782061112fdeab765fd8faf9694903adfd8fa2d345a46be1"
+SOCIAL_AUTH_EPITA_SCOPE = ['epita']
+SOCIAL_AUTH_EPITA_EXTRA_DATA = ['promo']
+SOCIAL_AUTH_EPITA_BETA = False
+
+LOGIN_URL = '/login/epita/'
+LOGIN_REDIRECT_URL = '/logged/'

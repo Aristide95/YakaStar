@@ -4,42 +4,14 @@
     <b-container>
       <br />
       <b-nav justified tabs>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_profil'}">Profil</router-link></b-nav-item>
+        <b-nav-item><router-link :to="{name: 'ProfilCom'}">Profil</router-link></b-nav-item>
         <b-nav-item active>Statistiques</b-nav-item>
         <b-nav-item>Mes missions</b-nav-item>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_missions'}">Gestion des missions</router-link></b-nav-item>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_utilisateurs'}">Gestion des utilisateurs</router-link></b-nav-item>
+        <b-nav-item><router-link :to="{name: 'ProfilCom_missions'}">Gestion des missions</router-link></b-nav-item>
       </b-nav>
       <b-container>
-        <h1 class="titre">Profil Administrateur</h1>
+        <h1 class="titre">Profil Commercial</h1>
         <hr class="style-four">
-        <b-container v-for="s in student" :key="s.id">
-          <b-row style="text-align: center" >
-            <b-col sm="3" offset="9">
-              <b-btn type="button" class="btn-success" data-toggle="modal" data-target="#editMissionModal"><i class="fas fa-edit"></i></b-btn>
-            </b-col>
-          </b-row>
-          <b-row style="text-align: center">
-            <b-col sm="12">
-              <p><strong>Prénom :</strong> {{s.firstname}}<br /></p>
-            </b-col>
-          </b-row>
-          <b-row style="text-align: center">
-            <b-col sm="12">
-              <p><strong>Nom :</strong> {{s.lastname}}<br /></p>
-            </b-col>
-          </b-row>
-          <b-row style="text-align: center">
-            <b-col sm="12">
-              <p><strong>Email :</strong> {{s.email}}<br /></p>
-            </b-col>
-          </b-row>
-          <b-row style="text-align: center">
-            <b-col sm="12">
-              <p class="text-center"> <strong>inscrit le</strong> {{ s.creation_date | moment("dddd Do MMMM YYYY") }}</p>
-            </b-col>
-          </b-row>
-        </b-container>
       </b-container>
     </b-container>
     <Footer></Footer>

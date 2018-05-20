@@ -1,16 +1,14 @@
 <template>
-  <div class="profil">
+  <div class="profilPresta">
     <Nav></Nav>
     <b-container>
       <br />
       <b-nav justified tabs>
         <b-nav-item active>Profil</b-nav-item>
-        <b-nav-item><router-link :to="{name: 'ProfilComStat'}">Statistiques</router-link></b-nav-item>
-        <b-nav-item>Mes missions</b-nav-item>
-        <b-nav-item><router-link :to="{name: 'ProfilComMission'}">Gestion des missions</router-link></b-nav-item>
+        <b-nav-item><router-link :to="{name: 'ProfilPrestaMission'}">Mes Missions</router-link></b-nav-item>
       </b-nav>
       <b-container>
-        <h1 class="titre">Profil Administrateur</h1>
+        <h1 class="titre">Profil prestataire</h1>
         <hr class="style-four">
         <b-container v-for="s in student" :key="s.id">
           <b-row style="text-align: center" >
@@ -40,6 +38,11 @@
           </b-row>
         </b-container>
       </b-container>
+      <b-container>
+        <h2 class="titre">Horaire du bureau CRISTAL</h2>
+        <hr class="style-four">
+        <vue-event-calendar :events="hours"></vue-event-calendar>
+      </b-container>
     </b-container>
     <Footer></Footer>
   </div>
@@ -54,11 +57,13 @@ export default {
   components: {Footer, Nav},
   data () {
     return {
-      student: this.getStudent()
+      student: [],
+      hours: []
     }
   },
   mounted: function () {
     this.getStudent()
+    this.getHour()
   },
   methods: {
     getStudent: function () {
@@ -73,6 +78,32 @@ export default {
           this.loading = false
           console.log(err)
         })
+    },
+    getHour: function () {
+      let apirUrl = 'http://127.0.0.1:8000/api/calendrier/'
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.hours = response.data
+          this.loading = false
+          this.formatDate(this.hours)
+          this.fillArray(this.hours)
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
+    formatDate: function (arrayDate) {
+      for (var i = 0; i < arrayDate.length; i++) {
+        var date = arrayDate[i].date
+        console.log(date)
+        if (date !== null) {
+          arrayDate[i].date = date.replace(/-/g, '/')
+        } else if (date === null) {
+          arrayDate[i].date = ''
+        }
+      }
     }
   }
 }
@@ -89,8 +120,5 @@ export default {
     text-align: center;
     padding-top: 30px;
     padding-bottom: 20px;
-  }
-  .profil {
-    height: 100vh;
   }
 </style>

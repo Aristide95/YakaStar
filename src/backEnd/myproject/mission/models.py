@@ -37,7 +37,7 @@ class Etudiant(models.Model):
 
 class Calendrier(models.Model):
         date = models.DateField()
-        title = models.CharField(max_length = 64, default = "10h - 20h")
+        title = models.CharField(max_length = 64)
 
         def __str__(self):
                 return str(self.date)

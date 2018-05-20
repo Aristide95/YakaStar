@@ -18,14 +18,13 @@ from django.conf.urls import url, include
 from .routers import router
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.views import logout
+from social_django.urls import urlpatterns as social_django_urls
 
-
-
+app_name = "social"
 urlpatterns = [
     url('admin/', admin.site.urls),
     url('api/', include(router.urls)),
-    url('article', TemplateView.as_view(template_name='index.html')),
     url('mission', TemplateView.as_view(template_name='mission.html')),
-    url('', TemplateView.as_view(template_name='index.html')),
-
+    url('connection/', include('connection.urls'))
 ]

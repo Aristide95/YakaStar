@@ -12,6 +12,11 @@ import ProfilAdminProfil from '@/components/profilAdmin/ProfilAdmin_profil'
 import ProfilAdminUtilisateurs from '@/components/profilAdmin/ProfilAdmin_utilisateurs'
 import ProfilAdminMissions from '@/components/profilAdmin/ProfilAdmin_missions'
 import ProfilAdminStat from '@/components/profilAdmin/ProfilAdmin_statistique'
+import ProfilPresta from '@/components/profilPresta/ProfilPresta'
+import ProfilPrestaMission from '@/components/profilPresta/ProfilPrestaMission'
+import ProfilCom from '@/components/profilCom/Profil'
+import ProfilComMission from '@/components/profilCom/ProfilCom_missions'
+import ProfilComStat from '@/components/profilCom/ProfilCom_statistique'
 import CreationMission from '@/components/CreationMission'
 import VueCarousel from 'vue-carousel'
 Vue.use(VueCarousel)
@@ -83,6 +88,31 @@ export default new Router({
       path: '/profil/admin/statistiques',
       name: 'ProfilAdmin_statistique',
       component: ProfilAdminStat
+    },
+    {
+      path: '/profil/prestataire/',
+      name: 'ProfilPresta',
+      component: ProfilPresta
+    },
+    {
+      path: '/profil/prestataire/missions',
+      name: 'ProfilPrestaMission',
+      component: ProfilPrestaMission
+    },
+    {
+      path: '/profil/commercial/',
+      name: 'ProfilCom',
+      component: ProfilCom
+    },
+    {
+      path: '/profil/commercial/missions',
+      name: 'ProfilComMission',
+      component: ProfilComMission
+    },
+    {
+      path: '/profil/commercial/statistique',
+      name: 'ProfilComStat',
+      component: ProfilComStat
     }
   ]
 })
