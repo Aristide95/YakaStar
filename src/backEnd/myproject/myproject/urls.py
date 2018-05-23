@@ -21,10 +21,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.views import logout
 from social_django.urls import urlpatterns as social_django_urls
 
-app_name = "social"
 urlpatterns = [
     url('admin/', admin.site.urls),
     url('api/', include(router.urls)),
     url('mission', TemplateView.as_view(template_name='mission.html')),
-    url('connection/', include('connection.urls'))
+    url(r'logout/', logout, {'next_page': '/'}, name="logout"),
+    url(r'^', include('example.urls')),
+    url(r'index', TemplateView.as_view(template_name='index.html'))
 ]
