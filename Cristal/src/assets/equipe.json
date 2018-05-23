@@ -1,0 +1,74 @@
+{
+  "francois": {
+    "name": "François Cherrier-V.",
+    "function": "Président",
+    "linkedin": "https://www.linkedin.com/in/francoiscv/",
+    "img": "assets/equipe/francois.jpg"
+  },
+  "paul": {
+    "name": "Paul Banus",
+    "function": "Vice Président",
+    "linkedin": "https://www.linkedin.com/in/paulbanus",
+    "img": "assets/equipe/paul.jpg"
+  },
+  "jeremie": {
+    "name": "Jérémie Tchangang",
+    "function": "Secrétaire",
+    "linkedin": "https://www.linkedin.com/in/jeremie-tchangang/",
+    "img": "assets/equipe/jeremie.jpg"
+  },
+  "alexandre": {
+    "name": "Alexandre Pestka",
+    "function": "Trésorier",
+    "linkedin": "https://www.linkedin.com/in/alexandre-pestka/",
+    "img": "assets/equipe/pestka.jpg"
+  },
+  "aubin": {
+    "name": "Aubin Lagorce",
+    "function": "Responsable S.I.",
+    "linkedin": "https://www.linkedin.com/in/aubin-lagorce/",
+    "img": "assets/equipe/aubin.jpg"
+  },
+  "victor": {
+    "name": "Victor Collette",
+    "function": "Responsable S.I.",
+    "linkedin": "https://www.linkedin.com/in/victorctt/",
+    "img": "assets/equipe/victor.jpg"
+  },
+  "noemie": {
+    "name": "Noémie Duflos",
+    "function": "Commerciale",
+    "linkedin": "https://www.linkedin.com/in/duflos-noemie/",
+    "img": "assets/equipe/noemie.jpg"
+  },
+  "erwann": {
+    "name": "Erwan Lebail",
+    "function": "Commerciale",
+    "linkedin": "https://www.linkedin.com/in/erwan-le-bail/",
+    "img": "assets/equipe/none.png"
+  },
+  "rafaelle": {
+    "name": "Rafaelle Chassaing",
+    "function": "Commerciale",
+    "linkedin": "https://www.linkedin.com/in/rafa%C3%ABlle-chassaing-28a552157/",
+    "img": "assets/equipe/rafaelle.jpg"
+  },
+  "alban": {
+    "name": "Alban Buguet",
+    "function": "Commerciale",
+    "linkedin": "https://www.linkedin.com/in/alban-buguet-075019140/",
+    "img": "assets/equipe/alban.jpg"
+  },
+  "tristan": {
+    "name": "Tristan Dietz",
+    "function": "Commerciale",
+    "linkedin": "https://www.linkedin.com/in/tristan-dietz",
+    "img": "assets/equipe/tristan.jpg"
+  },
+  "agnola": {
+    "name": "Alexandre Agnola",
+    "function": "Commerciale",
+    "linkedin": "http://linkedin.com/in/alexandreagnola",
+    "img": "assets/equipe/agnola.jpg"
+  },
+}
