@@ -11,6 +11,7 @@ import Connexion from '@/components/Connexion'
 import ProfilAdminProfil from '@/components/profilAdmin/ProfilAdmin_profil'
 import ProfilAdminUtilisateurs from '@/components/profilAdmin/ProfilAdmin_utilisateurs'
 import ProfilAdminMissions from '@/components/profilAdmin/ProfilAdmin_missions'
+import ProfilAdminMesMission from '@/components/profilAdmin/ProfilAdmin_mesMission'
 import ProfilAdminStat from '@/components/profilAdmin/ProfilAdmin_statistique'
 import ProfilPresta from '@/components/profilPresta/ProfilPresta'
 import ProfilPrestaMission from '@/components/profilPresta/ProfilPrestaMission'
@@ -70,49 +71,54 @@ export default new Router({
       component: Connexion
     },
     {
-      path: '/profil/admin/',
+      path: '/admin/',
       name: 'ProfilAdmin_profil',
       component: ProfilAdminProfil
     },
     {
-      path: '/profil/admin/utilisateurs',
+      path: '/admin/utilisateurs',
       name: 'ProfilAdmin_utilisateurs',
       component: ProfilAdminUtilisateurs
     },
     {
-      path: '/profil/admin/missions',
+      path: '/admin/missions',
       name: 'ProfilAdmin_missions',
       component: ProfilAdminMissions
     },
     {
-      path: '/profil/admin/statistiques',
+      path: '/admin/statistiques',
       name: 'ProfilAdmin_statistique',
       component: ProfilAdminStat
     },
     {
-      path: '/profil/prestataire/',
+      path: '/prestataire/',
       name: 'ProfilPresta',
       component: ProfilPresta
     },
     {
-      path: '/profil/prestataire/missions',
+      path: '/prestataire/missions',
       name: 'ProfilPrestaMission',
       component: ProfilPrestaMission
     },
     {
-      path: '/profil/commercial/',
+      path: '/commercial/',
       name: 'ProfilCom',
       component: ProfilCom
     },
     {
-      path: '/profil/commercial/missions',
+      path: '/commercial/missions',
       name: 'ProfilComMission',
       component: ProfilComMission
     },
     {
-      path: '/profil/commercial/statistique',
+      path: '/commercial/statistique',
       name: 'ProfilComStat',
       component: ProfilComStat
+    },
+    {
+      path: '/admin/mes_missions',
+      name: 'ProfilAdmin_mesMission',
+      component: ProfilAdminMesMission
     }
   ]
 })

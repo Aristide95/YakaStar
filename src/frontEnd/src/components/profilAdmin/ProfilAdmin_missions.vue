@@ -6,332 +6,368 @@
       <b-nav justified tabs>
         <b-nav-item><router-link :to="{name: 'ProfilAdmin_profil'}">Profil</router-link></b-nav-item>
         <b-nav-item><router-link :to="{name: 'ProfilAdmin_statistique'}">Statistiques</router-link></b-nav-item>
-        <b-nav-item>Mes missions</b-nav-item>
+        <b-nav-item><router-link :to="{name: 'ProfilAdmin_mesMission'}">Mes missions</router-link></b-nav-item>
         <b-nav-item active>Gestion des missions</b-nav-item>
         <b-nav-item><router-link :to="{name: 'ProfilAdmin_utilisateurs'}">Gestion des utilisateurs</router-link></b-nav-item>
-        <b-container>
-          <h1 class="titre">Missions non publiées</h1>
-          <hr class="style-four">
-          <b-table striped hover :items="nonPublie" :fields="fields">
-            <template slot="show_details" slot-scope="row">
-              <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
-                Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
-              </b-button>
-            </template>
-            <template slot="row-details" slot-scope="row">
-              <b-card>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
-                  <b-col>{{row.item.desc}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                  <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
-                  <b-col>{{row.item.type_mission}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b v-if="row.item.state === 0">Mission non publiée</b>
-                    <b v-if="row.item.state === 1">Mission publiée</b>
-                    <b v-if="row.item.state === 2">Mission pourvue</b>
-                    <b v-if="row.item.state === 3">Mission en cours</b>
-                    <b v-if="row.item.state === 4">Mission terminée</b>
-                    <b v-if="row.item.state === 5">Mission annulée</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="6" offset="3" style="text-align: center">
-                    <b v-if="row.item.state === 0">
-                      <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
-                    </b>
-                    <b v-if="row.item.state === 1">
-                      <b-btn class="btn-info">Attribuer un prestataire</b-btn>
-                    </b>
-                    <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
-                  </b-col>
-                </b-row>
-              </b-card>
-            </template>
-            <template slot="Editer/Supprimer" slot-scope="row">
-              <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
-              <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
-            </template>
-          </b-table>
-        </b-container>
-        <b-container>
-          <h1 class="titre">Missions publiées</h1>
-          <hr class="style-four">
-          <b-table striped hover :items="publie" :fields="fields2">
-            <template slot="show_details" slot-scope="row">
-              <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
-                Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
-              </b-button>
-            </template>
-            <template slot="row-details" slot-scope="row">
-              <b-card>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
-                  <b-col>{{row.item.desc}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                  <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
-                  <b-col>{{row.item.type_mission}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b v-if="row.item.state === 0">Mission non publiée</b>
-                    <b v-if="row.item.state === 1">Mission publiée il y {{ row.item.publication_date | moment("from", "now", true) }}</b>
-                    <b v-if="row.item.state === 2">Mission pourvue</b>
-                    <b v-if="row.item.state === 3">Mission en cours</b>
-                    <b v-if="row.item.state === 4">Mission terminée</b>
-                    <b v-if="row.item.state === 5">Mission annulée</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="6" offset="3" style="text-align: center">
-                    <b v-if="row.item.state === 0">
-                      <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
-                    </b>
-                    <b v-if="row.item.state === 1">
-                      <b-btn class="btn-info">Attribuer un prestataire</b-btn>
-                    </b>
-                    <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
-                  </b-col>
-                </b-row>
-              </b-card>
-            </template>
-            <template slot="Editer/Supprimer" slot-scope="row">
-              <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
-              <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
-            </template>
-          </b-table>
-        </b-container>
-        <b-container>
-          <h1 class="titre">Missions pourvues</h1>
-          <hr class="style-four">
-          <b-table striped hover :items="pourvue" :fields="fields2">
-            <template slot="show_details" slot-scope="row">
-              <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
-                Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
-              </b-button>
-            </template>
-            <template slot="row-details" slot-scope="row">
-              <b-card>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
-                  <b-col>{{row.item.desc}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                  <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
-                  <b-col>{{row.item.type_mission}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b v-if="row.item.state === 0">Mission non publiée</b>
-                    <b v-if="row.item.state === 1">Mission publiée</b>
-                    <b v-if="row.item.state === 2">Mission pourvue</b>
-                    <b v-if="row.item.state === 3">Mission en cours</b>
-                    <b v-if="row.item.state === 4">Mission terminée</b>
-                    <b v-if="row.item.state === 5">Mission annulée</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="6" offset="3" style="text-align: center">
-                    <b v-if="row.item.state === 0">
-                      <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
-                    </b>
-                    <b v-if="row.item.state === 1">
-                      <b-btn class="btn-info">Attribuer un prestataire</b-btn>
-                    </b>
-                    <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
-                  </b-col>
-                </b-row>
-              </b-card>
-            </template>
-            <template slot="Editer/Supprimer" slot-scope="row">
-              <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
-              <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
-            </template>
-          </b-table>
-        </b-container>
-        <b-container>
-          <h1 class="titre">Missions en cours</h1>
-          <hr class="style-four">
-          <b-table striped hover :items="enCours" :fields="fields2">
-            <template slot="show_details" slot-scope="row">
-              <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
-                Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
-              </b-button>
-            </template>
-            <template slot="row-details" slot-scope="row">
-              <b-card>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
-                  <b-col>{{row.item.desc}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                  <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
-                  <b-col>{{row.item.type_mission}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b v-if="row.item.state === 0">Mission non publiée</b>
-                    <b v-if="row.item.state === 1">Mission publiée</b>
-                    <b v-if="row.item.state === 2">Mission pourvue</b>
-                    <b v-if="row.item.state === 3">Mission en cours</b>
-                    <b v-if="row.item.state === 4">Mission terminée</b>
-                    <b v-if="row.item.state === 5">Mission annulée</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="6" offset="3" style="text-align: center">
-                    <b v-if="row.item.state === 0">
-                      <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
-                    </b>
-                    <b v-if="row.item.state === 1">
-                      <b-btn class="btn-info">Attribuer un prestataire</b-btn>
-                    </b>
-                    <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
-                  </b-col>
-                </b-row>
-              </b-card>
-            </template>
-            <template slot="Editer/Supprimer" slot-scope="row">
-              <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
-              <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
-            </template>
-          </b-table>
-        </b-container>
-        <b-container>
-          <h1 class="titre">Missions terminées</h1>
-          <hr class="style-four">
-          <b-table striped hover :items="termine" :fields="fields2">
-            <template slot="show_details" slot-scope="row">
-              <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
-                Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
-              </b-button>
-            </template>
-            <template slot="row-details" slot-scope="row">
-              <b-card>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
-                  <b-col>{{row.item.desc}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                  <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
-                  <b-col>{{row.item.type_mission}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b v-if="row.item.state === 0">Mission non publiée</b>
-                    <b v-if="row.item.state === 1">Mission publiée</b>
-                    <b v-if="row.item.state === 2">Mission pourvue</b>
-                    <b v-if="row.item.state === 3">Mission en cours</b>
-                    <b v-if="row.item.state === 4">Mission terminée</b>
-                    <b v-if="row.item.state === 5">Mission annulée</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="6" offset="3" style="text-align: center">
-                    <b v-if="row.item.state === 0">
-                      <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
-                    </b>
-                    <b v-if="row.item.state === 1">
-                      <b-btn class="btn-info">Attribuer un prestataire</b-btn>
-                    </b>
-                    <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
-                  </b-col>
-                </b-row>
-              </b-card>
-            </template>
-            <template slot="Editer/Supprimer" slot-scope="row">
-              <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
-              <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
-            </template>
-          </b-table>
-        </b-container>
-        <b-container>
-          <h1 class="titre">Missions annulées</h1>
-          <hr class="style-four">
-          <b-table striped hover :items="annulé" :fields="fields2">
-            <template slot="show_details" slot-scope="row">
-              <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
-                Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
-              </b-button>
-            </template>
-            <template slot="row-details" slot-scope="row">
-              <b-card>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
-                  <b-col>{{row.item.desc}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                  <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
-                  <b-col>{{row.item.type_mission}}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
-                  </b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="4" offset="4" style="text-align: center">
-                    <b>Mission annulée</b>
-                  </b-col>
-                </b-row>
-              </b-card>
-            </template>
-          </b-table>
-        </b-container>
       </b-nav>
+      <b-container>
+        <h1 class="titre">Missions non publiées</h1>
+        <hr class="style-four">
+        <b-table striped hover :items="nonPublie" :fields="fields" :current-page="currentPage1" :per-page="perPage">
+          <template slot="show_details" slot-scope="row">
+            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+              Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
+            </b-button>
+          </template>
+          <template slot="row-details" slot-scope="row">
+            <b-card>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
+                <b-col>{{row.item.desc}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
+                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
+                <b-col>{{row.item.type_mission}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b v-if="row.item.state === 0">Mission non publiée</b>
+                  <b v-if="row.item.state === 1">Mission publiée</b>
+                  <b v-if="row.item.state === 2">Mission pourvue</b>
+                  <b v-if="row.item.state === 3">Mission en cours</b>
+                  <b v-if="row.item.state === 4">Mission terminée</b>
+                  <b v-if="row.item.state === 5">Mission annulée</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="6" offset="3" style="text-align: center">
+                  <b v-if="row.item.state === 0">
+                    <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
+                  </b>
+                  <b v-if="row.item.state === 1">
+                    <b-btn class="btn-info">Attribuer un prestataire</b-btn>
+                  </b>
+                  <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
+                </b-col>
+              </b-row>
+            </b-card>
+          </template>
+          <template slot="Editer/Supprimer" slot-scope="row">
+            <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
+            <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
+          </template>
+        </b-table>
+        <b-row>
+          <div class="center-block">
+            <b-pagination :total-rows="nonPublie.length" :per-page="perPage" v-model="currentPage1" class="my-0" />
+          </div>
+        </b-row>
+      </b-container>
+      <b-container>
+        <h1 class="titre">Missions publiées</h1>
+        <hr class="style-four">
+        <b-table striped hover :items="publie" :fields="fields2" :current-page="currentPage3" :per-page="perPage">
+          <template slot="show_details" slot-scope="row">
+            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+              Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
+            </b-button>
+          </template>
+          <template slot="row-details" slot-scope="row">
+            <b-card>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
+                <b-col>{{row.item.desc}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
+                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
+                <b-col>{{row.item.type_mission}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b v-if="row.item.state === 0">Mission non publiée</b>
+                  <b v-if="row.item.state === 1">Mission publiée il y {{ row.item.publication_date | moment("from", "now", true) }}</b>
+                  <b v-if="row.item.state === 2">Mission pourvue</b>
+                  <b v-if="row.item.state === 3">Mission en cours</b>
+                  <b v-if="row.item.state === 4">Mission terminée</b>
+                  <b v-if="row.item.state === 5">Mission annulée</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="6" offset="3" style="text-align: center">
+                  <b v-if="row.item.state === 0">
+                    <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
+                  </b>
+                  <b v-if="row.item.state === 1">
+                    <b-btn class="btn-info">Attribuer un prestataire</b-btn>
+                  </b>
+                  <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
+                </b-col>
+              </b-row>
+            </b-card>
+          </template>
+          <template slot="Editer/Supprimer" slot-scope="row">
+            <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
+            <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
+          </template>
+        </b-table>
+        <b-row>
+          <div class="center-block">
+            <b-pagination :total-rows="publie.length" :per-page="perPage" v-model="currentPage3" class="my-0" />
+          </div>
+        </b-row>
+      </b-container>
+      <b-container>
+        <h1 class="titre">Missions pourvues</h1>
+        <hr class="style-four">
+        <b-table striped hover :items="pourvue" :fields="fields2" :current-page="currentPage2" :per-page="perPage">
+          <template slot="show_details" slot-scope="row">
+            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+              Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
+            </b-button>
+          </template>
+          <template slot="row-details" slot-scope="row">
+            <b-card>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
+                <b-col>{{row.item.desc}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
+                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
+                <b-col>{{row.item.type_mission}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b v-if="row.item.state === 0">Mission non publiée</b>
+                  <b v-if="row.item.state === 1">Mission publiée</b>
+                  <b v-if="row.item.state === 2">Mission pourvue</b>
+                  <b v-if="row.item.state === 3">Mission en cours</b>
+                  <b v-if="row.item.state === 4">Mission terminée</b>
+                  <b v-if="row.item.state === 5">Mission annulée</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="6" offset="3" style="text-align: center">
+                  <b v-if="row.item.state === 0">
+                    <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
+                  </b>
+                  <b v-if="row.item.state === 1">
+                    <b-btn class="btn-info">Attribuer un prestataire</b-btn>
+                  </b>
+                  <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
+                </b-col>
+              </b-row>
+            </b-card>
+          </template>
+          <template slot="Editer/Supprimer" slot-scope="row">
+            <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
+            <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
+          </template>
+        </b-table>
+        <b-row>
+          <div class="center-block">
+            <b-pagination :total-rows="pourvue.length" :per-page="perPage" v-model="currentPage2" class="my-0" />
+          </div>
+        </b-row>
+      </b-container>
+      <b-container>
+        <h1 class="titre">Missions en cours</h1>
+        <hr class="style-four">
+        <b-table striped hover :items="enCours" :fields="fields2" :current-page="currentPage4" :per-page="perPage">
+          <template slot="show_details" slot-scope="row">
+            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+              Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
+            </b-button>
+          </template>
+          <template slot="row-details" slot-scope="row">
+            <b-card>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
+                <b-col>{{row.item.desc}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
+                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
+                <b-col>{{row.item.type_mission}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b v-if="row.item.state === 0">Mission non publiée</b>
+                  <b v-if="row.item.state === 1">Mission publiée</b>
+                  <b v-if="row.item.state === 2">Mission pourvue</b>
+                  <b v-if="row.item.state === 3">Mission en cours</b>
+                  <b v-if="row.item.state === 4">Mission terminée</b>
+                  <b v-if="row.item.state === 5">Mission annulée</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="6" offset="3" style="text-align: center">
+                  <b v-if="row.item.state === 0">
+                    <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
+                  </b>
+                  <b v-if="row.item.state === 1">
+                    <b-btn class="btn-info">Attribuer un prestataire</b-btn>
+                  </b>
+                  <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
+                </b-col>
+              </b-row>
+            </b-card>
+          </template>
+          <template slot="Editer/Supprimer" slot-scope="row">
+            <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
+            <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
+          </template>
+        </b-table>
+        <b-row>
+          <div class="center-block">
+            <b-pagination :total-rows="enCours.length" :per-page="perPage" v-model="currentPage4" class="my-0" />
+          </div>
+        </b-row>
+      </b-container>
+      <b-container>
+        <h1 class="titre">Missions terminées</h1>
+        <hr class="style-four">
+        <b-table striped hover :items="termine" :fields="fields2" :current-page="currentPage" :per-page="perPage">
+          <template slot="show_details" slot-scope="row">
+            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+              Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
+            </b-button>
+          </template>
+          <template slot="row-details" slot-scope="row">
+            <b-card>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
+                <b-col>{{row.item.desc}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
+                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
+                <b-col>{{row.item.type_mission}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b v-if="row.item.state === 0">Mission non publiée</b>
+                  <b v-if="row.item.state === 1">Mission publiée</b>
+                  <b v-if="row.item.state === 2">Mission pourvue</b>
+                  <b v-if="row.item.state === 3">Mission en cours</b>
+                  <b v-if="row.item.state === 4">Mission terminée</b>
+                  <b v-if="row.item.state === 5">Mission annulée</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="6" offset="3" style="text-align: center">
+                  <b v-if="row.item.state === 0">
+                    <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
+                  </b>
+                  <b v-if="row.item.state === 1">
+                    <b-btn class="btn-info">Attribuer un prestataire</b-btn>
+                  </b>
+                  <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
+                </b-col>
+              </b-row>
+            </b-card>
+          </template>
+          <template slot="Editer/Supprimer" slot-scope="row">
+            <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
+            <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
+          </template>
+        </b-table>
+        <b-row>
+          <div class="center-block">
+            <b-pagination :total-rows="termine.length" :per-page="perPage" v-model="currentPage" class="my-0" />
+          </div>
+        </b-row>
+      </b-container>
+      <b-container>
+        <h1 class="titre">Missions annulées</h1>
+        <hr class="style-four">
+        <b-table striped hover :items="annule" :fields="fields2" :current-page="currentPage5" :per-page="perPage">
+          <template slot="show_details" slot-scope="row">
+            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+              Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
+            </b-button>
+          </template>
+          <template slot="row-details" slot-scope="row">
+            <b-card>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
+                <b-col>{{row.item.desc}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
+                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
+                <b-col>{{row.item.type_mission}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b>Mission annulée</b>
+                </b-col>
+              </b-row>
+            </b-card>
+          </template>
+        </b-table>
+        <b-row>
+          <div class="center-block">
+            <b-pagination :total-rows="annule.length" :per-page="perPage" v-model="currentPage5" class="my-0" />
+          </div>
+        </b-row>
+      </b-container>
+      <br />
+      <b-container>
+        <div class="text-center">
+          <b-btn class="btn-creation" v-b-modal="'addMissionModal'">Nouvelle mission</b-btn>
+        </div>
+      </b-container>
     </b-container>
 
     <b-modal id="editMissionModal">
@@ -443,7 +479,7 @@ export default {
       checkedNames: [],
       publie: [],
       nonPublie: [],
-      annulé: [],
+      annule: [],
       pourvue: [],
       enCours: [],
       termine: [],
@@ -460,7 +496,15 @@ export default {
         'num_presta': 1,
         'commercial_id': 1,
         'techno': [1]
-      }
+      },
+      currentPage: 1,
+      currentPage1: 1,
+      currentPage2: 1,
+      currentPage3: 1,
+      currentPage4: 1,
+      currentPage5: 1,
+      perPage: 5,
+      pageOptions: [ 5, 10, 15 ]
     }
   },
   mounted: function () {
@@ -506,7 +550,7 @@ export default {
         } else if (missions[i].state === 4) {
           this.termine.push(missions[i])
         } else {
-          this.annulé.push(missions[i])
+          this.annule.push(missions[i])
         }
       }
     },
@@ -636,5 +680,14 @@ export default {
     text-align: center;
     padding-top: 30px;
     padding-bottom: 20px;
+  }
+  .center-block {
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+  }
+  .btn-creation {
+    background-color: #79b249;
+    border-color: #598236;
   }
 </style>

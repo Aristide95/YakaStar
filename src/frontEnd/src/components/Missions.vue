@@ -4,116 +4,61 @@
       <b-container>
         <h1 class="titre">Nos missions</h1>
         <hr class="style-four">
-        <h2 class="titre"> Filtrer la recherche</h2>
+        <div class="mfiltre">
+          <b-row>
+            <b-col sm="6" offset="3">
+              <b-form-group horizontal label="Filtrer :" class="mb-0">
+                <b-input-group>
+                  <b-form-input v-model="filter" placeholder="Rechercher une mission" />
+                  <b-input-group-append>
+                    <b-btn :disabled="!filter" @click="filter = ''">Effacer</b-btn>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+          </b-row>
+        </div>
+        <br />
+      </b-container>
+      <b-container class="m">
+        <b-table striped hover :items="publie" :fields="fields" :filter="filter" :current-page="currentPage" :per-page="perPage">
+          <template slot="show_details" slot-scope="row">
+            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+              Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
+            </b-button>
+          </template>
+          <template slot="row-details" slot-scope="row">
+            <b-card>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
+                <b-col>{{row.item.desc}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
+                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
+                <b-col>{{row.item.type_mission}}</b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b>Mission publiée il y {{ row.item.publication_date | moment("from", "now", true) }}</b>
+                </b-col>
+              </b-row>
+            </b-card>
+          </template>
+          <template slot="s'inscrire" slot-scope="row">
+            <b-btn class="btn btn-info">Postuler</b-btn>
+          </template>
+        </b-table>
         <b-row>
-          <b-col sm="8">
-            <div v-for="t in technos">
-              <input type="checkbox" v-bind:id="t.name" v-bind:value="t.name" v-model="checkedNames"/>
-              <label v-bind:for="t.name">{{t.name}}</label>
-            </div>
-          </b-col>
-          <b-col sm="4">
-            <form class="navbar-form" role="search">
-              <div class="input-group add-on">
-                <input class="form-control" placeholder="Recherche" name="srch-term" id="srch-term" type="text">
-                <div class="input-group-btn">
-                  <button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
-                </div>
-              </div>
-            </form>
-          </b-col>
+          <div class="center-block">
+            <b-pagination :total-rows="publie.length" :per-page="perPage" v-model="currentPage" class="my-0" />
+          </div>
         </b-row>
       </b-container>
-      <b-container>
-        <div v-for="m in missions">
-          <b-row class="mission">
-            <b-col sm="4">
-              <b-btn class="btn-danger" v-on:click="deleteMission(m.id)"><i class="fas fa-times"></i></b-btn>
-              <b-btn type="button" class="btn-success" v-on:click="getMission(m.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
-            </b-col>
-            <b-col sm="4">
-              <h5 v-bind:for="m.title" class="titre">{{ m.title }}</h5>
-            </b-col>
-            <b-col sm="4">
-              <p style="text-align: right; padding-top: 5px">créé il y a {{ m.creation_date | moment("from", "now", true) }}</p>
-            </b-col>
-            <b-container>
-              <b-row>
-                <b-col sm="4">
-                  <p>Type de la mission : <strong>{{m.type_mission}}</strong></p>
-                </b-col>
-                <b-col sm="4" offset="4">
-                  <p style="text-align: right">Etat : <strong v-if="m.state == 0">non-publié</strong><strong v-else>publié</strong></p>
-                </b-col>
-              </b-row>
-              <b-row>
-                <p style="text-align: justify">{{m.desc}}</p>
-              </b-row>
-              <b-row>
-                <b-col sm="3"><span>Technos :
-                    <ul v-for="t in m.techno">
-                      <li class="list-inline-item"> <strong>{{t}}</strong></li>
-                    </ul>
-                  </span>
-                </b-col>
-                <b-col sm="3" offset="6" class="text-center">
-                  <b-btn class="btn-info" v-if="m.state == 0">publier</b-btn>
-                  <p v-else>publié il y a {{ m.publication_date | moment("from", "now", true) }}</p>
-                </b-col>
-              </b-row>
-            </b-container>
-          </b-row>
-        </div><br />
-      </b-container>
-      <b-container>
-        <div class="text-center">
-          <b-btn class="btn-creation" href="#/creation-mission">Nouvelle mission</b-btn>
-        </div>
-      </b-container>
       <Footer></Footer>
-
-      <b-modal id="editMissionModal">
-        <form v-on:submit.prevent="updateMission()">
-          <b-form-group label="Titre de la mission">
-            <b-form-input type="text" v-model="currentMission.title" required placeholder="Obligatoire"></b-form-input>
-          </b-form-group>
-          <b-form-group label="Type de la mission">
-            <select v-model="currentMission.type_mission">
-              <option>Applicatif</option>
-              <option>Audit</option>
-              <option>Conception</option>
-              <option>Formation</option>
-              <option>Gestion</option>
-              <option>Maintenance</option>
-              <option>Sécurité</option>
-              <option>Web</option>
-            </select>
-          </b-form-group>
-          <b-form-group label="Nom du client">
-            <b-form-input type="text" v-model="currentMission.client_name" required placeholder="Obligatoire"></b-form-input>
-          </b-form-group>
-          <b-form-group label="Nombre de prestataires sur la mission">
-            <b-form-input type="number" v-model="currentMission.num_presta" required placeholder="Obligatoire"></b-form-input>
-          </b-form-group>
-          <b-form-group label="Description">
-            <b-form-textarea v-model="currentMission.desc" placeholder="Obligatoire"
-                             :rows="3"
-                             :max-rows="6"
-                             required >
-            </b-form-textarea>
-          </b-form-group>
-          <b-form-group label="Technologies de la mission">
-            <div v-for="t in techno">
-              <input type="checkbox" v-bind:id="t.name" v-bind:value="t.name" v-model="checkedNames"/>
-              <label v-bind:for="t.name">{{t.name}}</label>
-            </div>
-          </b-form-group>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary m-progress" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save changes</button>
-          </div>
-        </form>
-      </b-modal>
     </div>
 </template>
 
@@ -131,7 +76,32 @@ export default {
       oneTechno: null,
       checkedNames: [],
       currentMission: {},
-      loading: false
+      loading: false,
+      filter: null,
+      publie: [],
+      fields: [
+        {
+          key: 'title',
+          label: 'Titre',
+          sortable: true
+        },
+        {
+          key: 'client_name',
+          label: 'Client',
+          sortable: true
+        },
+        {
+          key: 'show_details',
+          sortable: false
+        },
+        {
+          key: 's\'inscrire',
+          sortable: false
+        }
+      ],
+      currentPage: 1,
+      perPage: 10,
+      pageOptions: [10, 20, 30]
     }
   },
   mounted: function () {
@@ -151,18 +121,22 @@ export default {
           console.log(err)
         })
     },
-    getOneTechno: function (id) {
-      let apirUrl = `http://127.0.0.1:8000/api/techno/${id}/`
-      this.loading = true
-      axios.get(apirUrl)
-        .then((response) => {
-          this.oneTechno = response.data
-          this.loading = false
-        })
-        .catch((err) => {
-          this.loading = false
-          console.log(err)
-        })
+    sortMission: function (missions) {
+      for (var i = 0; i < missions.length; i++) {
+        if (missions[i].state === 0) {
+          this.nonPublie.push(missions[i])
+        } else if (missions[i].state === 1) {
+          this.publie.push(missions[i])
+        } else if (missions[i].state === 2) {
+          this.pourvue.push(missions[i])
+        } else if (missions[i].state === 3) {
+          this.enCours.push(missions[i])
+        } else if (missions[i].state === 4) {
+          this.termine.push(missions[i])
+        } else {
+          this.annulé.push(missions[i])
+        }
+      }
     },
     getMissions: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/mission/'
@@ -182,6 +156,7 @@ export default {
             }
             this.missions[i].techno = test
           }
+          this.sortMission(this.missions)
           this.loading = false
         })
         .catch((err) => {
@@ -234,14 +209,6 @@ export default {
 </script>
 
 <style scoped>
-  .mission {
-    background-color: #F5F7F9;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-    border-radius: 5px;
-    margin-top: 10px;
-    padding: 1%;
-  }
   hr.style-four {
     height: 12px;
     border: 0;
@@ -253,8 +220,16 @@ export default {
     padding-top: 5px;
     padding-bottom: 5px;
   }
-  .btn-creation {
-    background-color: #79b249;
-    border-color: #598236;
+  .center-block {
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+  }
+  .mfiltre {
+    padding-top: 5%;
+    padding-bottom: 2%;
+  }
+  .m {
+    padding-bottom: 5%;
   }
 </style>

@@ -6,7 +6,7 @@
       <b-nav justified tabs>
         <b-nav-item><router-link :to="{name: 'ProfilAdmin_profil'}">Profil</router-link></b-nav-item>
         <b-nav-item><router-link :to="{name: 'ProfilAdmin_statistique'}">Statistiques</router-link></b-nav-item>
-        <b-nav-item>Mes missions</b-nav-item>
+        <b-nav-item><router-link :to="{name: 'ProfilAdmin_mesMission'}">Mes mission</router-link></b-nav-item>
         <b-nav-item active>Gestion des missions</b-nav-item>
       </b-nav>
         <b-container>
