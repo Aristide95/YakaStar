@@ -15,6 +15,11 @@
         <h1 class="titre">Utilisateurs</h1>
         <hr class="style-four">
         <b-container>
+          <b-row>
+            <b-col sm="4" offset="4">
+              <b-btn class="btn-info" v-on:click="createPDF()">Exporter la liste des membres de CRISTAL</b-btn>
+            </b-col>
+          </b-row>
           <h2 class="titre">Membre de CRISTAL</h2>
           <hr class="style-four">
           <b-row>
@@ -34,7 +39,6 @@
             <template slot="Modifier" slot-scope="row">
             </template>
           </b-table>
-          <b-btn class="btn-info">Exporter</b-btn>
         </b-container>
         <b-container>
           <h2 class="titre">Commercial de CRISTAL</h2>
@@ -126,9 +130,11 @@
 </template>
 
 <script>
+/* eslint-disable new-cap */
 import Nav from '../Nav'
 import Footer from '../Footer'
 import axios from 'axios'
+import jsPDF from 'jsPDF'
 export default {
   name: 'ProfilAdmin_profil',
   components: {Footer, Nav},
@@ -187,6 +193,30 @@ export default {
     this.getStudents()
   },
   methods: {
+    createPDF () {
+      let pdfName = 'membres-cristal'
+      var doc = new jsPDF()
+
+      doc.text('MEMBRES DE CRISTAL', 10, 10)
+      doc.text('ADMINISTRATEURS', 10, 20)
+      doc.text('Nom', 50, 20)
+      doc.text('Prénom', 90, 20)
+
+      var i = 0
+      for (i; i < this.admin.length; i++) {
+        doc.text(this.admin[i].lastname, 50, 30 + i * 10)
+        doc.text(this.admin[i].firstname, 90, 30 + i * 10)
+      }
+      doc.text('COMMERCIAUX', 10, 30 + i * 10)
+      i++
+      var j = 0
+      for (j; j < this.com.length; j++) {
+        doc.text(this.com[j].lastname, 50, (30 + i * 10 + 10) + j * 10)
+        doc.text(this.com[j].firstname, 90, (30 + i * 10 + 10) + j * 10)
+      }
+
+      doc.save(pdfName + '.pdf')
+    },
     getStudents: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/etudiant/'
       this.loading = true
@@ -242,5 +272,10 @@ export default {
     text-align: center;
     padding-top: 30px;
     padding-bottom: 20px;
+  }
+  .center-block {
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
   }
 </style>

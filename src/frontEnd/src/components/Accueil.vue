@@ -100,40 +100,42 @@
     <b-container>
       <h2 class="titre"><i class="fas fa-quote-left"></i> Témoignages <i class="fas fa-quote-right"></i></h2>
       <hr class="style-four">
-      <b-row class="d-none d-sm-block">
-        <b-col>
-          <b-row>
-            <b-col sm="4">
-              <img src="../assets/company/bnp.png" alt="logo BNP Paribas" class="img-thumbnail">
-            </b-col>
-            <b-col sm="8">
-              <p style="font-size: small; text-align: justify">Grâce à leur réactivité et à leur souplesse, Cristal a su
-                s'adapter à nos contraintes et aux délais
-                serrés. Nous avons également pu apprécier leur professionnalisme dans la gestion du projet.</p>
-            </b-col>
-          </b-row>
-        </b-col>
-        <b-col>
-          <b-row>
-            <b-col sm="8">
-              <p style="font-size: small; text-align: justify">Cristal a su m’apporter une solution sur mesure et
-                performante. Le professionnalisme dont mes différents interlocuteurs ont fait preuve nous a permis de
-                travailler dans des conditions optimales.</p>
-            </b-col>
-            <b-col sm="4">
-              <img src="../assets/company/swarovski.png" alt="logo Swarovski" class="img-thumbnail">
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
-      <b-row class="d-none d-sm-block">
-        <b-col class="text-center" style="font-size: small">
-          <span class="vert">L. Jeunhomme</span> - Responsable des Etudes Sectorielles
-        </b-col>
-        <b-col class="text-center" style="font-size: small">
-          <span class="vert">Anne-Charlotte Liegaux-Beucher</span> - Communication Analyst Manager
-        </b-col>
-      </b-row>
+      <div class="d-none d-sm-block">
+        <b-row sm="12">
+          <b-col sm="6">
+            <b-row>
+              <b-col sm="4">
+                <img src="../assets/company/bnp.png" alt="logo BNP Paribas" class="img-thumbnail">
+              </b-col>
+              <b-col sm="8">
+                <p style="font-size: small; text-align: justify">Grâce à leur réactivité et à leur souplesse, Cristal a su
+                  s'adapter à nos contraintes et aux délais
+                  serrés. Nous avons également pu apprécier leur professionnalisme dans la gestion du projet.</p>
+              </b-col>
+            </b-row>
+          </b-col>
+          <b-col sm="6">
+            <b-row>
+              <b-col sm="8">
+                <p style="font-size: small; text-align: justify">Cristal a su m’apporter une solution sur mesure et
+                  performante. Le professionnalisme dont mes différents interlocuteurs ont fait preuve nous a permis de
+                  travailler dans des conditions optimales.</p>
+              </b-col>
+              <b-col sm="4">
+                <img src="../assets/company/swarovski.png" alt="logo Swarovski" class="img-thumbnail">
+              </b-col>
+            </b-row>
+          </b-col>
+        </b-row>
+        <b-row sm="12">
+          <b-col sm="6" class="text-center" style="font-size: small">
+            <span class="vert">L. Jeunhomme</span> - Responsable des Etudes Sectorielles
+          </b-col>
+          <b-col sm="6" class="text-center" style="font-size: small">
+            <span class="vert">Anne-Charlotte Liegaux-Beucher</span> - Communication Analyst Manager
+          </b-col>
+        </b-row>
+      </div>
       <b-row class="d-block d-sm-none">
         <b-row>
           <p style="font-size: small; text-align: center">Grâce à leur réactivité et à leur souplesse, Cristal a su

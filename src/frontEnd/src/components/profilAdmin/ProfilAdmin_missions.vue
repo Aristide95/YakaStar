@@ -151,7 +151,7 @@
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+                <b-col><span v-for="t in row.item.techno" >{{t}} </span></b-col>
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
@@ -213,7 +213,7 @@
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+                <b-col><span v-for="t in row.item.techno" >{{t}} </span></b-col>
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
@@ -275,7 +275,7 @@
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+                <b-col><span v-for="t in row.item.techno" >{{t}} </span></b-col>
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
@@ -337,7 +337,7 @@
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+                <b-col><span v-for="t in row.item.techno" >{{t}} </span></b-col>
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
@@ -475,7 +475,7 @@ export default {
       fields2: ['title', 'client_name', 'show_details'],
       loading: false,
       currentMission: {},
-      oneTechno: null,
+      technos: [],
       checkedNames: [],
       publie: [],
       nonPublie: [],
@@ -509,8 +509,30 @@ export default {
   },
   mounted: function () {
     this.getMissions()
+    this.getTechno()
   },
   methods: {
+    find (array, index) {
+      for (var i = 0; i < array.length; i++) {
+        if (array[i].id === index) {
+          console.log(array[i].name)
+          return array[i].name
+        }
+      }
+    },
+    getTechno: function () {
+      let apirUrl = 'http://127.0.0.1:8000/api/techno/'
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.technos = response.data
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
     getMissions: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/mission/'
       this.loading = true
@@ -588,6 +610,7 @@ export default {
           this.loading = false
           this.currentMission = response.data
           this.getMissions()
+          location.reload()
         })
         .catch((err) => {
           this.loading = false
