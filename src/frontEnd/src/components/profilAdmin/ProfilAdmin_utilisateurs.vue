@@ -199,20 +199,19 @@ export default {
 
       doc.text('MEMBRES DE CRISTAL', 10, 10)
       doc.text('ADMINISTRATEURS', 10, 20)
-      doc.text('Nom', 50, 20)
-      doc.text('Prénom', 90, 20)
+      doc.text('Nom', 70, 20)
+      doc.text('Prénom', 110, 20)
 
       var i = 0
       for (i; i < this.admin.length; i++) {
-        doc.text(this.admin[i].lastname, 50, 30 + i * 10)
-        doc.text(this.admin[i].firstname, 90, 30 + i * 10)
+        doc.text(this.admin[i].lastname, 70, 30 + i * 10)
+        doc.text(this.admin[i].firstname, 110, 30 + i * 10)
       }
       doc.text('COMMERCIAUX', 10, 30 + i * 10)
       i++
-      var j = 0
-      for (j; j < this.com.length; j++) {
-        doc.text(this.com[j].lastname, 50, (30 + i * 10 + 10) + j * 10)
-        doc.text(this.com[j].firstname, 90, (30 + i * 10 + 10) + j * 10)
+      for (var j = 0; j < this.com.length; j++) {
+        doc.text(this.com[j].lastname, 70, (30 + i * 10) + j * 10)
+        doc.text(this.com[j].firstname, 110, (30 + i * 10) + j * 10)
       }
 
       doc.save(pdfName + '.pdf')

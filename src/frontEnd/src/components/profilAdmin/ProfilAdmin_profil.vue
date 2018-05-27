@@ -13,30 +13,25 @@
       <b-container>
         <h1 class="titre">Profil Administrateur</h1>
         <hr class="style-four">
-        <b-container v-for="s in student" :key="s.id">
-          <b-row style="text-align: center" >
-            <b-col sm="3" offset="9">
-              <b-btn type="button" class="btn-success" data-toggle="modal" data-target="#editMissionModal"><i class="fas fa-edit"></i></b-btn>
+        <b-container>
+          <b-row style="text-align: center">
+            <b-col sm="12">
+              <p><strong>Prénom :</strong> {{student[1].firstname}}<br /></p>
             </b-col>
           </b-row>
           <b-row style="text-align: center">
             <b-col sm="12">
-              <p><strong>Prénom :</strong> {{s.firstname}}<br /></p>
+              <p><strong>Nom :</strong> {{student[1].lastname}}<br /></p>
             </b-col>
           </b-row>
           <b-row style="text-align: center">
             <b-col sm="12">
-              <p><strong>Nom :</strong> {{s.lastname}}<br /></p>
+              <p><strong>Email :</strong> {{student[1].email}}<br /></p>
             </b-col>
           </b-row>
           <b-row style="text-align: center">
             <b-col sm="12">
-              <p><strong>Email :</strong> {{s.email}}<br /></p>
-            </b-col>
-          </b-row>
-          <b-row style="text-align: center">
-            <b-col sm="12">
-              <p class="text-center"> <strong>inscrit le</strong> {{ s.creation_date | moment("dddd Do MMMM YYYY") }}</p>
+              <p class="text-center"> <strong>inscrit le</strong> {{ student[1].creation_date | moment("dddd Do MMMM YYYY") }}</p>
             </b-col>
           </b-row>
         </b-container>

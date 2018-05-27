@@ -27,7 +27,7 @@
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+                <b-col><p v-for="t in row.item.techno" >{{t}}</p></b-col>
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
@@ -54,7 +54,7 @@
                     <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
                   </b>
                   <b v-if="row.item.state === 1">
-                    <b-btn class="btn-info">Attribuer un prestataire</b-btn>
+                    <b-btn class="btn-info" v-b-modal="'newPresta'">Attribuer un prestataire</b-btn>
                   </b>
                   <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
                 </b-col>
@@ -401,8 +401,8 @@
           </b-form-textarea>
         </b-form-group>
         <b-form-group label="Technologies de la mission">
-          <div v-for="t in techno">
-            <input type="checkbox" v-bind:id="t.name" v-bind:value="t.name" v-model="checkedNames"/>
+          <div v-for="t in technos">
+            <input type="checkbox" v-bind:id="t.name" v-bind:value="t.name" v-model="currentMission.technos"/>
             <label v-bind:for="t.name">{{t.name}}</label>
           </div>
         </b-form-group>
@@ -456,6 +456,12 @@
         </div>
       </b-form>
     </b-modal>
+
+    <b-modal id="newPresta">
+      <b-form v-on:submit.prevent="">
+      </b-form>
+    </b-modal>
+
     <Footer></Footer>
   </div>
 </template>
@@ -471,6 +477,7 @@ export default {
   data () {
     return {
       missions: [],
+      selected: [],
       fields: ['title', 'client_name', 'show_details', 'Editer/Supprimer'],
       fields2: ['title', 'client_name', 'show_details'],
       loading: false,

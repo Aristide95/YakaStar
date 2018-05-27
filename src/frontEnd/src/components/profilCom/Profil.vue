@@ -6,36 +6,31 @@
       <b-nav justified tabs>
         <b-nav-item active>Profil</b-nav-item>
         <b-nav-item><router-link :to="{name: 'ProfilComStat'}">Statistiques</router-link></b-nav-item>
-        <b-nav-item>Mes missions</b-nav-item>
+        <b-nav-item><router-link :to="{name: 'ProfilComMesMission'}">Mes missions</router-link></b-nav-item>
         <b-nav-item><router-link :to="{name: 'ProfilComMission'}">Gestion des missions</router-link></b-nav-item>
       </b-nav>
       <b-container>
         <h1 class="titre">Profil Commercial</h1>
         <hr class="style-four">
-        <b-container v-for="s in student" :key="s.id">
-          <b-row style="text-align: center" >
-            <b-col sm="3" offset="9">
-              <b-btn type="button" class="btn-success" data-toggle="modal" data-target="#editMissionModal"><i class="fas fa-edit"></i></b-btn>
+        <b-container>
+          <b-row style="text-align: center">
+            <b-col sm="12">
+              <p><strong>Prénom :</strong> {{student[2].firstname}}<br /></p>
             </b-col>
           </b-row>
           <b-row style="text-align: center">
             <b-col sm="12">
-              <p><strong>Prénom :</strong> {{s.firstname}}<br /></p>
+              <p><strong>Nom :</strong> {{student[2].lastname}}<br /></p>
             </b-col>
           </b-row>
           <b-row style="text-align: center">
             <b-col sm="12">
-              <p><strong>Nom :</strong> {{s.lastname}}<br /></p>
+              <p><strong>Email :</strong> {{student[2].email}}<br /></p>
             </b-col>
           </b-row>
           <b-row style="text-align: center">
             <b-col sm="12">
-              <p><strong>Email :</strong> {{s.email}}<br /></p>
-            </b-col>
-          </b-row>
-          <b-row style="text-align: center">
-            <b-col sm="12">
-              <p class="text-center"> <strong>inscrit le</strong> {{ s.creation_date | moment("dddd Do MMMM YYYY") }}</p>
+              <p class="text-center"> <strong>inscrit le</strong> {{ student[2].creation_date | moment("dddd Do MMMM YYYY") }}</p>
             </b-col>
           </b-row>
         </b-container>

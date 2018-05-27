@@ -12,6 +12,7 @@ import ProfilAdminProfil from '@/components/profilAdmin/ProfilAdmin_profil'
 import ProfilAdminUtilisateurs from '@/components/profilAdmin/ProfilAdmin_utilisateurs'
 import ProfilAdminMissions from '@/components/profilAdmin/ProfilAdmin_missions'
 import ProfilAdminMesMission from '@/components/profilAdmin/ProfilAdmin_mesMission'
+import ProfilComMesMission from '@/components/profilCom/ProfilCom_mesMission'
 import ProfilAdminStat from '@/components/profilAdmin/ProfilAdmin_statistique'
 import ProfilPresta from '@/components/profilPresta/ProfilPresta'
 import ProfilPrestaMission from '@/components/profilPresta/ProfilPrestaMission'
@@ -119,6 +120,11 @@ export default new Router({
       path: '/admin/mes_missions',
       name: 'ProfilAdmin_mesMission',
       component: ProfilAdminMesMission
+    },
+    {
+      path: '/commercial/mes_missions',
+      name: 'ProfilCom_mesMission',
+      component: ProfilComMesMission
     }
   ]
 })

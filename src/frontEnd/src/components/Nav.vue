@@ -22,7 +22,7 @@
 
               <!-- Right aligned nav items -->
               <b-navbar-nav class="ml-auto">
-                <b-nav-item right href="#"><router-link :to="{name: 'Connexion'}">Connexion</router-link></b-nav-item>
+                <b-nav-item right href="http://127.0.0.1:8000/login/epita/">Connexion</b-nav-item>
                 <b-nav-item href="#"><router-link :to="{name: 'Contact'}">Contact</router-link></b-nav-item>
               </b-navbar-nav>
 
@@ -41,6 +41,17 @@ export default {
   form: {
     login: null,
     psw: null
+  },
+  methods: {
+    extractUrlParams: function () {
+      var t = location.search.substring(1).split('&')
+      var f = []
+      for (var i = 0; i < t.length; i++) {
+        var x = t[ i ].split('=')
+        f[x[0]] = f[1]
+      }
+      return f
+    }
   }
 }
 </script>
