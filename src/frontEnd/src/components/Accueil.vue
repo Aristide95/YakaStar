@@ -225,6 +225,7 @@
 import Nav from './Nav.vue'
 import Footer from './Footer.vue'
 import Counter from './Count'
+import axios from 'axios'
 
 export default {
   components: {
@@ -237,6 +238,53 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  mounted: function () {
+    this.test()
+  },
+  methods: {
+    test: function () {
+      let data = new FormData()
+      var tokenFromCookie = this.getCookie('access_token')
+      data.set('access_token', tokenFromCookie)
+      let apirUrl = `http://127.0.0.1:8000/islogged/`
+      axios({
+        method: 'post',
+        url: apirUrl,
+        data: data,
+        config: {headers: { 'Content-Type': 'multipart/form-data' }}
+      })
+        .then((response) => {
+          this.getStudent(response.data['user_id']);
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getCookie: function (name) {
+      var cookie = name + '='
+      var ca = document.cookie.split(';')
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i]
+        while (c.charAt(0) === ' ') c = c.substring(1)
+        if (c.indexOf(cookie) === 0) return c.substring(cookie.length, c.length)
+      }
+      return ''
+    },
+    getStudent: function (user_id) {
+      let apirUrl = 'http://127.0.0.1:8000/api/etudiant/'+user_id
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.student = response.data
+          console.log(response.data)
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
   }
 }
 </script>

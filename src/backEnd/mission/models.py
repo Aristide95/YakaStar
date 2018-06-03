@@ -46,3 +46,15 @@ class Calendrier(models.Model):
 class UserLogin(models.Model):
         login = models.CharField(max_length = 64)
         password = models.CharField(max_length = 64)
+
+
+class SocialAuthUsersocialauth(models.Model):
+    id = models.IntegerField(primary_key=True)  # AutoField?
+    provider = models.CharField(max_length=32)
+    user_id = models.CharField(max_length=255)
+    uid = models.CharField(max_length=255)
+    extra_data = models.TextField()
+    class Meta:
+        managed = False
+        db_table = 'social_auth_usersocialauth'
+        unique_together = (('provider', 'uid'),)

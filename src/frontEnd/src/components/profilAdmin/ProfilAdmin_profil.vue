@@ -74,8 +74,7 @@
           </b-modal>
 
           <b-modal id="myModal2">
-            <b-row sm="12" v-for="h in this.hours" :key="hours">
-              <div v-if="h.start"
+            <b-row sm="12" v-for="h in this.hours" :key="hours" v-if="h.start > nowDay" >
               <b-col sm="10">{{ h.start | moment("subtract", "2 hours", "LLL") }} - {{ h.end | moment("subtract", "2 hours", "LT") }} -- {{h.title}} </b-col>
               <b-col sm="2"><b-btn class="btn-danger" v-on:click="deleteDate(h.id)"><i class="fas fa-times"></i></b-btn></b-col>
             </b-row>
@@ -100,19 +99,35 @@ export default {
     return {
       student: [],
       hours: [],
+      futureHours: [],
       newCalendrier: {
         'date': null,
         'desc': ''
       },
       start: null,
-      end: null
+      end: null,
+      nowDay: null
     }
   },
   mounted: function () {
     this.getStudent()
     this.getHour()
+    this.now()
   },
   methods: {
+    now: function () {
+      this.nowDay = Date().now
+    },
+    future: function () {
+      for (var i = 0; i < this.hours.length; i++) {
+        console.log(this.now)
+        console.log(this.hours[i].start)
+        console.log(this.hours[i].start > this.now)
+        if (this.hours[i].start > this.now) {
+          this.futureHours.push(this.hours[i])
+        }
+      }
+    },
     getStudent: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/etudiant/'
       this.loading = true

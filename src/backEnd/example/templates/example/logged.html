@@ -6,10 +6,7 @@
 </head>
 <body>
     {% if user.is_authenticated %}
-    <script>
-        var student = "{{etudiant}}"
-        document.location.href="http://127.0.0.1:8080/#/?user="+student</script>
-    {% else %}
+    {{etudiant}}
     <p><a href="{% url "logout" %}">Logout</a></p>
     {% endif %}
 </body>
