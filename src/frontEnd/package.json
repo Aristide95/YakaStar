@@ -25,11 +25,13 @@
     "vue-chartjs": "^3.3.1",
     "vue-countup-v2": "^1.0.3",
     "vue-event-calendar": "^1.5.2",
+    "vue-full-calendar": "^2.5.4",
     "vue-moment": "^3.2.0",
     "vue-pie-chart": "^1.1.0",
     "vue-router": "^3.0.1",
     "vue2-google-maps": "^0.9.6",
-    "vuejs-datepicker": "^1.2.2"
+    "vuejs-datepicker": "^1.2.2",
+    "vuejs-datetimepicker": "^1.1.7"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

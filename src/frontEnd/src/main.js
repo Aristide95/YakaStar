@@ -12,7 +12,9 @@ import VueAxios from 'vue-axios'
 import * as moment from 'moment'
 import 'vue-event-calendar/dist/style.css'
 import vueEventCalendar from 'vue-event-calendar'
+import FullCalendar from 'vue-full-calendar'
 
+Vue.use(FullCalendar)
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(VueAxios, axios)

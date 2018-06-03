@@ -36,11 +36,13 @@ class Etudiant(models.Model):
                 return self.firstname
 
 class Calendrier(models.Model):
-        date = models.DateField()
         title = models.CharField(max_length = 64)
+        start = models.DateTimeField(default = timezone.now)
+        end = models.DateTimeField(default = timezone.now)
 
         def __str__(self):
                 return str(self.date)
+
 class UserLogin(models.Model):
         login = models.CharField(max_length = 64)
         password = models.CharField(max_length = 64)

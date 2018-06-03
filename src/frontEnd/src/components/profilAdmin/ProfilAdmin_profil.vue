@@ -38,7 +38,7 @@
         <b-container>
           <h2 class="titre">Horaire du bureau CRISTAL</h2>
           <hr class="style-four">
-          <vue-event-calendar :events="hours"></vue-event-calendar>
+          <full-calendar :events="hours"></full-calendar>
         </b-container>
         <br />
         <b-container>
@@ -50,20 +50,22 @@
           <b-modal id="myModal">
             <b-form v-on:submit.prevent="addDate()">
               <b-row class="my-1">
-                <b-col sm="4"><label>Date :</label></b-col>
-                <b-col sm="8"><b-form-input v-model="newCalendrier.date" type="date" required></b-form-input></b-col>
+                <b-col sm="4"><label>Début :</label></b-col>
+                <b-col sm="4">
+                  <b-form-input v-model="newCalendrier.dateb" type="date" required></b-form-input>
+                </b-col>
+                <b-col sm="4">
+                  <b-form-input v-model="newCalendrier.hourb" type="time" required></b-form-input>
+                </b-col>
               </b-row>
               <b-row class="my-1">
-                <b-col sm="4"><label>Heure début :</label></b-col>
-                <b-col sm="3"><b-form-input v-model="h1" type="number" min=0 max=23 required></b-form-input></b-col>
-                <b-col sm="2"><div style="text-align: center">h</div></b-col>
-                <b-col sm="3"><b-form-input v-model="m1" type="number" min=0 max=59 value="00"></b-form-input></b-col>
-              </b-row>
-              <b-row class="my-1">
-                <b-col sm="4"><label>Heure fin :</label></b-col>
-                <b-col sm="3"><b-form-input v-model="h2" type="number" min=0 max="23" required></b-form-input></b-col>
-                <b-col sm="2"><p style="text-align: center">h</p></b-col>
-                <b-col sm="3"><b-form-input v-model="m2" type="number" min=0 max="59" value="00"></b-form-input></b-col>
+                <b-col sm="4"><label>Fin :</label></b-col>
+                <b-col sm="4">
+                  <b-form-input v-model="newCalendrier.datee" type="date" required></b-form-input>
+                </b-col>
+                <b-col sm="4">
+                  <b-form-input v-model="newCalendrier.houre" type="time" required></b-form-input>
+                </b-col>
               </b-row>
               <div class="text-center">
                 <b-button id="submit" type="submit" variant="primary">Créer</b-button>
@@ -73,7 +75,8 @@
 
           <b-modal id="myModal2">
             <b-row sm="12" v-for="h in this.hours" :key="hours">
-              <b-col sm="10">{{ h.date | moment("dddd Do MMMM YYYY") }} -- {{h.title}} </b-col>
+              <div v-if="h.start"
+              <b-col sm="10">{{ h.start | moment("subtract", "2 hours", "LLL") }} - {{ h.end | moment("subtract", "2 hours", "LT") }} -- {{h.title}} </b-col>
               <b-col sm="2"><b-btn class="btn-danger" v-on:click="deleteDate(h.id)"><i class="fas fa-times"></i></b-btn></b-col>
             </b-row>
           </b-modal>
@@ -88,21 +91,21 @@
 import Nav from '../Nav'
 import Footer from '../Footer'
 import axios from 'axios'
+import { FullCalendar } from 'vue-full-calendar'
+
 export default {
   name: 'ProfilAdmin_profil',
-  components: {Footer, Nav},
+  components: {FullCalendar, Footer, Nav},
   data () {
     return {
       student: [],
       hours: [],
-      h1: '',
-      m1: '',
-      h2: '',
-      m2: '',
       newCalendrier: {
         'date': null,
         'desc': ''
-      }
+      },
+      start: null,
+      end: null
     }
   },
   mounted: function () {
@@ -130,24 +133,11 @@ export default {
         .then((response) => {
           this.hours = response.data
           this.loading = false
-          this.formatDate(this.hours)
-          this.fillArray(this.hours)
         })
         .catch((err) => {
           this.loading = false
           console.log(err)
         })
-    },
-    formatDate: function (arrayDate) {
-      for (var i = 0; i < arrayDate.length; i++) {
-        var date = arrayDate[i].date
-        console.log(date)
-        if (date !== null) {
-          arrayDate[i].date = date.replace(/-/g, '/')
-        } else if (date === null) {
-          arrayDate[i].date = ''
-        }
-      }
     },
     deleteDate: function (id) {
       let apirUrl = `http://127.0.0.1:8000/api/calendrier/${id}/`

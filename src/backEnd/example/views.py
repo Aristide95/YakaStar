@@ -16,6 +16,6 @@ def logged(request):
     if exist == True:
         etudiant = Etudiant.objects.get(email=request.user.email)
     else:
-        etudiant = Etudiant(firstname=request.user.first_name, lastname=request.user.last_name, email=request.user.email, status="ETUDIANT")
+        etudiant = Etudiant(firstname=request.user.first_name, lastname=request.user.last_name, email=request.user.email, status="etudiant")
         etudiant.save()
     return render(request, 'example/logged.html', {'etudiant':etudiant})
