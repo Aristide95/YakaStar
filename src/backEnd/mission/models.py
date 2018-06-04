@@ -43,6 +43,13 @@ class Calendrier(models.Model):
         def __str__(self):
                 return str(self.date)
 
+class Postuler(models.Model):
+        etudiant_id = models.ForeignKey('Etudiant', on_delete=models.CASCADE)
+        mission_id = models.ForeignKey('Mission', on_delete=models.CASCADE)
+
+        def __str__(self):
+                return self.etudiant_id
+
 class UserLogin(models.Model):
         login = models.CharField(max_length = 64)
         password = models.CharField(max_length = 64)

@@ -20,4 +20,6 @@ class CalendrierViewSet(viewsets.ModelViewSet):
 class UserLoginViewSet(viewsets.ModelViewSet):
     queryset = UserLogin.objects.all()
     serializer_class = UserLoginSerializer
-
+class PostulerViewSet(viewsets.ModelViewSet):
+    queryset = Postuler.objects.all()
+    serializer_class = PostulerSerializer
