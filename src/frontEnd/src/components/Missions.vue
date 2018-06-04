@@ -123,18 +123,8 @@ export default {
     },
     sortMission: function (missions) {
       for (var i = 0; i < missions.length; i++) {
-        if (missions[i].state === 0) {
-          this.nonPublie.push(missions[i])
-        } else if (missions[i].state === 1) {
+        if (missions[i].state === 1) {
           this.publie.push(missions[i])
-        } else if (missions[i].state === 2) {
-          this.pourvue.push(missions[i])
-        } else if (missions[i].state === 3) {
-          this.enCours.push(missions[i])
-        } else if (missions[i].state === 4) {
-          this.termine.push(missions[i])
-        } else {
-          this.annulé.push(missions[i])
         }
       }
     },

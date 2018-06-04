@@ -236,7 +236,7 @@ export default {
   name: 'Accueil',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      student: null
     }
   },
   mounted: function () {
@@ -255,7 +255,7 @@ export default {
         config: {headers: { 'Content-Type': 'multipart/form-data' }}
       })
         .then((response) => {
-          this.getStudent(response.data['user_id']);
+          this.getStudent(response.data['user_id'])
         })
         .catch((err) => {
           console.log(err)
@@ -271,8 +271,8 @@ export default {
       }
       return ''
     },
-    getStudent: function (user_id) {
-      let apirUrl = 'http://127.0.0.1:8000/api/etudiant/'+user_id
+    getStudent: function (userId) {
+      let apirUrl = 'http://127.0.0.1:8000/api/etudiant/' + userId
       this.loading = true
       axios.get(apirUrl)
         .then((response) => {
@@ -284,7 +284,7 @@ export default {
           this.loading = false
           console.log(err)
         })
-    },
+    }
   }
 }
 </script>

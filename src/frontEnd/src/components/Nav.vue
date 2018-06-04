@@ -9,7 +9,6 @@
           <b-navbar-brand href="#"><router-link :to="{name: 'Accueil'}">
             <img class="logo" src="../assets/logo.png" alt="Logo Cristal" />
           </router-link></b-navbar-brand>
-
           <b-container>
             <b-collapse is-nav id="nav_collapse">
 
@@ -18,11 +17,15 @@
                 <b-nav-item href="#"><router-link :to="{name: 'Equipe'}">Équipe</router-link></b-nav-item>
                 <b-nav-item href="#"><router-link :to="{name: 'Services'}">Services</router-link></b-nav-item>
                 <b-nav-item href="#"><router-link :to="{name: 'Fonctionnement'}">Fonctionnement</router-link></b-nav-item>
+                <b-nav-item href="#" v-if="student.length !== 0"><router-link :to="{name: 'Missions'}">Missions</router-link></b-nav-item>
               </b-navbar-nav>
 
               <!-- Right aligned nav items -->
               <b-navbar-nav class="ml-auto">
-                <b-nav-item right href="http://127.0.0.1:8000/login/epita/">Connexion</b-nav-item>
+                <b-nav-item right v-if="student.length === 0" href="http://127.0.0.1:8000/login/epita/">Connexion</b-nav-item>
+                <b-nav-item right v-if="student.length !== 0 && student.status === 'admin'"><router-link :to="{name: 'ProfilAdmin_profil'}">{{student.firstname}}</router-link></b-nav-item>
+                <b-nav-item right v-if="student.length !== 0 && student.status === 'commercial'"><router-link :to="{name: 'Profil'}">{{student.firstname}}</router-link></b-nav-item>
+                <b-nav-item right v-else><router-link :to="{name: 'ProfilPresta'}">{{student.firstname}}</router-link></b-nav-item>
                 <b-nav-item href="#"><router-link :to="{name: 'Contact'}">Contact</router-link></b-nav-item>
               </b-navbar-nav>
 
@@ -35,22 +38,61 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Nav',
   show: true,
-  form: {
-    login: null,
-    psw: null
+  data () {
+    return {
+      student: []
+    }
+  },
+  mounted: function () {
+    this.test()
   },
   methods: {
-    extractUrlParams: function () {
-      var t = location.search.substring(1).split('&')
-      var f = []
-      for (var i = 0; i < t.length; i++) {
-        var x = t[ i ].split('=')
-        f[x[0]] = f[1]
+    test: function () {
+      let data = new FormData()
+      var tokenFromCookie = this.getCookie('access_token')
+      data.set('access_token', tokenFromCookie)
+      let apirUrl = `http://127.0.0.1:8000/islogged/`
+      axios({
+        method: 'post',
+        url: apirUrl,
+        data: data,
+        config: {headers: { 'Content-Type': 'multipart/form-data' }}
+      })
+        .then((response) => {
+          this.getStudent(response.data['user_id'])
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getCookie: function (name) {
+      var cookie = name + '='
+      var ca = document.cookie.split(';')
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i]
+        while (c.charAt(0) === ' ') c = c.substring(1)
+        if (c.indexOf(cookie) === 0) return c.substring(cookie.length, c.length)
       }
-      return f
+      return ''
+    },
+    getStudent: function (userId) {
+      let apirUrl = 'http://127.0.0.1:8000/api/etudiant/' + userId
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.student = response.data
+          console.log(response.data)
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
     }
   }
 }

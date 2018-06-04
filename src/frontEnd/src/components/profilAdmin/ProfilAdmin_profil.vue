@@ -74,7 +74,7 @@
           </b-modal>
 
           <b-modal id="myModal2">
-            <b-row sm="12" v-for="h in this.hours" :key="hours" v-if="h.start > nowDay" >
+            <b-row sm="12" v-for="h in this.futureHours" :key="hours" >
               <b-col sm="10">{{ h.start | moment("subtract", "2 hours", "LLL") }} - {{ h.end | moment("subtract", "2 hours", "LT") }} -- {{h.title}} </b-col>
               <b-col sm="2"><b-btn class="btn-danger" v-on:click="deleteDate(h.id)"><i class="fas fa-times"></i></b-btn></b-col>
             </b-row>
@@ -91,6 +91,7 @@ import Nav from '../Nav'
 import Footer from '../Footer'
 import axios from 'axios'
 import { FullCalendar } from 'vue-full-calendar'
+import * as moment from 'moment'
 
 export default {
   name: 'ProfilAdmin_profil',
@@ -104,7 +105,6 @@ export default {
         'date': null,
         'desc': ''
       },
-      start: null,
       end: null,
       nowDay: null
     }
@@ -116,15 +116,15 @@ export default {
   },
   methods: {
     now: function () {
-      this.nowDay = Date().now
+      this.nowDay = moment(new Date())
+      this.future(this.hours)
     },
-    future: function () {
-      for (var i = 0; i < this.hours.length; i++) {
-        console.log(this.now)
-        console.log(this.hours[i].start)
-        console.log(this.hours[i].start > this.now)
-        if (this.hours[i].start > this.now) {
-          this.futureHours.push(this.hours[i])
+    future: function (hours) {
+      alert(hours[0].start)
+      for (var i = 0; i < hours.length; i++) {
+        console.log(hours[i].start.fromNow)
+        if (hours[i].start.fromNow > 0) {
+          this.futureHours.push(hours[i])
         }
       }
     },
