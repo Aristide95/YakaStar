@@ -23,3 +23,6 @@ class UserLoginViewSet(viewsets.ModelViewSet):
 class PostulerViewSet(viewsets.ModelViewSet):
     queryset = Postuler.objects.all()
     serializer_class = PostulerSerializer
+class Presta_missionViewSet(viewsets.ModelViewSet):
+    queryset = Presta_mission.objects.all()
+    serializer_class = Presta_missionSerializer

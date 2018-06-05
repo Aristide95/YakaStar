@@ -36,3 +36,9 @@ class PostulerSerializer(serializers.ModelSerializer):
         model = Postuler
         fields = '__all__'
 
+class Presta_missionSerializer(serializers.ModelSerializer):
+    etudiant_id =  EtudiantSerializer
+    mission_id = MissionSerializer
+    class Meta:
+        model = Presta_mission
+        fields = '__all__'

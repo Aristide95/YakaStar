@@ -65,3 +65,10 @@ class SocialAuthUsersocialauth(models.Model):
         managed = False
         db_table = 'social_auth_usersocialauth'
         unique_together = (('provider', 'uid'),)
+
+class Presta_mission(models.Model):
+        etudiant_id = models.ForeignKey('Etudiant', on_delete=models.CASCADE)
+        mission_id = models.ForeignKey('Mission', on_delete=models.CASCADE)
+
+        def __str__(self):
+                return self.etudiant_id
