@@ -24,7 +24,7 @@
               <b-navbar-nav class="ml-auto">
                 <b-nav-item right v-if="student.length === 0" href="http://127.0.0.1:8000/login/epita/">Connexion</b-nav-item>
                 <b-nav-item right v-if="student.length !== 0 && student.status === 'admin'"><router-link :to="{name: 'ProfilAdmin_profil'}">{{student.firstname}}</router-link></b-nav-item>
-                <b-nav-item right v-if="student.length !== 0 && student.status === 'commercial'"><router-link :to="{name: 'Profil'}">{{student.firstname}}</router-link></b-nav-item>
+                <b-nav-item right v-else-if="student.length !== 0 && student.status === 'commercial'"><router-link :to="{name: 'Profil'}">{{student.firstname}}</router-link></b-nav-item>
                 <b-nav-item right v-else><router-link :to="{name: 'ProfilPresta'}">{{student.firstname}}</router-link></b-nav-item>
                 <b-nav-item href="#"><router-link :to="{name: 'Contact'}">Contact</router-link></b-nav-item>
               </b-navbar-nav>

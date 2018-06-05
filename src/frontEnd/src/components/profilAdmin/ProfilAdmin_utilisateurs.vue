@@ -255,6 +255,21 @@ export default {
           this.loading = false
           console.log(err)
         })
+    },
+    updateStudent: function () {
+      this.loading = true
+      let apirUrl = `http://127.0.0.1:8000/api/etudiant/${this.currentStudent.id}/`
+      axios.put(apirUrl, this.currentStudent)
+        .then((response) => {
+          this.loading = false
+          this.currentStudent = response.data
+          this.getStudents()
+          location.reload()
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
     }
   }
 }

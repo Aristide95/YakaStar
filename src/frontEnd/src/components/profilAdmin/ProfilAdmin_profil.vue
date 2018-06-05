@@ -158,7 +158,6 @@ export default {
       this.future(this.hours)
     },
     future: function (hours) {
-      alert(hours[0].start)
       for (var i = 0; i < hours.length; i++) {
         console.log(hours[i].start.fromNow)
         if (hours[i].start.fromNow > 0) {

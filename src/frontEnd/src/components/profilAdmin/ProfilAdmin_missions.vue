@@ -138,9 +138,8 @@
                 <b-col>{{row.item.type_mission}}</b-col>
               </b-row>
               <b-row class="mb-2">
-                <b-col sm="4" offset="4" style="text-align: center">
-                  <b v-if="row.item.state === 2">Prestataire sur la mission : {{ namePresta(row.item.id) }}</b>
-                </b-col>
+                <b-col sm="3" class="text-sm-right"><b>Prestataire de la mission :</b></b-col>
+                <b-col>{{ namePresta(row.item.id) }}</b-col>
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="4" offset="4" style="text-align: center">
@@ -149,7 +148,7 @@
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="4" offset="4" style="text-align: center">
-                  <b v-if="row.item.state === 2">Mission pourvue</b>
+                  <b>Mission pourvue</b>
                 </b-col>
               </b-row>
               <b-row class="mb-2">
@@ -432,11 +431,14 @@
     </b-modal>
 
     <b-modal id="addPresta">
-      <b-table striped hover :items="postMission" :fields="fields3">
+      <b-table striped hover :items="postMission" :fields="fields3" v-if="postMission.length > 0">
         <template slot="choisir" slot-scope="row">
           <b-btn type="button" class="btn-success" v-on:click="addPresta(row.item.id)"><i class="fas fa-check"></i></b-btn>
         </template>
       </b-table>
+      <b-row v-else class="text-center">
+        <b>Peronne n'a encore postulé</b>
+      </b-row>
     </b-modal>
 
     <Footer></Footer>
