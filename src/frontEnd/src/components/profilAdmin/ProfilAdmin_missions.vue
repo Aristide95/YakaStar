@@ -40,21 +40,13 @@
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="4" offset="4" style="text-align: center">
-                  <b v-if="row.item.state === 0">Mission non publiée</b>
-                  <b v-if="row.item.state === 1">Mission publiée</b>
-                  <b v-if="row.item.state === 2">Mission pourvue</b>
-                  <b v-if="row.item.state === 3">Mission en cours</b>
-                  <b v-if="row.item.state === 4">Mission terminée</b>
-                  <b v-if="row.item.state === 5">Mission annulée</b>
+                  <b>Mission non publiée</b>
                 </b-col>
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="6" offset="3" style="text-align: center">
                   <b v-if="row.item.state === 0">
                     <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
-                  </b>
-                  <b v-if="row.item.state === 1">
-                    <b-btn class="btn-info" v-b-modal="'newPresta'">Attribuer un prestataire</b-btn>
                   </b>
                   <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
                 </b-col>
@@ -102,30 +94,18 @@
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="4" offset="4" style="text-align: center">
-                  <b v-if="row.item.state === 0">Mission non publiée</b>
-                  <b v-if="row.item.state === 1">Mission publiée il y {{ row.item.publication_date | moment("from", "now", true) }}</b>
-                  <b v-if="row.item.state === 2">Mission pourvue</b>
-                  <b v-if="row.item.state === 3">Mission en cours</b>
-                  <b v-if="row.item.state === 4">Mission terminée</b>
-                  <b v-if="row.item.state === 5">Mission annulée</b>
+                  <b>Mission publiée il y {{ row.item.publication_date | moment("from", "now", true) }}</b>
                 </b-col>
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="6" offset="3" style="text-align: center">
-                  <b v-if="row.item.state === 0">
-                    <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
-                  </b>
                   <b v-if="row.item.state === 1">
-                    <b-btn class="btn-info">Attribuer un prestataire</b-btn>
+                    <b-btn class="btn-info" v-on:click="getMission(row.item.id)" v-b-modal="'addPresta'">Attribuer un prestataire</b-btn>
                   </b>
                   <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
                 </b-col>
               </b-row>
             </b-card>
-          </template>
-          <template slot="Editer/Supprimer" slot-scope="row">
-            <b-btn class="btn-danger" v-on:click="deleteMission(row.item.id)"><i class="fas fa-times"></i></b-btn>
-            <b-btn type="button" class="btn-success" v-on:click="getMission(row.item.id)" v-b-modal="'editMissionModal'"><i class="fas fa-edit"></i></b-btn>
           </template>
         </b-table>
         <b-row>
@@ -159,27 +139,21 @@
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="4" offset="4" style="text-align: center">
+                  <b v-if="row.item.state === 2">Prestataire sur la mission : {{ namePresta(row.item.id) }}</b>
+                </b-col>
+              </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
                   <b>Créé il y a {{ row.item.creation_date | moment("from", "now", true) }}</b>
                 </b-col>
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="4" offset="4" style="text-align: center">
-                  <b v-if="row.item.state === 0">Mission non publiée</b>
-                  <b v-if="row.item.state === 1">Mission publiée</b>
                   <b v-if="row.item.state === 2">Mission pourvue</b>
-                  <b v-if="row.item.state === 3">Mission en cours</b>
-                  <b v-if="row.item.state === 4">Mission terminée</b>
-                  <b v-if="row.item.state === 5">Mission annulée</b>
                 </b-col>
               </b-row>
               <b-row class="mb-2">
                 <b-col sm="6" offset="3" style="text-align: center">
-                  <b v-if="row.item.state === 0">
-                    <b-btn class="btn-info" v-on:click="publish(row.item)">Publier</b-btn>
-                  </b>
-                  <b v-if="row.item.state === 1">
-                    <b-btn class="btn-info">Attribuer un prestataire</b-btn>
-                  </b>
                   <b-btn class="btn-danger" v-on:click="abandon(row.item)">Annuler la mission</b-btn>
                 </b-col>
               </b-row>
@@ -457,9 +431,12 @@
       </b-form>
     </b-modal>
 
-    <b-modal id="newPresta">
-      <b-form v-on:submit.prevent="">
-      </b-form>
+    <b-modal id="addPresta">
+      <b-table striped hover :items="postMission" :fields="fields3">
+        <template slot="choisir" slot-scope="row">
+          <b-btn type="button" class="btn-success" v-on:click="addPresta(row.item.id)"><i class="fas fa-check"></i></b-btn>
+        </template>
+      </b-table>
     </b-modal>
 
     <Footer></Footer>
@@ -478,8 +455,62 @@ export default {
     return {
       missions: [],
       selected: [],
-      fields: ['title', 'client_name', 'show_details', 'Editer/Supprimer'],
-      fields2: ['title', 'client_name', 'show_details'],
+      fields: [
+        {
+          key: 'title',
+          label: 'Titre',
+          sortable: true
+        },
+        {
+          key: 'client_name',
+          label: 'Client',
+          sortable: true
+        },
+        {
+          key: 'show_details',
+          label: 'Voir plus',
+          sortable: false
+        },
+        {
+          key: 'Editer/Supprimer',
+          label: 'Editer/Supprimer',
+          sortable: false
+        }
+      ],
+      fields2: [
+        {
+          key: 'title',
+          label: 'Titre',
+          sortable: true
+        },
+        {
+          key: 'client_name',
+          label: 'Client',
+          sortable: true
+        },
+        {
+          key: 'show_details',
+          label: 'Voir plus',
+          sortable: false
+        }
+      ],
+      fields3: [
+        {
+          key: 'firstname',
+          label: 'Prénom',
+          sortable: true
+        },
+        {
+          key: 'lastname',
+          label: 'Nom',
+          sortable: true
+        },
+        {
+          key: 'choisir',
+          label: 'Choisir',
+          sortable: false
+        }
+      ],
       loading: false,
       currentMission: {},
       technos: [],
@@ -511,14 +542,63 @@ export default {
       currentPage4: 1,
       currentPage5: 1,
       perPage: 5,
-      pageOptions: [ 5, 10, 15 ]
+      pageOptions: [ 5, 10, 15 ],
+      postMission: [],
+      currentStudent: null,
+      prestMission: [],
+      p: [],
+      s: []
     }
   },
   mounted: function () {
     this.getMissions()
     this.getTechno()
+    this.test()
+    this.getStudents()
+    this.getPresta_mission()
   },
   methods: {
+    test: function () {
+      let data = new FormData()
+      var tokenFromCookie = this.getCookie('access_token')
+      data.set('access_token', tokenFromCookie)
+      let apirUrl = `http://127.0.0.1:8000/islogged/`
+      axios({
+        method: 'post',
+        url: apirUrl,
+        data: data,
+        config: {headers: { 'Content-Type': 'multipart/form-data' }}
+      })
+        .then((response) => {
+          this.getCurrentStudent(response.data['user_id'])
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getCookie: function (name) {
+      var cookie = name + '='
+      var ca = document.cookie.split(';')
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i]
+        while (c.charAt(0) === ' ') c = c.substring(1)
+        if (c.indexOf(cookie) === 0) return c.substring(cookie.length, c.length)
+      }
+      return ''
+    },
+    getCurrentStudent: function (userId) {
+      let apirUrl = 'http://127.0.0.1:8000/api/etudiant/' + userId
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.currentStudent = response.data
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
     find (array, index) {
       for (var i = 0; i < array.length; i++) {
         if (array[i].id === index) {
@@ -533,6 +613,32 @@ export default {
       axios.get(apirUrl)
         .then((response) => {
           this.technos = response.data
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
+    getStudents: function () {
+      let apirUrl = 'http://127.0.0.1:8000/api/etudiant/'
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.s = response.data
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
+    getPresta_mission: function () {
+      let apirUrl = 'http://127.0.0.1:8000/api/presta_mission/'
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.p = response.data
           this.loading = false
         })
         .catch((err) => {
@@ -602,7 +708,65 @@ export default {
       axios.get(apiUrl)
         .then((response) => {
           this.currentMission = response.data
+          this.getPost(this.currentMission.id)
           this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
+    getPost: function (id) {
+      this.postMission = []
+      this.loading = true
+      let apiUrl = `http://127.0.0.1:8000/api/postuler/`
+      var p = []
+      axios.get(apiUrl)
+        .then((response) => {
+          p = response.data
+          for (var i = 0; i < p.length; i++) {
+            if (p[i].etudiant_id === this.currentStudent.id && p[i].mission_id === id) {
+              var s = {
+                'id': this.currentStudent.id,
+                'firstname': this.currentStudent.firstname,
+                'lastname': this.currentStudent.lastname
+              }
+              this.postMission.push(s)
+            }
+          }
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
+    addPresta: function (id) {
+      this.loading = true
+      let apirUrl = `http://127.0.0.1:8000/api/presta_mission/`
+      var p = {
+        'mission_id': this.currentMission.id,
+        'etudiant_id': id
+      }
+      axios.post(apirUrl, p)
+        .then((response) => {
+          this.loading = false
+          location.reload()
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+
+      this.loading = true
+      let apirUrl2 = `http://127.0.0.1:8000/api/mission/${this.currentMission.id}/`
+      this.currentMission.state = 2
+      axios.put(apirUrl2, this.currentMission)
+        .then((response) => {
+          this.loading = false
+          this.currentMission = response.data
+          this.getMissions()
+          location.reload()
         })
         .catch((err) => {
           this.loading = false
@@ -694,6 +858,21 @@ export default {
           this.loading = false
           console.log(err)
         })
+    },
+    namePresta: function (id) {
+      for (var i = 0; i < this.p.length; i++) {
+        console.log(this.p[i].mission_id)
+        console.log(id)
+        if (this.p[i].mission_id === id) {
+          for (var j = 0; j < this.s.length; j++) {
+            if (this.s[j].id === this.p[i].etudiant_id) {
+              var name = this.s[j].firstname + ' ' + this.s[j].lastname
+              return name
+            }
+          }
+        }
+      }
+      return null
     }
   }
 }

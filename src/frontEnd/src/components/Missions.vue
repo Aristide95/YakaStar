@@ -48,8 +48,9 @@
               </b-row>
             </b-card>
           </template>
-          <template slot="s'inscrire" slot-scope="row">
-            <b-btn class="btn btn-info">Postuler</b-btn>
+          <template slot="sinscrire" slot-scope="row">
+            <b-btn class="btn btn-info" v-if="check(row.item.id)" v-on:click="postuler(row.item.id)">Postuler</b-btn>
+            <b v-else>Déja postulé</b>
           </template>
         </b-table>
         <b-row>
@@ -71,8 +72,8 @@ export default {
   components: {Footer, Nav},
   data () {
     return {
-      missions: this.getMission(),
-      technos: this.getTechno(),
+      missions: [],
+      technos: [],
       oneTechno: null,
       checkedNames: [],
       currentMission: {},
@@ -92,22 +93,69 @@ export default {
         },
         {
           key: 'show_details',
+          label: 'Voir plus',
           sortable: false
         },
         {
-          key: 's\'inscrire',
+          key: 'sinscrire',
+          label: 'S\'inscrire',
           sortable: false
         }
       ],
       currentPage: 1,
       perPage: 10,
-      pageOptions: [10, 20, 30]
+      pageOptions: [10, 20, 30],
+      student: [],
+      post: []
     }
   },
   mounted: function () {
     this.getMissions()
+    this.test()
+    this.getPost()
   },
   methods: {
+    test: function () {
+      let data = new FormData()
+      var tokenFromCookie = this.getCookie('access_token')
+      data.set('access_token', tokenFromCookie)
+      let apirUrl = `http://127.0.0.1:8000/islogged/`
+      axios({
+        method: 'post',
+        url: apirUrl,
+        data: data,
+        config: {headers: { 'Content-Type': 'multipart/form-data' }}
+      })
+        .then((response) => {
+          this.getStudent(response.data['user_id'])
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getCookie: function (name) {
+      var cookie = name + '='
+      var ca = document.cookie.split(';')
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i]
+        while (c.charAt(0) === ' ') c = c.substring(1)
+        if (c.indexOf(cookie) === 0) return c.substring(cookie.length, c.length)
+      }
+      return ''
+    },
+    getStudent: function (userId) {
+      let apirUrl = 'http://127.0.0.1:8000/api/etudiant/' + userId
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.student = response.data
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
     getTechno: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/techno/'
       this.loading = true
@@ -193,6 +241,45 @@ export default {
           this.loading = false
           console.log(err)
         })
+    },
+    postuler: function (missionId) {
+      let apirUrl = 'http://127.0.0.1:8000/api/postuler/'
+      this.loading = true
+      var newPostule = {
+        'etudiant_id': this.student.id,
+        'mission_id': missionId
+      }
+      axios.post(apirUrl, newPostule)
+        .then((response) => {
+          this.missions = response.data
+          this.loading = false
+          location.reload()
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
+    getPost: function () {
+      let apirUrl = 'http://127.0.0.1:8000/api/postuler/'
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.post = response.data
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
+    check: function (missionId) {
+      for (var i = 0; i < this.post.length; i++) {
+        if (this.post[i].mission_id === missionId && this.post[i].etudiant_id === this.student.id) {
+          return false
+        }
+      }
+      return true
     }
   }
 }

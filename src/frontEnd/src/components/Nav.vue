@@ -86,7 +86,6 @@ export default {
       axios.get(apirUrl)
         .then((response) => {
           this.student = response.data
-          console.log(response.data)
           this.loading = false
         })
         .catch((err) => {

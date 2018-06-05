@@ -16,22 +16,22 @@
         <b-container>
           <b-row style="text-align: center">
             <b-col sm="12">
-              <p><strong>Prénom :</strong> {{student[1].firstname}}<br /></p>
+              <p><strong>Prénom :</strong> {{currentStudent.firstname}}<br /></p>
             </b-col>
           </b-row>
           <b-row style="text-align: center">
             <b-col sm="12">
-              <p><strong>Nom :</strong> {{student[1].lastname}}<br /></p>
+              <p><strong>Nom :</strong> {{currentStudent.lastname}}<br /></p>
             </b-col>
           </b-row>
           <b-row style="text-align: center">
             <b-col sm="12">
-              <p><strong>Email :</strong> {{student[1].email}}<br /></p>
+              <p><strong>Email :</strong> {{currentStudent.email}}<br /></p>
             </b-col>
           </b-row>
           <b-row style="text-align: center">
             <b-col sm="12">
-              <p class="text-center"> <strong>inscrit le</strong> {{ student[1].creation_date | moment("dddd Do MMMM YYYY") }}</p>
+              <p class="text-center"> <strong>inscrit le</strong> {{ currentStudent.creation_date | moment("dddd Do MMMM YYYY") }}</p>
             </b-col>
           </b-row>
         </b-container>
@@ -51,20 +51,14 @@
             <b-form v-on:submit.prevent="addDate()">
               <b-row class="my-1">
                 <b-col sm="4"><label>Début :</label></b-col>
-                <b-col sm="4">
-                  <b-form-input v-model="newCalendrier.dateb" type="date" required></b-form-input>
-                </b-col>
-                <b-col sm="4">
-                  <b-form-input v-model="newCalendrier.hourb" type="time" required></b-form-input>
+                <b-col sm="8">
+                  <b-form-input v-model="newCalendrier.dateb" type="datetime-local" required></b-form-input>
                 </b-col>
               </b-row>
               <b-row class="my-1">
                 <b-col sm="4"><label>Fin :</label></b-col>
-                <b-col sm="4">
-                  <b-form-input v-model="newCalendrier.datee" type="date" required></b-form-input>
-                </b-col>
-                <b-col sm="4">
-                  <b-form-input v-model="newCalendrier.houre" type="time" required></b-form-input>
+                <b-col sm="8">
+                  <b-form-input v-model="newCalendrier.datee" type="datetime-local" required></b-form-input>
                 </b-col>
               </b-row>
               <div class="text-center">
@@ -101,9 +95,10 @@ export default {
       student: [],
       hours: [],
       futureHours: [],
+      currentStudent: [],
       newCalendrier: {
-        'date': null,
-        'desc': ''
+        'dateb': null,
+        'datee': null
       },
       end: null,
       nowDay: null
@@ -113,8 +108,51 @@ export default {
     this.getStudent()
     this.getHour()
     this.now()
+    this.test()
   },
   methods: {
+    test: function () {
+      let data = new FormData()
+      var tokenFromCookie = this.getCookie('access_token')
+      data.set('access_token', tokenFromCookie)
+      let apirUrl = `http://127.0.0.1:8000/islogged/`
+      axios({
+        method: 'post',
+        url: apirUrl,
+        data: data,
+        config: {headers: { 'Content-Type': 'multipart/form-data' }}
+      })
+        .then((response) => {
+          this.getCurrentStudent(response.data['user_id'])
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getCookie: function (name) {
+      var cookie = name + '='
+      var ca = document.cookie.split(';')
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i]
+        while (c.charAt(0) === ' ') c = c.substring(1)
+        if (c.indexOf(cookie) === 0) return c.substring(cookie.length, c.length)
+      }
+      return ''
+    },
+    getCurrentStudent: function (userId) {
+      let apirUrl = 'http://127.0.0.1:8000/api/etudiant/' + userId
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.currentStudent = response.data
+          console.log(response.data)
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
     now: function () {
       this.nowDay = moment(new Date())
       this.future(this.hours)
@@ -171,8 +209,9 @@ export default {
       let apirUrl = 'http://127.0.0.1:8000/api/calendrier/'
       this.loading = true
       var newCal = {
-        'date': this.newCalendrier.date,
-        'title': this.h1.concat('h').concat(this.m1).concat(' - ').concat(this.h2).concat('h').concat(this.m2)
+        'title': this.currentStudent.firstname,
+        'start': this.newCalendrier.dateb,
+        'end': this.newCalendrier.datee
       }
       axios.post(apirUrl, newCal)
       .then((response) => {
