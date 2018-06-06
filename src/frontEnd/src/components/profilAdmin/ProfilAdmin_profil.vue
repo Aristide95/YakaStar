@@ -68,7 +68,7 @@
           </b-modal>
 
           <b-modal id="myModal2">
-            <b-row sm="12" v-for="h in this.futureHours" :key="hours" >
+            <b-row sm="12" v-for="h in this.hours" :key="hours" >
               <b-col sm="10">{{ h.start | moment("subtract", "2 hours", "LLL") }} - {{ h.end | moment("subtract", "2 hours", "LT") }} -- {{h.title}} </b-col>
               <b-col sm="2"><b-btn class="btn-danger" v-on:click="deleteDate(h.id)"><i class="fas fa-times"></i></b-btn></b-col>
             </b-row>
@@ -85,7 +85,6 @@ import Nav from '../Nav'
 import Footer from '../Footer'
 import axios from 'axios'
 import { FullCalendar } from 'vue-full-calendar'
-import * as moment from 'moment'
 
 export default {
   name: 'ProfilAdmin_profil',
@@ -107,8 +106,8 @@ export default {
   mounted: function () {
     this.getStudent()
     this.getHour()
-    this.now()
     this.test()
+    this.now()
   },
   methods: {
     test: function () {
@@ -145,25 +144,12 @@ export default {
       axios.get(apirUrl)
         .then((response) => {
           this.currentStudent = response.data
-          console.log(response.data)
           this.loading = false
         })
         .catch((err) => {
           this.loading = false
           console.log(err)
         })
-    },
-    now: function () {
-      this.nowDay = moment(new Date())
-      this.future(this.hours)
-    },
-    future: function (hours) {
-      for (var i = 0; i < hours.length; i++) {
-        console.log(hours[i].start.fromNow)
-        if (hours[i].start.fromNow > 0) {
-          this.futureHours.push(hours[i])
-        }
-      }
     },
     getStudent: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/etudiant/'
@@ -177,6 +163,9 @@ export default {
           this.loading = false
           console.log(err)
         })
+    },
+    now: function () {
+      this.nowDay = Date.now()
     },
     getHour: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/calendrier/'

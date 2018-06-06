@@ -38,7 +38,7 @@
       <b-container>
         <h2 class="titre">Horaire du bureau CRISTAL</h2>
         <hr class="style-four">
-        <vue-event-calendar :events="hours"></vue-event-calendar>
+        <full-calendar :events="hours"></full-calendar>
       </b-container>
       <br />
       <b-container>
@@ -50,20 +50,16 @@
         <b-modal id="myModal">
           <b-form v-on:submit.prevent="addDate()">
             <b-row class="my-1">
-              <b-col sm="4"><label>Date :</label></b-col>
-              <b-col sm="8"><b-form-input v-model="newCalendrier.date" type="date" required></b-form-input></b-col>
+              <b-col sm="4"><label>Début :</label></b-col>
+              <b-col sm="8">
+                <b-form-input v-model="newCalendrier.dateb" type="datetime-local" required></b-form-input>
+              </b-col>
             </b-row>
             <b-row class="my-1">
-              <b-col sm="4"><label>Heure début :</label></b-col>
-              <b-col sm="3"><b-form-input v-model="h1" type="number" min=0 max=23 required></b-form-input></b-col>
-              <b-col sm="2"><div style="text-align: center">h</div></b-col>
-              <b-col sm="3"><b-form-input v-model="m1" type="number" min=0 max=59 value="00"></b-form-input></b-col>
-            </b-row>
-            <b-row class="my-1">
-              <b-col sm="4"><label>Heure fin :</label></b-col>
-              <b-col sm="3"><b-form-input v-model="h2" type="number" min=0 max="23" required></b-form-input></b-col>
-              <b-col sm="2"><p style="text-align: center">h</p></b-col>
-              <b-col sm="3"><b-form-input v-model="m2" type="number" min=0 max="59" value="00"></b-form-input></b-col>
+              <b-col sm="4"><label>Fin :</label></b-col>
+              <b-col sm="8">
+                <b-form-input v-model="newCalendrier.datee" type="datetime-local" required></b-form-input>
+              </b-col>
             </b-row>
             <div class="text-center">
               <b-button id="submit" type="submit" variant="primary">Créer</b-button>
@@ -72,8 +68,8 @@
         </b-modal>
 
         <b-modal id="myModal2">
-          <b-row sm="12" v-for="h in this.hours" :key="hours">
-            <b-col sm="10">{{ h.date | moment("dddd Do MMMM YYYY") }} -- {{h.title}} </b-col>
+          <b-row sm="12" v-for="h in this.hours" :key="hours" >
+            <b-col sm="10">{{ h.start | moment("subtract", "2 hours", "LLL") }} - {{ h.end | moment("subtract", "2 hours", "LT") }} -- {{h.title}} </b-col>
             <b-col sm="2"><b-btn class="btn-danger" v-on:click="deleteDate(h.id)"><i class="fas fa-times"></i></b-btn></b-col>
           </b-row>
         </b-modal>
@@ -92,23 +88,66 @@ export default {
   components: {Footer, Nav},
   data () {
     return {
-      student: this.getStudent(),
+      student: [],
       hours: [],
-      h1: '',
-      m1: '',
-      h2: '',
-      m2: '',
+      futureHours: [],
+      currentStudent: [],
       newCalendrier: {
-        'date': null,
-        'desc': ''
-      }
+        'dateb': null,
+        'datee': null
+      },
+      end: null,
+      nowDay: null
     }
   },
   mounted: function () {
     this.getStudent()
     this.getHour()
+    this.test()
+    this.now()
   },
   methods: {
+    test: function () {
+      let data = new FormData()
+      var tokenFromCookie = this.getCookie('access_token')
+      data.set('access_token', tokenFromCookie)
+      let apirUrl = `http://127.0.0.1:8000/islogged/`
+      axios({
+        method: 'post',
+        url: apirUrl,
+        data: data,
+        config: {headers: { 'Content-Type': 'multipart/form-data' }}
+      })
+        .then((response) => {
+          this.getCurrentStudent(response.data['user_id'])
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getCookie: function (name) {
+      var cookie = name + '='
+      var ca = document.cookie.split(';')
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i]
+        while (c.charAt(0) === ' ') c = c.substring(1)
+        if (c.indexOf(cookie) === 0) return c.substring(cookie.length, c.length)
+      }
+      return ''
+    },
+    getCurrentStudent: function (userId) {
+      let apirUrl = 'http://127.0.0.1:8000/api/etudiant/' + userId
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.currentStudent = response.data
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
     getStudent: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/etudiant/'
       this.loading = true
@@ -122,6 +161,9 @@ export default {
           console.log(err)
         })
     },
+    now: function () {
+      this.nowDay = Date.now()
+    },
     getHour: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/calendrier/'
       this.loading = true
@@ -129,24 +171,11 @@ export default {
         .then((response) => {
           this.hours = response.data
           this.loading = false
-          this.formatDate(this.hours)
-          this.fillArray(this.hours)
         })
         .catch((err) => {
           this.loading = false
           console.log(err)
         })
-    },
-    formatDate: function (arrayDate) {
-      for (var i = 0; i < arrayDate.length; i++) {
-        var date = arrayDate[i].date
-        console.log(date)
-        if (date !== null) {
-          arrayDate[i].date = date.replace(/-/g, '/')
-        } else if (date === null) {
-          arrayDate[i].date = ''
-        }
-      }
     },
     deleteDate: function (id) {
       let apirUrl = `http://127.0.0.1:8000/api/calendrier/${id}/`
@@ -165,8 +194,9 @@ export default {
       let apirUrl = 'http://127.0.0.1:8000/api/calendrier/'
       this.loading = true
       var newCal = {
-        'date': this.newCalendrier.date,
-        'title': this.h1.concat('h').concat(this.m1).concat(' - ').concat(this.h2).concat('h').concat(this.m2)
+        'title': this.currentStudent.firstname,
+        'start': this.newCalendrier.dateb,
+        'end': this.newCalendrier.datee
       }
       axios.post(apirUrl, newCal)
         .then((response) => {

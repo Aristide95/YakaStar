@@ -13,6 +13,11 @@
       <b-container>
         <h1 class="titre">Statistiques</h1>
         <hr class="style-four">
+        <b-row>
+          <b-col sm="4" offset="5">
+            <b-btn class="btn-info" v-on:click="createPDF()">Exporter les statistiques</b-btn>
+          </b-col>
+        </b-row>
         <h3 class="titre">Total des missions : {{missions.length}}</h3>
         <b-row>
           <b-col sm="4">
