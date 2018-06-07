@@ -10,6 +10,12 @@
         <b-nav-item active>Gestion des missions</b-nav-item>
         <b-nav-item><router-link :to="{name: 'ProfilAdmin_utilisateurs'}">Gestion des utilisateurs</router-link></b-nav-item>
       </b-nav>
+      <br />
+      <b-container>
+        <div class="text-center">
+          <b-btn class="btn btn-creation" v-b-modal="'addMissionModal'">Nouvelle mission</b-btn>
+        </div>
+      </b-container>
       <b-container>
         <h1 class="titre">Missions non publiées</h1>
         <hr class="style-four">
@@ -336,11 +342,6 @@
         </b-row>
       </b-container>
       <br />
-      <b-container>
-        <div class="text-center">
-          <b-btn class="btn-creation" v-b-modal="'addMissionModal'">Nouvelle mission</b-btn>
-        </div>
-      </b-container>
     </b-container>
 
     <b-modal id="editMissionModal">
@@ -419,7 +420,7 @@
         <b-form-group label="Technologies de la mission">
           <div v-for="t in technos">
             <label class="checkbox-inline" v-bind:for="t.name">
-              <input type="checkbox" v-bind:id="t.name" v-bind:value="t.name" v-model="checkedNames"/>
+              <input type="checkbox" v-bind:id="t.name" v-bind:value="t.name" v-model="checkedNames" />
               {{t.name}}
             </label>
           </div>
@@ -431,6 +432,13 @@
     </b-modal>
 
     <b-modal id="addPresta">
+      <h3 class="titre" v-if="postMissionMvp.length > 0">MVP postulant</h3>
+      <b-table striped hover :items="postMissionMvp" :fields="fields3" v-if="postMissionMvp.length > 0">
+        <template slot="choisir" slot-scope="row">
+          <b-btn type="button" class="btn-success" v-on:click="addPresta(row.item.id)"><i class="fas fa-check"></i></b-btn>
+        </template>
+      </b-table>
+      <h3 class="titre">Prestataires postulant</h3>
       <b-table striped hover :items="postMission" :fields="fields3" v-if="postMission.length > 0">
         <template slot="choisir" slot-scope="row">
           <b-btn type="button" class="btn-success" v-on:click="addPresta(row.item.id)"><i class="fas fa-check"></i></b-btn>
@@ -438,6 +446,31 @@
       </b-table>
       <b-row v-else class="text-center">
         <b>Peronne n'a encore postulé</b>
+      </b-row>
+      <br />
+      <h3 class="titre">Choisir un autre prestataire</h3>
+      <b-row>
+        <b-col>
+          <b-form-group horizontal label="Filtrer :" class="mb-0">
+            <b-input-group>
+              <b-form-input v-model="filter1" placeholder="Rechercher un prestataire" />
+              <b-input-group-append>
+                <b-btn :disabled="!filter1" @click="filter1 = ''">Effacer</b-btn>
+              </b-input-group-append>
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <br />
+      <b-table striped :items="s" :fields="fields3" :filter="filter1" :current-page="currentPage6" :per-page="perPage2">
+        <template slot="choisir" slot-scope="row">
+          <b-btn type="button" class="btn-success" v-on:click="addPresta(row.item.id)"><i class="fas fa-check"></i></b-btn>
+        </template>
+      </b-table>
+      <b-row>
+        <div class="center-block">
+          <b-pagination :total-rows="pourvue.length" :per-page="perPage" v-model="currentPage6" class="my-0" />
+        </div>
       </b-row>
     </b-modal>
 
@@ -456,6 +489,9 @@ export default {
   data () {
     return {
       missions: [],
+      currentPage6: 1,
+      perPage2: 3,
+      filter1: null,
       selected: [],
       fields: [
         {
@@ -535,7 +571,7 @@ export default {
         'devis_url': null,
         'num_presta': 1,
         'commercial_id': 1,
-        'techno': [1]
+        'techno': []
       },
       currentPage: 1,
       currentPage1: 1,
@@ -549,7 +585,8 @@ export default {
       currentStudent: null,
       prestMission: [],
       p: [],
-      s: []
+      s: [],
+      postMissionMvp: []
     }
   },
   mounted: function () {
@@ -733,7 +770,11 @@ export default {
                 'firstname': this.currentStudent.firstname,
                 'lastname': this.currentStudent.lastname
               }
-              this.postMission.push(s)
+              if (this.currentStudent.status === "mvp") {
+                this.postMissionMvp.push(s)
+              } else {
+                this.postMission.push(s)
+              }
             }
           }
           this.loading = false
@@ -806,8 +847,9 @@ export default {
         'devis_url': mission.devis_url,
         'num_presta': mission.num_presta,
         'commercial_id': mission.commercial_id,
-        'techno': [1]
+        'techno': mission.techno
       }
+
       let apirUrl = `http://127.0.0.1:8000/api/mission/${mission.id}/`
       axios.put(apirUrl, update)
         .then((response) => {
@@ -850,6 +892,21 @@ export default {
     addMission: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/mission/'
       this.loading = true
+
+      var tech = []
+
+      for (var i = 0; i < this.technos.length; i++) {
+        for (var j = 0; j < this.checkedNames.length; j++) {
+          console.log('techno : ' + this.technos[i].name)
+          console.log('checkedname : ' + this.checkedNames[j])
+          if (this.technos[i].name === this.checkedNames[j]) {
+            tech.push(this.technos[i].id)
+          }
+        }
+      }
+
+      this.newMission.techno = tech
+
       axios.post(apirUrl, this.newMission)
         .then((response) => {
           this.missions = response.data

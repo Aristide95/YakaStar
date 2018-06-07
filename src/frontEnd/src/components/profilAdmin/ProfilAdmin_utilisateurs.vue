@@ -35,10 +35,15 @@
             </b-col>
           </b-row>
           <br />
-          <b-table striped :items="admin" :fields="fields" :filter="filter1">
+          <b-table striped :items="admin" :fields="fields" :filter="filter1" :current-page="currentPage" :per-page="perPage">
             <template slot="Modifier" slot-scope="row">
             </template>
           </b-table>
+          <b-row v-if="admin.length > 0">
+            <div class="center-block">
+              <b-pagination :total-rows="admin.length" :per-page="perPage" v-model="currentPage" class="my-0" />
+            </div>
+          </b-row>
         </b-container>
         <b-container>
           <h2 class="titre">Commercial de CRISTAL</h2>
@@ -56,11 +61,16 @@
             </b-col>
           </b-row>
           <br />
-          <b-table striped :items="com" :fields="fields2" :filter="filter">
+          <b-table striped :items="com" :fields="fields2" :filter="filter" :current-page="currentPage2" :per-page="perPage">
             <template slot="modifierDroits" slot-scope="row">
               <b-btn type="button" class="btn-info" v-on:click="getStudent(row.item.id)" v-b-modal="'changeState'"><i class="fas fa-edit"></i></b-btn>
             </template>
           </b-table>
+          <b-row v-if="com.length > 0">
+            <div class="center-block">
+              <b-pagination :total-rows="com.length" :per-page="perPage" v-model="currentPage2" class="my-0" />
+            </div>
+          </b-row>
         </b-container>
 
         <b-modal id="changeState">
@@ -95,11 +105,16 @@
             </b-col>
           </b-row>
           <br />
-          <b-table striped :items="mvp" :fields="fields2" :filter="filter2">
+          <b-table striped :items="mvp" :fields="fields2" :filter="filter2" :current-page="currentPage3" :per-page="perPage">
             <template slot="modifierDroits" slot-scope="row">
               <b-btn type="button" class="btn-info" v-on:click="getStudent(row.item.id)" v-b-modal="'changeState'"><i class="fas fa-edit"></i></b-btn>
             </template>
           </b-table>
+          <b-row v-if="mvp.length > 0">
+            <div class="center-block">
+              <b-pagination :total-rows="mvp.length + 1" :per-page="perPage" v-model="currentPage3" class="my-0" />
+            </div>
+          </b-row>
         </b-container>
         <b-container>
           <h2 class="titre">Prestataire</h2>
@@ -117,11 +132,16 @@
             </b-col>
           </b-row>
           <br />
-          <b-table striped :items="eleve" :fields="fields2" :filter="filter3">
+          <b-table striped :items="eleve" :fields="fields2" :filter="filter3" :current-page="currentPage4" :per-page="perPage">
             <template slot="modifierDroits" slot-scope="row">
               <b-btn type="button" class="btn-info" v-on:click="getStudent(row.item.id)" v-b-modal="'changeState'"><i class="fas fa-edit"></i></b-btn>
             </template>
           </b-table>
+          <b-row v-if="eleve.length > 0">
+            <div class="center-block">
+              <b-pagination :total-rows="eleve.length + 1" :per-page="perPage" v-model="currentPage4" class="my-0" />
+            </div>
+          </b-row>
         </b-container>
       </b-container>
     </b-container>
@@ -186,7 +206,13 @@ export default {
       filter1: null,
       filter2: null,
       filter3: null,
-      loading: false
+      loading: false,
+      currentPage: 1,
+      currentPage1: 1,
+      currentPage2: 1,
+      currentPage3: 1,
+      currentPage4: 1,
+      perPage: 5
     }
   },
   mounted: function () {

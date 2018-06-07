@@ -38,7 +38,17 @@
                   <b v-if="row.item.state === 1">Mission publiée il y a {{ row.item.publication_date | moment("from", "now", true) }}</b>
                 </b-col>
               </b-row>
+              <b-row class="mb-2">
+                <b-col sm="4" offset="4" style="text-align: center">
+                  <b-btn class="btn btn-info" v-if="row.item.state === 2" v-on:click="showDevis (row.item)">Voir le devis</b-btn>
+                </b-col>
+              </b-row>
             </b-card>
+          </template>
+          <template slot="status" slot-scope="row">
+            <b-btn class="btn btn-info" v-if="row.item.state === 2" v-on:click="start(row.item)">Accepter le devis</b-btn>
+            <b-btn class="btn btn-danger" v-if="row.item.state === 3" v-on:click="finished(row.item)">Terminer la mission</b-btn>
+            <b v-if="row.item.state === 4">Mission terminée</b>
           </template>
         </b-table>
       </b-container>
@@ -58,8 +68,8 @@ export default {
   data () {
     return {
       missions: [],
-      getPresta_mission: [],
-      publie: [],
+      technos: [],
+      presta_mission: [],
       fields: [
         {
           key: 'title',
@@ -75,16 +85,25 @@ export default {
           key: 'show_details',
           label: 'Voir plus',
           sortable: false
+        },
+        {
+          key: 'status',
+          label: 'Status',
+          sortable: false
         }
       ],
       loading: false,
       mes_missions: [],
+      mes_missions_id: [],
       currentStudent: [],
-      p: []
+      data: [],
+      tmp: []
     }
   },
   mounted: function () {
+    this.getMissions()
     this.getPresta_mission()
+    this.getTechno()
     this.test()
   },
   methods: {
@@ -122,6 +141,18 @@ export default {
       axios.get(apirUrl)
         .then((response) => {
           this.currentStudent = response.data
+          for (var k = 0; k < this.presta_mission.length; k++) {
+            if (this.presta_mission[k].etudiant_id === this.currentStudent.id) {
+              this.mes_missions_id.push(this.presta_mission[k])
+            }
+          }
+          for (var i = 0; i < this.mes_missions_id.length; i++) {
+            for (var j = 0; j < this.missions.length; j++) {
+              if (this.mes_missions_id[i].mission_id === this.missions[j].id) {
+                this.mes_missions.push(this.missions[j])
+              }
+            }
+          }
           this.loading = false
         })
         .catch((err) => {
@@ -134,8 +165,7 @@ export default {
       this.loading = true
       axios.get(apirUrl)
         .then((response) => {
-          this.p = response.data
-          this.mesMissions()
+          this.presta_mission = response.data
           this.loading = false
         })
         .catch((err) => {
@@ -143,13 +173,18 @@ export default {
           console.log(err)
         })
     },
-    mesMissions: function () {
-      var id = this.currentStudent.id
-      for (var i = 0; i < this.p.length; i++) {
-        if (this.p[i].etudiant_id === id) {
-          this.mes_missions.push(this.p[i])
-        }
-      }
+    getTechno: function () {
+      let apirUrl = 'http://127.0.0.1:8000/api/techno/'
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.technos = response.data
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
     },
     getMissions: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/mission/'
@@ -157,7 +192,6 @@ export default {
       axios.get(apirUrl)
         .then((response) => {
           this.missions = response.data
-          this.sortMission(this.missions)
           for (var i = 0; i < this.missions.length; i++) {
             var tab = (this.missions[i].techno)
             var test = []
@@ -177,12 +211,107 @@ export default {
           console.log(err)
         })
     },
-    sortMission: function (missions) {
-      for (var i = 0; i < missions.length; i++) {
-        if (missions[i].state === 1) {
-          this.publie.push(missions[i])
+    start: function (mission) {
+      this.loading = true
+      let apiUrl = `http://127.0.0.1:8000/api/mission/${mission.id}/`
+
+      axios.get(apiUrl)
+        .then((response) => {
+          this.tmp = response.data
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+
+      var tech = []
+
+      for (var i = 0; i < this.technos.length; i++) {
+        for (var j = 0; j < mission.techno.length; j++) {
+          if (this.technos[i].name === mission.techno[j]) {
+            tech.push(this.technos[j].id)
+          }
         }
       }
+
+      console.log(tech)
+
+      var update = {
+        'title': mission.title,
+        'desc': mission.desc,
+        'type_mission': mission.type_mission,
+        'state': 3,
+        'creation_date': mission.creation_date,
+        'publication_date': mission.publication_date,
+        'client_name': mission.client_name,
+        'logo_url': mission.logo_url,
+        'devis_url': mission.devis_url,
+        'num_presta': mission.num_presta,
+        'commercial_id': mission.commercial_id,
+        'techno': tech
+      }
+
+      console.log(update)
+      axios.put(apiUrl, update)
+        .then((response) => {
+          this.loading = false
+          location.reload()
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
+    finished: function (mission) {
+      this.loading = true
+      let apiUrl = `http://127.0.0.1:8000/api/mission/${mission.id}/`
+
+      axios.get(apiUrl)
+        .then((response) => {
+          this.tmp = response.data
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+
+      var tech = []
+
+      for (var i = 0; i < this.technos.length; i++) {
+        for (var j = 0; j < mission.techno.length; j++) {
+          if (this.technos[i].name === mission.techno[j]) {
+            tech.push(this.technos[j].id)
+          }
+        }
+      }
+
+      console.log(tech)
+
+      var update = {
+        'title': mission.title,
+        'desc': mission.desc,
+        'type_mission': mission.type_mission,
+        'state': 4,
+        'creation_date': mission.creation_date,
+        'publication_date': mission.publication_date,
+        'client_name': mission.client_name,
+        'logo_url': mission.logo_url,
+        'devis_url': mission.devis_url,
+        'num_presta': mission.num_presta,
+        'commercial_id': mission.commercial_id,
+        'techno': tech
+      }
+
+      console.log(update)
+      axios.put(apiUrl, update)
+        .then((response) => {
+          this.loading = false
+          location.reload()
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
     }
   }
 }
