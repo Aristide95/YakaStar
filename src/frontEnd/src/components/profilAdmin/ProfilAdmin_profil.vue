@@ -34,6 +34,16 @@
               <p class="text-center"> <strong>inscrit le</strong> {{ currentStudent.creation_date | moment("dddd Do MMMM YYYY") }}</p>
             </b-col>
           </b-row>
+          <b-row style="text-align: center">
+            <div class="container">
+              <div class="large-12 medium-12 small-12 cell">
+                <label>CV :
+                  <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                </label>
+                <b-btn class="btn btn-info" v-on:click="submitFile()">Envoyer</b-btn>
+              </div>
+            </div>
+          </b-row>
         </b-container>
         <b-container>
           <h2 class="titre">Horaire du bureau CRISTAL</h2>
@@ -92,6 +102,7 @@ export default {
   data () {
     return {
       student: [],
+      file: '',
       hours: [],
       futureHours: [],
       currentStudent: [],
@@ -210,6 +221,25 @@ export default {
         this.loading = false
         console.log(err)
       })
+    },
+    submitFile: function () {
+      let formData = new FormData()
+      formData.append('file', this.file)
+      axios.post('/single-file',
+        formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+        ).then(function () {
+          console.log('SUCCESS!!')
+        })
+        .catch(function () {
+          console.log('FAILURE!!')
+        })
+    },
+    handleFileUpload: function () {
+      this.file = this.$refs.file.files[0]
     }
   }
 }

@@ -127,11 +127,11 @@ export default {
       annule: [],
       enCours: [],
       termine: [],
-      a: 25,
+      a: 0,
       e: 0,
       t: 0,
-      c: 28,
-      m: 14,
+      c: 0,
+      m: 0,
       n: 0,
       nb_presta: 0,
       com: [],
@@ -160,26 +160,6 @@ export default {
     this.getMissions()
   },
   methods: {
-    calcul: function () {
-      if (this.termine.length !== 0) {
-        this.t = this.termine.length / this.missions.length * 100
-      }
-      if (this.annule.length !== 0) {
-        this.a = this.annule.length / this.missions.length * 100
-      }
-      if (this.enCours.length !== 0) {
-        this.e = this.enCours.length / this.missions.length * 100
-      }
-      if (this.com.length !== 0) {
-        this.c = this.com.length / this.student.length * 100
-      }
-      if (this.mvp.length !== 0) {
-        this.m = this.mvp.length / this.student.length * 100
-      }
-      if (this.nb_presta !== 0) {
-        this.n = this.nb_presta / this.student.length * 100
-      }
-    },
     sortStudents: function (students) {
       for (var i = 0; i < students.length; i++) {
         if (students[i].status === 'com') {
@@ -190,6 +170,12 @@ export default {
           this.eleve.push(students[i])
         }
       }
+      if (this.com.length !== 0) {
+        this.c = this.com.length / this.student.length * 100
+      }
+      if (this.mvp.length !== 0) {
+        this.m = this.mvp.length / this.student.length * 100
+      }
     },
     getMissions: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/mission/'
@@ -198,7 +184,6 @@ export default {
         .then((response) => {
           this.missions = response.data
           this.sortMission(this.missions)
-          this.calcul()
           this.loading = false
         })
         .catch((err) => {
@@ -218,6 +203,19 @@ export default {
         } else if (missions[i].state === 5) {
           this.annule.push(missions[i])
         }
+      }
+      if (this.termine.length !== 0) {
+        this.t = this.termine.length / this.missions.length * 100
+      }
+      if (this.annule.length !== 0) {
+        this.a = this.annule.length / this.missions.length * 100
+      }
+      if (this.enCours.length !== 0) {
+        this.e = this.enCours.length / this.missions.length * 100
+      }
+
+      if (this.nb_presta !== 0) {
+        this.n = this.nb_presta / this.student.length * 100
       }
     },
     getStudent: function () {

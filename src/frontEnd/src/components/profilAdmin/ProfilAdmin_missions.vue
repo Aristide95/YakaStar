@@ -770,7 +770,7 @@ export default {
                 'firstname': this.currentStudent.firstname,
                 'lastname': this.currentStudent.lastname
               }
-              if (this.currentStudent.status === "mvp") {
+              if (this.currentStudent.status === 'mvp') {
                 this.postMissionMvp.push(s)
               } else {
                 this.postMission.push(s)
