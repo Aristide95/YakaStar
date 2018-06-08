@@ -13,7 +13,7 @@
                               label-for="exampleInput1">
                   <b-form-input id="exampleInput1"
                                 type="text"
-                                v-model="form.name"
+                                v-model="form.nom"
                                 required
                                 placeholder="Obligatoire">
                   </b-form-input>
@@ -22,8 +22,8 @@
                               label="Adresse mail"
                               label-for="exampleInput2">
                   <b-form-input id="exampleInput2"
-                                type="mail"
-                                v-model="form.mail"
+                                type="email"
+                                v-model="form.email"
                                 required
                                 placeholder="Obligatoire">
                   </b-form-input>
@@ -32,8 +32,8 @@
                               label="Société"
                               label-for="exampleInput3">
                   <b-form-input id="exampleInput2"
-                                type="mail"
-                                v-model="form.societe"
+                                type="text"
+                                v-model="form.society"
                                 required
                                 placeholder="Obligatoire">
                   </b-form-input>
@@ -43,7 +43,7 @@
                               label-for="exampleInput4">
                   <b-form-input id="exampleInput1"
                                 type="tel"
-                                v-model="form.tel"
+                                v-model="form.phone"
                                 required
                                 placeholder="Obligatoire">
                   </b-form-input>
@@ -52,7 +52,7 @@
                               label="Message"
                               label-for="exampleInput5">
                   <b-form-textarea id="textarea1"
-                                   v-model="form.msg"
+                                   v-model="form.message"
                                    placeholder="Obligatoire"
                                    :rows="3"
                                    :max-rows="6"
@@ -62,9 +62,9 @@
                 <b-form-group id="exampleInputGroup5"
                               label="Pièce jointe (Max 10Mo - .zip/.jpg/.pdf)"
                               label-for="exampleInput5">
-                  <b-form-file accept=".jpg, .pdf, .zip" v-model="file" class="mt-3" plain></b-form-file>
-                  <b-form-file accept=".jpg, .pdf, .zip" v-model="file2" class="mt-3" plain></b-form-file>
-                  <b-form-file accept=".jpg, .pdf, .zip" v-model="file3" class="mt-3" plain></b-form-file>
+                  <b-form-file accept=".jpg, .pdf, .zip" v-model="form.p1" class="mt-3" plain></b-form-file>
+                  <b-form-file accept=".jpg, .pdf, .zip" v-model="form.p2" class="mt-3" plain></b-form-file>
+                  <b-form-file accept=".jpg, .pdf, .zip" v-model="form.p3" class="mt-3" plain></b-form-file>
                 </b-form-group>
                 <div class="text-center">
                   <b-button id="submit" type="submit" variant="primary">Envoyer</b-button>
@@ -103,16 +103,16 @@ export default {
   data () {
     return {
       form: {
-        mail: '',
-        name: '',
-        societe: '',
-        msg: '',
-        tel: ''
+        email: '',
+        nom: '',
+        society: '',
+        message: '',
+        phone: '',
+        p1: null,
+        p2: null,
+        p3: null
       },
-      show: true,
-      file: null,
-      file2: null,
-      file3: null
+      show: true
     }
   }
 }

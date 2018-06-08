@@ -425,6 +425,10 @@
             </label>
           </div>
         </b-form-group>
+        <b-form-group label="Nouvelle techno : ">
+          <b-form-input type="text" v-model="newTech"></b-form-input>
+          <b-btn class="btn btn-info" v-on:click="addTechno(newTech)">Ajouter</b-btn>
+        </b-form-group>
         <div class="text-center">
           <b-button id="submit" type="submit" variant="primary">Créer</b-button>
         </div>
@@ -586,7 +590,8 @@ export default {
       prestMission: [],
       p: [],
       s: [],
-      postMissionMvp: []
+      postMissionMvp: [],
+      newTech: null
     }
   },
   mounted: function () {
@@ -653,6 +658,26 @@ export default {
         .then((response) => {
           this.technos = response.data
           this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
+    addTechno: function (tech) {
+      let apirUrl = 'http://127.0.0.1:8000/api/techno/'
+      this.loading = true
+
+      var t = {
+        'name': tech
+      }
+
+      axios.post(apirUrl, t)
+        .then((response) => {
+          this.missions = response.data
+          this.loading = false
+          this.getTechno()
+          this.newTech = null
         })
         .catch((err) => {
           this.loading = false
