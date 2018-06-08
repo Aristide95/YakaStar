@@ -271,7 +271,7 @@ export default {
       doc.text('PRESTATAIRES', 10, 80)
       doc.text('Nombre de prestataires : ' + this.student.length, 20, 90)
       doc.text('Nombre de commerciaux : ' + this.com.length + ' soit ' + this.c + '%', 20, 100)
-      doc.text('Nombre de MVP : ' + this.mvp.length + ' soit ' + this.t + '%', 20, 110)
+      doc.text('Nombre de MVP : ' + this.mvp.length + ' soit ' + this.m + '%', 20, 110)
       doc.text('Nombre de prestataire en mission : ' + this.nb_presta.length + ' soit ' + this.n + '%', 20, 120)
 
       doc.text('Meilleurs prestataires', 10, 140)
