@@ -53,7 +53,7 @@
         </b-table>
       </b-container>
     </b-container>
-
+    <div style="padding-bottom: 7%"></div>
     <Footer></Footer>
   </div>
 </template>

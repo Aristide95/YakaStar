@@ -90,7 +90,7 @@
             </div>
           </b-col>
           <b-col sm="4">
-            <h6 class="titre">Nombre de prestataire en mission : {{nb_presta.length}}</h6>
+            <h6 class="titre">Nombre de prestataire en mission : {{nbp.length}}</h6>
             <div class="pie">
               <pie-chart
                 :percent='n'
@@ -141,7 +141,8 @@ export default {
       mString: '0',
       n: 0,
       nString: '0',
-      nb_presta: 0,
+      nbPresta: [],
+      nbp: [],
       com: [],
       mvp: [],
       eleve: [],
@@ -174,7 +175,27 @@ export default {
       this.loading = true
       axios.get(apirUrl)
         .then((response) => {
-          this.nb_presta = response.data
+          this.nbPresta = response.data
+          var bool = true
+          if (this.nbPresta.length !== 0) {
+            this.nbp.push(this.nbPresta[0])
+            for (var i = 1; i < this.nbPresta.length; i++) {
+              for (var j = 0; j < this.nbp.length && bool; j++) {
+                if (this.nbPresta[i].etudiant_id === this.nbp[j].etudiant_id) {
+                  bool = false
+                }
+              }
+              if (bool) {
+                this.nbp.push(this.nbPresta[i])
+              }
+              bool = true
+            }
+            if (this.nbp.length !== 0) {
+              console.log(this.nbp.length + ' / ' + this.student.length)
+              this.n = this.nbp.length / this.student.length * 100
+              this.nString = this.n.toString()
+            }
+          }
           this.loading = false
         })
         .catch((err) => {
@@ -200,10 +221,6 @@ export default {
         this.m = this.mvp.length / this.student.length * 100
         this.mString = this.m.toString()
       }
-      if (this.nb_presta.length !== 0) {
-        this.n = this.nb_presta.length / this.student.length * 100
-        this.nString = this.n.toString()
-      }
     },
     getMissions: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/mission/'
@@ -223,7 +240,6 @@ export default {
       for (var i = 0; i < missions.length; i++) {
         if (missions[i].state === 3) {
           this.enCours.push(missions[i])
-          this.nb_presta = this.nb_presta + missions[i].nb_presta
         } else if (missions[i].state === 4) {
           this.termine.push(missions[i])
         } else if (missions[i].state === 5) {
@@ -272,7 +288,7 @@ export default {
       doc.text('Nombre de prestataires : ' + this.student.length, 20, 90)
       doc.text('Nombre de commerciaux : ' + this.com.length + ' soit ' + this.c + '%', 20, 100)
       doc.text('Nombre de MVP : ' + this.mvp.length + ' soit ' + this.m + '%', 20, 110)
-      doc.text('Nombre de prestataire en mission : ' + this.nb_presta.length + ' soit ' + this.n + '%', 20, 120)
+      doc.text('Nombre de prestataire en mission : ' + this.nbPresta.length + ' soit ' + this.n + '%', 20, 120)
 
       doc.text('Meilleurs prestataires', 10, 140)
 

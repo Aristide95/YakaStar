@@ -98,7 +98,7 @@ export default {
         },
         {
           key: 'sinscrire',
-          label: 'S\'inscrire',
+          label: 'Postuler',
           sortable: false
         }
       ],

@@ -27,6 +27,7 @@
                 <b-nav-item right v-else-if="student.length !== 0 && student.status === 'commercial'"><router-link :to="{name: 'Profil'}">{{student.firstname}}</router-link></b-nav-item>
                 <b-nav-item right v-else><router-link :to="{name: 'ProfilPresta'}">{{student.firstname}}</router-link></b-nav-item>
                 <b-nav-item href="#"><router-link :to="{name: 'Contact'}">Contact</router-link></b-nav-item>
+                <b-nav-item href="http://localhost:8080/#/" v-if="student.length !== 0"><i class="fas fa-sign-out-alt"></i></b-nav-item>
               </b-navbar-nav>
 
             </b-collapse>

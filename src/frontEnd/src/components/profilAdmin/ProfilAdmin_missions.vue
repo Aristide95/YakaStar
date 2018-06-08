@@ -835,6 +835,16 @@ export default {
       this.loading = true
       let now = moment().format()
       moment.locale('fr')
+
+      var t = []
+      for (var i = 0; i < mission.techno.length; i++) {
+        for (var j = 0; j < this.technos.length; j++) {
+          if (mission.techno[i] === this.technos[j].name) {
+            t.push(this.technos[j].id)
+          }
+        }
+      }
+
       var update = {
         'title': mission.title,
         'desc': mission.desc,
@@ -847,7 +857,7 @@ export default {
         'devis_url': mission.devis_url,
         'num_presta': mission.num_presta,
         'commercial_id': mission.commercial_id,
-        'techno': mission.techno
+        'techno': t
       }
 
       let apirUrl = `http://127.0.0.1:8000/api/mission/${mission.id}/`
