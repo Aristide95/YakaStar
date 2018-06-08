@@ -221,9 +221,7 @@ export default {
     },
     sortMission: function (missions) {
       for (var i = 0; i < missions.length; i++) {
-        if (missions[i].state === 2) {
-          this.pourvue.push(missions[i])
-        } else if (missions[i].state === 3) {
+        if (missions[i].state === 3) {
           this.enCours.push(missions[i])
           this.nb_presta = this.nb_presta + missions[i].nb_presta
         } else if (missions[i].state === 4) {
@@ -233,21 +231,16 @@ export default {
         }
       }
       if (this.termine.length !== 0) {
-        this.t = this.termine.length / missions.length * 100
+        this.t = this.termine.length / this.missions.length * 100
         this.tString = this.t.toString()
       }
       if (this.annule.length !== 0) {
-        this.a = this.annule.length / missions.length * 100
+        this.a = this.annule.length / this.missions.length * 100
         this.aString = this.a.toString()
       }
       if (this.enCours.length !== 0) {
-        this.e = this.enCours.length / missions.length * 100
+        this.e = this.enCours.length / this.missions.length * 100
         this.eString = this.e.toString()
-      }
-
-      if (this.nb_presta !== 0) {
-        this.n = this.nb_presta / this.student.length * 100
-        this.nString = this.n.toString()
       }
     },
     getStudent: function () {
