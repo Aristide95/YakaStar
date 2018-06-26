@@ -299,7 +299,6 @@ export default {
         'techno': tech
       }
 
-      console.log(update)
       axios.put(apiUrl, update)
         .then((response) => {
           this.loading = false

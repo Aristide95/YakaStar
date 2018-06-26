@@ -234,7 +234,6 @@ export default {
         }
       }
 
-      console.log(tech)
 
       var update = {
         'title': mission.title,
@@ -251,7 +250,6 @@ export default {
         'techno': tech
       }
 
-      console.log(update)
       axios.put(apiUrl, update)
         .then((response) => {
           this.loading = false
@@ -302,7 +300,6 @@ export default {
         'techno': tech
       }
 
-      console.log(update)
       axios.put(apiUrl, update)
         .then((response) => {
           this.loading = false

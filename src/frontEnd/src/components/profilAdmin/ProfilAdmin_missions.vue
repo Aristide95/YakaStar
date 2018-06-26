@@ -646,7 +646,6 @@ export default {
     find (array, index) {
       for (var i = 0; i < array.length; i++) {
         if (array[i].id === index) {
-          console.log(array[i].name)
           return array[i].name
         }
       }
@@ -932,8 +931,6 @@ export default {
 
       for (var i = 0; i < this.technos.length; i++) {
         for (var j = 0; j < this.checkedNames.length; j++) {
-          console.log('techno : ' + this.technos[i].name)
-          console.log('checkedname : ' + this.checkedNames[j])
           if (this.technos[i].name === this.checkedNames[j]) {
             tech.push(this.technos[i].id)
           }
@@ -955,8 +952,6 @@ export default {
     },
     namePresta: function (id) {
       for (var i = 0; i < this.p.length; i++) {
-        console.log(this.p[i].mission_id)
-        console.log(id)
         if (this.p[i].mission_id === id) {
           for (var j = 0; j < this.s.length; j++) {
             if (this.s[j].id === this.p[i].etudiant_id) {

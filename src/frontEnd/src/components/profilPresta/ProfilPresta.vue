@@ -99,7 +99,7 @@ export default {
       axios.get(apirUrl)
         .then((response) => {
           this.currentStudent = response.data
-          console.log(response.data)
+
           this.loading = false
         })
         .catch((err) => {
@@ -138,7 +138,6 @@ export default {
     formatDate: function (arrayDate) {
       for (var i = 0; i < arrayDate.length; i++) {
         var date = arrayDate[i].date
-        console.log(date)
         if (date !== null) {
           arrayDate[i].date = date.replace(/-/g, '/')
         } else if (date === null) {

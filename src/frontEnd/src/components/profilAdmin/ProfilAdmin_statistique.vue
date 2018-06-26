@@ -14,8 +14,14 @@
         <h1 class="titre">Statistiques</h1>
         <hr class="style-four">
         <b-row>
-          <b-col sm="4" offset="5">
-            <b-btn class="btn-info" v-on:click="createPDF()">Exporter les statistiques</b-btn>
+          <b-col sm="4" offset="4">
+            <download-excel
+              class   = "btn btn-info"
+              :data   = "json_data"
+              :fields = "json_fields"
+              name    = "statistique_CRISTAL.xls">
+              Exporter les statistiques en format Excel
+            </download-excel>
           </b-col>
         </b-row>
         <h3 class="titre">Total des missions : {{missions.length}}</h3>
@@ -107,6 +113,11 @@
         <h4 class="titre">Meilleurs prestataires</h4>
         <b-table striped :items="mvp" :fields="fields"></b-table>
       </b-container>
+      <b-row>
+        <b-col sm="4" offset="4">
+          <b-btn class="btn-info" v-on:click="createPDF()">Exporter les statistiques en format PDF</b-btn>
+        </b-col>
+      </b-row>
     </b-container>
     <Footer></Footer>
   </div>
@@ -119,11 +130,24 @@ import Footer from '../Footer'
 import axios from 'axios'
 import PieChart from 'vue-pie-chart/src/PieChart.vue'
 import jsPDF from 'jsPDF'
+import JsonExcel from 'json-to-excel'
 export default {
   name: 'ProfilAdmin_statistique',
-  components: {Footer, Nav, 'pie-chart': PieChart},
+  components: {Footer, Nav, 'pie-chart': PieChart, 'download-excel': JsonExcel},
   data () {
     return {
+      json_fields: {
+        'Statistique': 'String',
+        'Nombre': 'String',
+        'Pourcentage': 'Number'
+      },
+      json_data: [],
+      json_meta: [
+        [{
+          'key': 'charset',
+          'value': 'utf-8'
+        }]
+      ],
       student: [],
       missions: [],
       annule: [],
@@ -168,6 +192,7 @@ export default {
     this.getStudent()
     this.getMissions()
     this.getPresta_mission()
+    this.getExcel()
   },
   methods: {
     getPresta_mission: function () {
@@ -191,7 +216,6 @@ export default {
               bool = true
             }
             if (this.nbp.length !== 0) {
-              console.log(this.nbp.length + ' / ' + this.student.length)
               this.n = this.nbp.length / this.student.length * 100
               this.nString = this.n.toString()
             }
@@ -298,6 +322,48 @@ export default {
       }
 
       doc.save(pdfName + '.pdf')
+    },
+    getExcel: function () {
+      this.json_data.push({
+        'Statistique': 'Nombre de missions',
+        'Nombre': this.missions.length,
+        'Pourcentage': ''
+      })
+      this.json_data.push({
+        'Statistique': 'Nombre de missions réalisées',
+        'Nombre': this.termine.length,
+        'Pourcentage': this.t
+      })
+      this.json_data.push({
+        'Statistique': 'Nombre de missions en cours',
+        'Nombre': this.enCours.length,
+        'Pourcentage': this.e
+      })
+      this.json_data.push({
+        'Statistique': 'Nombre de missions annulées',
+        'Nombre': this.annule.length,
+        'Pourcentage': this.a
+      })
+      this.json_data.push({
+        'Statistique': 'Nombre de prestataires',
+        'Nombre': this.student.length,
+        'Pourcentage': ''
+      })
+      this.json_data.push({
+        'Statistique': 'Nombre de commerciaux',
+        'Nombre': this.com.length,
+        'Pourcentage': this.c
+      })
+      this.json_data.push({
+        'Statistique': 'Nombre de MVP',
+        'Nombre': this.mvp.length,
+        'Pourcentage': this.m
+      })
+      this.json_data.push({
+        'Statistique': 'Nombre de prestataire en mission',
+        'Nombre': this.nbPresta.length,
+        'Pourcentage': this.n
+      })
     }
   }
 }
