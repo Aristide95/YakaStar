@@ -234,7 +234,6 @@ export default {
         }
       }
 
-
       var update = {
         'title': mission.title,
         'desc': mission.desc,

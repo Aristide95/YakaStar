@@ -35,7 +35,10 @@
             </b-col>
           </b-row>
           <br />
-          <b-table striped :items="admin" :fields="fields" :filter="filter1" :current-page="currentPage" :per-page="perPage">
+          <b-table striped :items="admin" :fields="fields2" :filter="filter1" :current-page="currentPage" :per-page="perPage">
+            <template slot="modifierDroits" slot-scope="row">
+              <b-btn type="button" class="btn-info" v-on:click="getStudent(row.item.id)" v-b-modal="'changeState'"><i class="fas fa-edit"></i></b-btn>
+            </template>
             <template slot="Modifier" slot-scope="row">
             </template>
           </b-table>

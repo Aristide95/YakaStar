@@ -19,7 +19,7 @@
               class   = "btn btn-info"
               :data   = "json_data"
               :fields = "json_fields"
-              name    = "statistique_CRISTAL.xls">
+              name    = "statistiques_CRISTAL.xls">
               Exporter les statistiques en format Excel
             </download-excel>
           </b-col>
@@ -130,7 +130,7 @@ import Footer from '../Footer'
 import axios from 'axios'
 import PieChart from 'vue-pie-chart/src/PieChart.vue'
 import jsPDF from 'jsPDF'
-import JsonExcel from 'json-to-excel'
+import JsonExcel from 'vue-json-excel'
 export default {
   name: 'ProfilAdmin_statistique',
   components: {Footer, Nav, 'pie-chart': PieChart, 'download-excel': JsonExcel},
@@ -324,46 +324,48 @@ export default {
       doc.save(pdfName + '.pdf')
     },
     getExcel: function () {
-      this.json_data.push({
-        'Statistique': 'Nombre de missions',
-        'Nombre': this.missions.length,
-        'Pourcentage': ''
-      })
-      this.json_data.push({
-        'Statistique': 'Nombre de missions réalisées',
-        'Nombre': this.termine.length,
-        'Pourcentage': this.t
-      })
-      this.json_data.push({
-        'Statistique': 'Nombre de missions en cours',
-        'Nombre': this.enCours.length,
-        'Pourcentage': this.e
-      })
-      this.json_data.push({
-        'Statistique': 'Nombre de missions annulées',
-        'Nombre': this.annule.length,
-        'Pourcentage': this.a
-      })
-      this.json_data.push({
-        'Statistique': 'Nombre de prestataires',
-        'Nombre': this.student.length,
-        'Pourcentage': ''
-      })
-      this.json_data.push({
-        'Statistique': 'Nombre de commerciaux',
-        'Nombre': this.com.length,
-        'Pourcentage': this.c
-      })
-      this.json_data.push({
-        'Statistique': 'Nombre de MVP',
-        'Nombre': this.mvp.length,
-        'Pourcentage': this.m
-      })
-      this.json_data.push({
-        'Statistique': 'Nombre de prestataire en mission',
-        'Nombre': this.nbPresta.length,
-        'Pourcentage': this.n
-      })
+      this.json_data = [
+        {
+          'Statistique': 'Nombre de missions',
+          'Nombre': this.missions.length.toString(),
+          'Pourcentage': 0
+        },
+        {
+          'Statistique': 'Nombre de missions réalisées',
+          'Nombre': this.termine.length.toString(),
+          'Pourcentage': this.t
+        },
+        {
+          'Statistique': 'Nombre de missions en cours',
+          'Nombre': this.enCours.length.toString(),
+          'Pourcentage': this.e
+        },
+        {
+          'Statistique': 'Nombre de missions annulées',
+          'Nombre': this.annule.length.toString(),
+          'Pourcentage': this.a
+        },
+        {
+          'Statistique': 'Nombre de prestataires',
+          'Nombre': this.student.length.toString(),
+          'Pourcentage': 0
+        },
+        {
+          'Statistique': 'Nombre de commerciaux',
+          'Nombre': this.com.length.toString(),
+          'Pourcentage': this.c
+        },
+        {
+          'Statistique': 'Nombre de MVP',
+          'Nombre': this.mvp.length.toString(),
+          'Pourcentage': this.m
+        },
+        {
+          'Statistique': 'Nombre de prestataire en mission',
+          'Nombre': this.nbPresta.length.toString(),
+          'Pourcentage': this.n
+        }
+      ]
     }
   }
 }

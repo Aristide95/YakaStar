@@ -27,6 +27,7 @@
     "vue-countup-v2": "^1.0.3",
     "vue-event-calendar": "^1.5.2",
     "vue-full-calendar": "^2.5.4",
+    "vue-json-excel": "^0.2.5",
     "vue-json-to-excel": "0.0.8",
     "vue-moment": "^3.2.0",
     "vue-pie-chart": "^1.1.0",
