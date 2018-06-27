@@ -33,7 +33,7 @@ def sendmail(nom, email, society, phone, message, p1=None, p2=None, p3=None):
     'Contact cristal',
     body,
     email,
-    'levani.tevdoradze@epita.fr' #destinataire
+    'kimelyne.servais@epita.fr' #destinataire
     )
     
     if (p1 != None):

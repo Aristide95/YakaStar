@@ -1,64 +1,73 @@
 <template>
     <div id="missions">
       <Nav></Nav>
-      <b-container>
-        <h1 class="titre">Nos missions</h1>
-        <hr class="style-four">
-        <div class="mfiltre">
-          <b-row>
-            <b-col sm="6" offset="3">
-              <b-form-group horizontal label="Filtrer :" class="mb-0">
-                <b-input-group>
-                  <b-form-input v-model="filter" placeholder="Rechercher une mission" />
-                  <b-input-group-append>
-                    <b-btn :disabled="!filter" @click="filter = ''">Effacer</b-btn>
-                  </b-input-group-append>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-          </b-row>
+      <div v-if="currentStudent.length === 0">
+        <h2 class="titre">Erreur 403 : vous n'avez pas les droits</h2>
+        <div style="text-align: center">
+          <img class="img-responsive img-fluid" src="../assets/403.jpg" alt="erreur 403"/>
         </div>
-        <br />
-      </b-container>
-      <b-container class="m">
-        <b-table striped hover :items="publie" :fields="fields" :filter="filter" :current-page="currentPage" :per-page="perPage">
-          <template slot="show_details" slot-scope="row">
-            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
-              Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
-            </b-button>
-          </template>
-          <template slot="row-details" slot-scope="row">
-            <b-card>
-              <b-row class="mb-2">
-                <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
-                <b-col>{{row.item.desc}}</b-col>
-              </b-row>
-              <b-row class="mb-2">
-                <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
-              </b-row>
-              <b-row class="mb-2">
-                <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
-                <b-col>{{row.item.type_mission}}</b-col>
-              </b-row>
-              <b-row class="mb-2">
-                <b-col sm="4" offset="4" style="text-align: center">
-                  <b>Mission publiée il y {{ row.item.publication_date | moment("from", "now", true) }}</b>
-                </b-col>
-              </b-row>
-            </b-card>
-          </template>
-          <template slot="sinscrire" slot-scope="row">
-            <b-btn class="btn btn-info" v-if="check(row.item.id)" v-on:click="postuler(row.item.id)">Postuler</b-btn>
-            <b v-else>Déja postulé</b>
-          </template>
-        </b-table>
-        <b-row>
-          <div class="center-block">
-            <b-pagination :total-rows="publie.length" :per-page="perPage" v-model="currentPage" class="my-0" />
+        <h3 class="titre"><router-link :to="{name: 'Accueil'}">Revenir à la page d'accueil</router-link></h3>
+      </div>
+      <div v-else>
+        <b-container>
+          <h1 class="titre">Nos missions</h1>
+          <hr class="style-four">
+          <div class="mfiltre">
+            <b-row>
+              <b-col sm="6" offset="3">
+                <b-form-group horizontal label="Filtrer :" class="mb-0">
+                  <b-input-group>
+                    <b-form-input v-model="filter" placeholder="Rechercher une mission" />
+                    <b-input-group-append>
+                      <b-btn :disabled="!filter" @click="filter = ''">Effacer</b-btn>
+                    </b-input-group-append>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
+            </b-row>
           </div>
-        </b-row>
-      </b-container>
+          <br />
+        </b-container>
+        <b-container class="m">
+          <b-table striped hover :items="publie" :fields="fields" :filter="filter" :current-page="currentPage" :per-page="perPage">
+            <template slot="show_details" slot-scope="row">
+              <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+                Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
+              </b-button>
+            </template>
+            <template slot="row-details" slot-scope="row">
+              <b-card>
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
+                  <b-col>{{row.item.desc}}</b-col>
+                </b-row>
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
+                  <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+                </b-row>
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
+                  <b-col>{{row.item.type_mission}}</b-col>
+                </b-row>
+                <b-row class="mb-2">
+                  <b-col sm="4" offset="4" style="text-align: center">
+                    <b>Mission publiée il y {{ row.item.publication_date | moment("from", "now", true) }}</b>
+                  </b-col>
+                </b-row>
+              </b-card>
+            </template>
+            <template slot="sinscrire" slot-scope="row">
+              <b-btn class="btn btn-info" v-if="check(row.item.id)" v-on:click="postuler(row.item.id)">Postuler</b-btn>
+              <b v-else>Déja postulé</b>
+            </template>
+          </b-table>
+          <b-row>
+            <div class="center-block">
+              <b-pagination :total-rows="publie.length" :per-page="perPage" v-model="currentPage" class="my-0" />
+            </div>
+          </b-row>
+        </b-container>
+      </div>
       <Footer></Footer>
     </div>
 </template>
@@ -102,6 +111,7 @@ export default {
           sortable: false
         }
       ],
+      currentStudent: [],
       currentPage: 1,
       perPage: 10,
       pageOptions: [10, 20, 30],
@@ -110,6 +120,7 @@ export default {
     }
   },
   mounted: function () {
+    this.test()
     this.getMissions()
     this.test()
     this.getPost()

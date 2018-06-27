@@ -16,13 +16,7 @@
           <hr class="style-four">
           <b-row>
             <b-col sm="4" class="center-block">
-              <download-excel
-                class   = "btn btn-info"
-                :data   = "json_data"
-                :fields = "json_fields"
-                name    = "statistiques_CRISTAL.xls">
-                Exporter les statistiques en format Excel
-              </download-excel>
+              <b-btn class="btn-info" v-on:click="createPDF()">Exporter les statistiques en format PDF</b-btn>
             </b-col>
           </b-row>
           <h3 class="titre">Total des missions : {{missions.length}}</h3>
@@ -116,7 +110,13 @@
         </b-container>
         <b-row>
           <b-col sm="4" class="center-block">
-            <b-btn class="btn-info" v-on:click="createPDF()">Exporter les statistiques en format PDF</b-btn>
+            <download-excel
+              class   = "btn btn-info"
+              :data   = "json_data"
+              :fields = "json_fields"
+              name    = "statistiques_CRISTAL.xls">
+              Exporter les statistiques en format Excel
+            </download-excel>
           </b-col>
         </b-row>
       </div>
