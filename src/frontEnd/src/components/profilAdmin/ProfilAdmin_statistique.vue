@@ -2,122 +2,131 @@
   <div class="profil">
     <Nav></Nav>
     <b-container>
-      <br />
-      <b-nav justified tabs>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_profil'}">Profil</router-link></b-nav-item>
-        <b-nav-item active>Statistiques</b-nav-item>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_mesMission'}">Mes missions</router-link></b-nav-item>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_missions'}">Gestion des missions</router-link></b-nav-item>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_utilisateurs'}">Gestion des utilisateurs</router-link></b-nav-item>
-      </b-nav>
-      <b-container>
-        <h1 class="titre">Statistiques</h1>
-        <hr class="style-four">
-        <b-row>
-          <b-col sm="4" offset="4">
-            <download-excel
-              class   = "btn btn-info"
-              :data   = "json_data"
-              :fields = "json_fields"
-              name    = "statistiques_CRISTAL.xls">
-              Exporter les statistiques en format Excel
-            </download-excel>
-          </b-col>
-        </b-row>
-        <h3 class="titre">Total des missions : {{missions.length}}</h3>
-        <b-row>
-          <b-col sm="4">
-            <h6 class="titre">Nombre de missions réalisées : {{termine.length}}</h6>
-            <div class="pie">
-              <pie-chart
-                :percent='t'
-                :stroke-width=1
-                :abel='tString'
-                label-small=""
-                color=#40a070
-                :opacity=0.7
-              />
-            </div>
-          </b-col>
-          <b-col sm="4">
-            <h6 class="titre">Nombre de missions en cours : {{enCours.length}}</h6>
-            <div class="pie">
-              <pie-chart
-                :percent='e'
-                :stroke-width=1
-                :abel='eString'
-                label-small=""
-                color=#40a070
-                :opacity=0.7
-              />
-            </div>
-          </b-col>
-          <b-col sm="4">
-            <h6 class="titre">Nombre de missions annulées : {{annule.length}}</h6>
-            <div class="pie">
-              <pie-chart
-                :percent='a'
-                :stroke-width=1
-                :abel='aString'
-                label-small=""
-                color=#40a070
-                :opacity=0.7
-              />
-            </div>
-          </b-col>
-        </b-row>
+      <div v-if="currentStudent.status === 'admin'">
         <br />
-        <h3 class="titre">Total des prestaires : {{student.length}}</h3>
+        <b-nav justified tabs>
+          <b-nav-item><router-link :to="{name: 'ProfilAdmin_profil'}">Profil</router-link></b-nav-item>
+          <b-nav-item active>Statistiques</b-nav-item>
+          <b-nav-item><router-link :to="{name: 'ProfilAdmin_mesMission'}">Mes missions</router-link></b-nav-item>
+          <b-nav-item><router-link :to="{name: 'ProfilAdmin_missions'}">Gestion des missions</router-link></b-nav-item>
+          <b-nav-item><router-link :to="{name: 'ProfilAdmin_utilisateurs'}">Gestion des utilisateurs</router-link></b-nav-item>
+        </b-nav>
+        <b-container>
+          <h1 class="titre">Statistiques</h1>
+          <hr class="style-four">
+          <b-row>
+            <b-col sm="4" class="center-block">
+              <download-excel
+                class   = "btn btn-info"
+                :data   = "json_data"
+                :fields = "json_fields"
+                name    = "statistiques_CRISTAL.xls">
+                Exporter les statistiques en format Excel
+              </download-excel>
+            </b-col>
+          </b-row>
+          <h3 class="titre">Total des missions : {{missions.length}}</h3>
+          <b-row>
+            <b-col sm="4">
+              <h6 class="titre">Nombre de missions réalisées : {{termine.length}}</h6>
+              <div class="pie">
+                <pie-chart
+                  :percent='t'
+                  :stroke-width=1
+                  :abel='tString'
+                  label-small=""
+                  color=#40a070
+                  :opacity=0.7
+                />
+              </div>
+            </b-col>
+            <b-col sm="4">
+              <h6 class="titre">Nombre de missions en cours : {{enCours.length}}</h6>
+              <div class="pie">
+                <pie-chart
+                  :percent='e'
+                  :stroke-width=1
+                  :abel='eString'
+                  label-small=""
+                  color=#40a070
+                  :opacity=0.7
+                />
+              </div>
+            </b-col>
+            <b-col sm="4">
+              <h6 class="titre">Nombre de missions annulées : {{annule.length}}</h6>
+              <div class="pie">
+                <pie-chart
+                  :percent='a'
+                  :stroke-width=1
+                  :abel='aString'
+                  label-small=""
+                  color=#40a070
+                  :opacity=0.7
+                />
+              </div>
+            </b-col>
+          </b-row>
+          <br />
+          <h3 class="titre">Total des prestaires : {{student.length}}</h3>
+          <b-row>
+            <b-col sm="4">
+              <h6 class="titre">Nombre de commerciaux : {{com.length}}</h6>
+              <div class="pie">
+                <pie-chart
+                  :percent='c'
+                  :stroke-width=1
+                  :abel='cString'
+                  label-small=""
+                  color=#407fa0
+                  :opacity=0.7
+                />
+              </div>
+            </b-col>
+            <b-col sm="4">
+              <h6 class="titre">Nombre de MVP : {{mvp.length}}</h6>
+              <div class="pie">
+                <pie-chart
+                  :percent='m'
+                  :stroke-width=1
+                  :abel='mString'
+                  label-small=""
+                  color=#407fa0
+                  :opacity=0.7
+                />
+              </div>
+            </b-col>
+            <b-col sm="4">
+              <h6 class="titre">Nombre de prestataire en mission : {{nbp.length}}</h6>
+              <div class="pie">
+                <pie-chart
+                  :percent='n'
+                  :stroke-width=1
+                  :abel='nString'
+                  label-small=""
+                  color=#407fa0
+                  :opacity=0.7
+                />
+              </div>
+            </b-col>
+          </b-row>
+          <br />
+          <h4 class="titre">Meilleurs prestataires</h4>
+          <b-table striped :items="mvp" :fields="fields"></b-table>
+        </b-container>
         <b-row>
-          <b-col sm="4">
-            <h6 class="titre">Nombre de commerciaux : {{com.length}}</h6>
-            <div class="pie">
-              <pie-chart
-                :percent='c'
-                :stroke-width=1
-                :abel='cString'
-                label-small=""
-                color=#407fa0
-                :opacity=0.7
-              />
-            </div>
-          </b-col>
-          <b-col sm="4">
-            <h6 class="titre">Nombre de MVP : {{mvp.length}}</h6>
-            <div class="pie">
-              <pie-chart
-                :percent='m'
-                :stroke-width=1
-                :abel='mString'
-                label-small=""
-                color=#407fa0
-                :opacity=0.7
-              />
-            </div>
-          </b-col>
-          <b-col sm="4">
-            <h6 class="titre">Nombre de prestataire en mission : {{nbp.length}}</h6>
-            <div class="pie">
-              <pie-chart
-                :percent='n'
-                :stroke-width=1
-                :abel='nString'
-                label-small=""
-                color=#407fa0
-                :opacity=0.7
-              />
-            </div>
+          <b-col sm="4" class="center-block">
+            <b-btn class="btn-info" v-on:click="createPDF()">Exporter les statistiques en format PDF</b-btn>
           </b-col>
         </b-row>
-        <br />
-        <h4 class="titre">Meilleurs prestataires</h4>
-        <b-table striped :items="mvp" :fields="fields"></b-table>
-      </b-container>
-      <b-row>
-        <b-col sm="4" offset="4">
-          <b-btn class="btn-info" v-on:click="createPDF()">Exporter les statistiques en format PDF</b-btn>
-        </b-col>
-      </b-row>
+      </div>
+      <div v-else>
+        <h2 class="titre">Erreur 403 : vous n'avez pas les droits</h2>
+        <div style="text-align: center">
+          <img class="img-responsive img-fluid" src="../../assets/403.jpg" alt="erreur 403"/>
+        </div>
+        <h3 class="titre"><router-link :to="{name: 'Accueil'}">Revenir à la page d'accueil</router-link></h3>
+      </div>
     </b-container>
     <Footer></Footer>
   </div>
@@ -153,6 +162,7 @@ export default {
       annule: [],
       enCours: [],
       termine: [],
+      currentStudent: [],
       a: 0,
       aString: '0',
       e: 0,
@@ -189,12 +199,54 @@ export default {
     }
   },
   mounted: function () {
+    this.test()
     this.getStudent()
     this.getMissions()
     this.getPresta_mission()
     this.getExcel()
   },
   methods: {
+    test: function () {
+      let data = new FormData()
+      var tokenFromCookie = this.getCookie('access_token')
+      data.set('access_token', tokenFromCookie)
+      let apirUrl = `http://127.0.0.1:8000/islogged/`
+      axios({
+        method: 'post',
+        url: apirUrl,
+        data: data,
+        config: {headers: { 'Content-Type': 'multipart/form-data' }}
+      })
+        .then((response) => {
+          this.getCurrentStudent(response.data['user_id'])
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getCookie: function (name) {
+      var cookie = name + '='
+      var ca = document.cookie.split(';')
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i]
+        while (c.charAt(0) === ' ') c = c.substring(1)
+        if (c.indexOf(cookie) === 0) return c.substring(cookie.length, c.length)
+      }
+      return ''
+    },
+    getCurrentStudent: function (userId) {
+      let apirUrl = 'http://127.0.0.1:8000/api/etudiant/' + userId
+      this.loading = true
+      axios.get(apirUrl)
+        .then((response) => {
+          this.currentStudent = response.data
+          this.loading = false
+        })
+        .catch((err) => {
+          this.loading = false
+          console.log(err)
+        })
+    },
     getPresta_mission: function () {
       let apirUrl = 'http://127.0.0.1:8000/api/presta_mission/'
       this.loading = true
@@ -390,6 +442,11 @@ export default {
     max-width: 50%;
     max-height: 50%;
     text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    display:block;
+  }
+  .center-block {
     margin-left:auto;
     margin-right:auto;
     display:block;

@@ -2,7 +2,7 @@
   <div class="profil">
     <Nav></Nav>
     <b-container>
-      <div v-if="currentStudent.state === 'com'">
+      <div v-if="currentStudent.status === 'com'">
         <br />
         <b-nav justified tabs>
           <b-nav-item><router-link :to="{name: 'ProfilCom'}">Profil</router-link></b-nav-item>

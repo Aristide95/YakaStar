@@ -2,58 +2,67 @@
   <div class="profil">
     <Nav></Nav>
     <b-container>
-      <br />
-      <b-nav justified tabs>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_profil'}">Profil</router-link></b-nav-item>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_statistique'}">Statistiques</router-link></b-nav-item>
-        <b-nav-item active>Mes missions</b-nav-item>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_missions'}">Gestion des missions</router-link></b-nav-item>
-        <b-nav-item><router-link :to="{name: 'ProfilAdmin_utilisateurs'}">Gestion des utilisateurs</router-link></b-nav-item>
-      </b-nav>
-      <b-container>
-        <h1 class="titre">Mes missions</h1>
-        <hr class="style-four">
-        <b-table striped hover :items="mes_missions" :fields="fields">
-          <template slot="show_details" slot-scope="row">
-            <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
-              Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
-            </b-button>
-          </template>
-          <template slot="row-details" slot-scope="row">
-            <b-card>
-              <b-row class="mb-2">
-                <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
-                <b-col>{{row.item.desc}}</b-col>
-              </b-row>
-              <b-row class="mb-2">
-                <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
-                <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
-              </b-row>
-              <b-row class="mb-2">
-                <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
-                <b-col>{{row.item.type_mission}}</b-col>
-              </b-row>
-              <b-row class="mb-2">
-                <b-col sm="4" offset="4" style="text-align: center">
-                  <b v-if="row.item.state === 1">Mission publiée il y a {{ row.item.publication_date | moment("from", "now", true) }}</b>
-                </b-col>
-              </b-row>
-              <b-row class="mb-2">
-                <b-col sm="4" offset="4" style="text-align: center">
-                  <b-btn class="btn btn-info" v-if="row.item.state === 2" v-on:click="showDevis (row.item)">Voir le devis</b-btn>
-                </b-col>
-              </b-row>
-            </b-card>
-          </template>
-          <template slot="status" slot-scope="row">
-            <b-btn class="btn btn-info" v-if="row.item.state === 2" v-on:click="start(row.item)">Accepter le devis</b-btn>
-            <b-btn class="btn btn-danger" v-if="row.item.state === 3" v-on:click="finished(row.item)">Terminer la mission</b-btn>
-            <b v-if="row.item.state === 4">Mission terminée</b>
-          </template>
-        </b-table>
-      </b-container>
+      <div v-if="currentStudent.status === 'admin'">
+        <br />
+        <b-nav justified tabs>
+          <b-nav-item><router-link :to="{name: 'ProfilAdmin_profil'}">Profil</router-link></b-nav-item>
+          <b-nav-item><router-link :to="{name: 'ProfilAdmin_statistique'}">Statistiques</router-link></b-nav-item>
+          <b-nav-item active>Mes missions</b-nav-item>
+          <b-nav-item><router-link :to="{name: 'ProfilAdmin_missions'}">Gestion des missions</router-link></b-nav-item>
+          <b-nav-item><router-link :to="{name: 'ProfilAdmin_utilisateurs'}">Gestion des utilisateurs</router-link></b-nav-item>
+        </b-nav>
+        <b-container>
+          <h1 class="titre">Mes missions</h1>
+          <hr class="style-four">
+          <b-table striped hover :items="mes_missions" :fields="fields">
+            <template slot="show_details" slot-scope="row">
+              <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+                Voir {{ row.detailsShowing ? 'moins' : 'plus'}}
+              </b-button>
+            </template>
+            <template slot="row-details" slot-scope="row">
+              <b-card>
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Description :</b></b-col>
+                  <b-col>{{row.item.desc}}</b-col>
+                </b-row>
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Technos :</b></b-col>
+                  <b-col><p v-for="t in row.item.techno" >{{t}} </p></b-col>
+                </b-row>
+                <b-row class="mb-2">
+                  <b-col sm="3" class="text-sm-right"><b>Type de mission :</b></b-col>
+                  <b-col>{{row.item.type_mission}}</b-col>
+                </b-row>
+                <b-row class="mb-2">
+                  <b-col sm="4" offset="4" style="text-align: center">
+                    <b v-if="row.item.state === 1">Mission publiée il y a {{ row.item.publication_date | moment("from", "now", true) }}</b>
+                  </b-col>
+                </b-row>
+                <b-row class="mb-2">
+                  <b-col sm="4" offset="4" style="text-align: center">
+                    <b-btn class="btn btn-info" v-if="row.item.state === 2" v-on:click="showDevis (row.item)">Voir le devis</b-btn>
+                  </b-col>
+                </b-row>
+              </b-card>
+            </template>
+            <template slot="status" slot-scope="row">
+              <b-btn class="btn btn-info" v-if="row.item.state === 2" v-on:click="start(row.item)">Accepter le devis</b-btn>
+              <b-btn class="btn btn-danger" v-if="row.item.state === 3" v-on:click="finished(row.item)">Terminer la mission</b-btn>
+              <b v-if="row.item.state === 4">Mission terminée</b>
+            </template>
+          </b-table>
+        </b-container>
+        <div style="padding-bottom: 7%"></div>
+      </div>
+      <div v-else>
+        <h2 class="titre">Erreur 403 : vous n'avez pas les droits</h2>
+        <div style="text-align: center">
+          <img class="img-responsive img-fluid" src="../../assets/403.jpg" alt="erreur 403"/>
+        </div>
+        <h3 class="titre"><router-link :to="{name: 'Accueil'}">Revenir à la page d'accueil</router-link></h3>
+      </div>
     </b-container>
-    <div style="padding-bottom: 7%"></div>
     <Footer></Footer>
   </div>
 </template>
@@ -101,10 +110,10 @@ export default {
     }
   },
   mounted: function () {
+    this.test()
     this.getMissions()
     this.getPresta_mission()
     this.getTechno()
-    this.test()
   },
   methods: {
     test: function () {

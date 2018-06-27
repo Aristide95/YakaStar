@@ -2,7 +2,7 @@
   <div class="profil">
     <Nav></Nav>
     <b-container>
-      <div v-if="currentStudent.state === 'com'">
+      <div v-if="currentStudent.status === 'com'">
         <br />
         <b-nav justified tabs>
           <b-nav-item active>Profil</b-nav-item>
@@ -123,9 +123,9 @@
       }
     },
     mounted: function () {
+      this.test()
       this.getStudent()
       this.getHour()
-      this.test()
       this.now()
     },
     methods: {
